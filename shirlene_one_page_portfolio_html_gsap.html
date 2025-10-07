@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Shirlene Rose Bandela — Interactive Portfolio</title>
+  <meta name="description" content="One-page interactive portfolio for Shirlene Rose Bandela — Data Engineering, ML & AI." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg: #0b0d12;
+      --card: #10131a;
+      --muted: #9db0c0;
+      --text: #eaf2ff;
+      --accent: #7dd3fc; /* cyan-300 */
+      --accent-2: #a78bfa; /* violet-400 */
+      --glow: 0 0 40px rgba(125,211,252,.25);
+      --radius: 20px;
+      --maxw: 1100px;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
+      color:var(--text);
+      background:
+        radial-gradient(1100px 500px at 80% -10%, rgba(167,139,250,.15), transparent 60%),
+        radial-gradient(1200px 600px at -10% 10%, rgba(125,211,252,.18), transparent 60%),
+        linear-gradient(180deg, #090b10, #0b0d12 40%);
+      overflow-x:hidden;
+    }
+    a{color:var(--accent);text-decoration:none}
+    a:hover{text-decoration:underline}
+    .container{width:100%;max-width:var(--maxw);margin:0 auto;padding:0 20px}
+    header.nav{
+      position:fixed;inset-inline:0;top:12px;z-index:50;
+      display:flex;justify-content:center;pointer-events:none;
+    }
+    .nav-inner{
+      pointer-events:auto;
+      display:flex;align-items:center;gap:14px;
+      background:rgba(16,19,26,.65);
+      backdrop-filter: blur(10px);
+      border:1px solid rgba(125,211,252,.15);
+      border-radius:999px; padding:10px 14px; box-shadow: var(--glow);
+    }
+    .nav-inner a{padding:8px 12px;border-radius:999px;color:var(--text);opacity:.9}
+    .nav-inner a:hover{background:rgba(125,211,252,.12)}
+    .brand{font-weight:800;letter-spacing:.3px;background:linear-gradient(90deg,var(--accent),var(--accent-2));-webkit-background-clip:text;color:transparent}
+
+    /* HERO */
+    .hero{min-height:100svh;display:grid;place-items:center;position:relative}
+    .hero .container{display:grid;grid-template-columns:1.15fr .85fr;gap:40px;align-items:center}
+    .badge{display:inline-flex;align-items:center;gap:8px;background:rgba(125,211,252,.12);color:#c7ebff;border:1px solid rgba(125,211,252,.25);padding:6px 10px;border-radius:999px;font-size:12px}
+    h1{
+      font-size: clamp(36px, 5vw, 64px);
+      line-height:1.05;margin:10px 0 8px 0;
+      font-weight:900;
+      letter-spacing:-.5px;
+    }
+    .subtitle{color:var(--muted);font-size:clamp(14px,1.3vw,18px);max-width:60ch}
+    .cta{display:flex;gap:12px;margin-top:22px;flex-wrap:wrap}
+    .btn{
+      display:inline-flex;align-items:center;gap:10px;padding:12px 16px;border-radius:12px;border:1px solid rgba(125,211,252,.25);
+      background:linear-gradient(180deg, rgba(125,211,252,.15), rgba(125,211,252,.05));
+      box-shadow: var(--glow);
+      color:var(--text);font-weight:600
+    }
+    .btn.secondary{background:rgba(16,19,26,.6)}
+
+    .portrait{
+      width:min(420px, 80vw);aspect-ratio:1/1.1;border-radius:24px;position:relative;overflow:hidden;
+      background: radial-gradient(60% 60% at 70% 20%, rgba(167,139,250,.2), transparent), #0e1118;
+      border:1px solid rgba(167,139,250,.25);
+      box-shadow: var(--glow);
+    }
+    .portrait::after{
+      content:"SR";position:absolute;inset:0;display:grid;place-items:center;font: 900 clamp(80px,14vw,160px)/1 "Inter";
+      letter-spacing:-3px;background:linear-gradient(135deg, rgba(125,211,252,.25), rgba(167,139,250,.25));-webkit-background-clip:text;color:transparent;opacity:.6
+    }
+
+    /* SECTION WRAPPER */
+    section{padding:90px 0}
+    section .section-hd{display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:22px}
+    .eyebrow{font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:#b9cdf0;opacity:.9;font-size:12px}
+    .title{font-size:clamp(24px,3vw,36px);margin:6px 0 12px 0}
+    .lead{color:var(--muted)}
+
+    /* TIMELINE */
+    .timeline{position:relative}
+    .line{position:absolute;left:28px;top:0;bottom:0;width:3px;background:linear-gradient(var(--accent),transparent 80%)}
+    .t-item{display:grid;grid-template-columns:60px 1fr;gap:18px;margin:26px 0;padding:16px;border-radius:16px;background:rgba(16,19,26,.6);border:1px solid rgba(125,211,252,.12)}
+    .dot{width:18px;height:18px;border-radius:999px;background:radial-gradient(circle at 30% 30%, #fff, var(--accent));box-shadow:0 0 24px rgba(125,211,252,.6);margin-top:4px}
+    .t-item h3{margin:0;font-size:18px}
+    .t-item h4{margin:6px 0 8px 0;color:#c5d9ff;font-weight:600}
+    .t-item .meta{font:600 12px/1.2 Inter;color:#b1c7ff;opacity:.9}
+    .t-item p{margin:8px 0 0 0;color:var(--muted)}
+
+    /* SKILLS */
+    .skills-grid{display:grid;grid-template-columns:repeat(12,1fr);gap:12px;margin-top:16px}
+    .chip{grid-column:span 3;min-width:0;display:flex;align-items:center;justify-content:center;padding:12px;border-radius:999px;background:rgba(167,139,250,.14);border:1px solid rgba(167,139,250,.25);white-space:nowrap}
+    .meter{display:flex;align-items:center;gap:10px;background:rgba(16,19,26,.6);border:1px solid rgba(125,211,252,.12);padding:14px;border-radius:14px}
+    .meter .bar{flex:1;height:10px;border-radius:999px;background:rgba(125,211,252,.12);overflow:hidden}
+    .meter .bar > span{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--accent),var(--accent-2))}
+
+    /* PROJECTS */
+    .projects{display:grid;grid-template-columns:repeat(12,1fr);gap:18px}
+    .card{grid-column:span 6;background:rgba(16,19,26,.6);border:1px solid rgba(125,211,252,.12);border-radius:18px;overflow:hidden;position:relative;transition:transform .4s ease, box-shadow .4s ease}
+    .card:hover{transform:translateY(-6px) scale(1.01); box-shadow:0 16px 60px rgba(125,211,252,.15)}
+    .card .thumb{height:160px;background:
+      radial-gradient(40% 60% at 60% 30%, rgba(167,139,250,.25), transparent),
+      radial-gradient(40% 60% at 40% 70%, rgba(125,211,252,.25), transparent),
+      linear-gradient(180deg, #0f1320, #0b0d12)}
+    .card .body{padding:16px 16px 18px 16px}
+    .tag{display:inline-flex;padding:6px 10px;border:1px solid rgba(125,211,252,.25);border-radius:999px;background:rgba(125,211,252,.08);font-size:12px;margin-right:8px}
+    .card h3{margin:8px 0 4px 0}
+    .card p{color:var(--muted);margin:8px 0 10px 0}
+    .card a.btn{margin-top:6px}
+
+    /* CONTACT */
+    .contact{
+      background: radial-gradient(800px 400px at 10% 50%, rgba(125,211,252,.12), transparent),
+                  radial-gradient(800px 400px at 90% 0%, rgba(167,139,250,.12), transparent);
+      border-top:1px solid rgba(125,211,252,.15)
+    }
+    form{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+    form .full{grid-column:1/-1}
+    input, textarea{
+      width:100%;padding:14px 16px;border-radius:12px;background:#0e1219;border:1px solid rgba(125,211,252,.18);color:var(--text)
+    }
+    textarea{min-height:120px}
+    footer{padding:24px 0 60px 0;color:#b6c8da;text-align:center}
+
+    /* Responsive */
+    @media (max-width: 900px){
+      .hero .container{grid-template-columns:1fr;gap:22px;text-align:center}
+      .portrait{justify-self:center}
+      .skills-grid .chip{grid-column:span 6}
+      .projects .card{grid-column:span 12}
+      .t-item{grid-template-columns:50px 1fr}
+      form{grid-template-columns:1fr}
+    }
+  </style>
+</head>
+<body>
+  <!-- NAV -->
+  <header class="nav">
+    <nav class="nav-inner">
+      <span class="brand">Shirlene</span>
+      <a href="#hero">Home</a>
+      <a href="#timeline">Timeline</a>
+      <a href="#skills">Skills</a>
+      <a href="#projects">Projects</a>
+      <a href="#contact">Contact</a>
+    </nav>
+  </header>
+
+  <!-- HERO -->
+  <section id="hero" class="hero">
+    <div class="container">
+      <div>
+        <span class="badge">Data Engineer • ML • LLM Pipelines</span>
+        <h1>Hi, I’m <span style="background:linear-gradient(90deg,var(--accent),var(--accent-2));-webkit-background-clip:text;color:transparent">Shirlene Rose Bandela</span>.</h1>
+        <p class="subtitle">I build reliable, scalable data systems and ML workflows — from Java/Spring Batch and SQL tuning to AWS data lakes and LLM-driven analytics. I love turning messy data into observable, production-grade pipelines.</p>
+        <div class="cta">
+          <a class="btn" href="#projects">See my work</a>
+          <a class="btn secondary" href="/Shirlene_Resume.pdf" target="_blank" rel="noopener">Download Résumé</a>
+        </div>
+        <div style="margin-top:14px;color:var(--muted)">
+          Based in Falls Church, VA • Open to relocate • <a href="mailto:shirlenebandela@gmail.com">shirlenebandela@gmail.com</a>
+        </div>
+      </div>
+      <div class="portrait" aria-label="Portrait graphic with initials"></div>
+    </div>
+  </section>
+
+  <!-- TIMELINE -->
+  <section id="timeline" class="container">
+    <div class="section-hd">
+      <div>
+        <div class="eyebrow">Journey</div>
+        <h2 class="title">From ETL to LLMs — a systems-first story</h2>
+        <p class="lead">Highlights from experience and education that shaped how I design for reliability, scale, and clarity.</p>
+      </div>
+    </div>
+    <div class="timeline">
+      <div class="line"></div>
+
+      <article class="t-item">
+        <div class="dot"></div>
+        <div>
+          <h3>Research Assistant — Virginia Tech (USA)</h3>
+          <div class="meta">Jun 2025 – Present</div>
+          <h4>Agentic LLM pipeline for multi‑label Reddit trigger warnings</h4>
+          <p>Built modular Python + LLM pipeline with dynamic k‑shot prompts via cosine‑similarity (Sentence‑Transformers), caching, and batch execution. Added validation loop (per‑label perplexity + rule‑based triage) and AWS EC2/S3 orchestration.</p>
+        </div>
+      </article>
+
+      <article class="t-item">
+        <div class="dot"></div>
+        <div>
+          <h3>Software/Data Engineer — JPMorgan Chase & Co. (India)</h3>
+          <div class="meta">May 2021 – Aug 2023</div>
+          <h4>Modernized core fraud‑risk ETL with Java/Spring Batch & SQL</h4>
+          <p>Migrated brittle scripts to restartable jobs; tuned Oracle/Teradata SQL to remove full scans; added data‑quality gates, idempotency, and observability. Cut S3 storage costs by 40% across 30+ microservices; owned CI/CD with Jenkins & Spinnaker.</p>
+        </div>
+      </article>
+
+      <article class="t-item">
+        <div class="dot"></div>
+        <div>
+          <h3>ML Research Intern — IIT Madras Research Park / VT India (India)</h3>
+          <div class="meta">May 2024 – Jul 2024</div>
+          <h4>Lung‑sound analytics with MFCC & Mel‑Spectrograms</h4>
+          <p>Engineered denoising + feature pipelines and model baselines (TensorFlow/scikit‑learn). Improved diagnostic accuracy and packaged reproducible CLIs & configs.</p>
+        </div>
+      </article>
+
+      <article class="t-item">
+        <div class="dot"></div>
+        <div>
+          <h3>Virginia Tech — M.Eng. CS (Data Analytics & AI)</h3>
+          <div class="meta">Aug 2023 – May 2025</div>
+          <h4>ML, NLP, AI, ML with Big Data, Ethics</h4>
+          <p>Hands‑on work across distributed ML, data engineering, and human‑centered AI systems.</p>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <!-- SKILLS -->
+  <section id="skills" class="container">
+    <div class="section-hd">
+      <div>
+        <div class="eyebrow">Toolkit</div>
+        <h2 class="title">Skills that ship systems</h2>
+        <p class="lead">A snapshot of stacks I’ve used to move data safely from ingestion → insight.</p>
+      </div>
+    </div>
+
+    <div class="skills-grid" id="chips">
+      <div class="chip">Java • Spring Batch/Boot</div>
+      <div class="chip">Python • Pandas • PySpark</div>
+      <div class="chip">SQL • Oracle • Teradata • Redshift</div>
+      <div class="chip">Kafka • Parquet • Data Modeling</div>
+      <div class="chip">AWS S3 • Glue • Lambda • Athena</div>
+      <div class="chip">SageMaker • CI/CD • Docker</div>
+      <div class="chip">Data Quality • Governance</div>
+      <div class="chip">React • HTML5 • CSS3</div>
+    </div>
+
+    <div style="margin-top:18px;display:grid;gap:12px">
+      <div class="meter"><span>Data Engineering</span><div class="bar"><span data-fill="95"></span></div></div>
+      <div class="meter"><span>Machine Learning</span><div class="bar"><span data-fill="85"></span></div></div>
+      <div class="meter"><span>AWS Cloud</span><div class="bar"><span data-fill="88"></span></div></div>
+      <div class="meter"><span>Frontend</span><div class="bar"><span data-fill="70"></span></div></div>
+    </div>
+  </section>
+
+  <!-- PROJECTS -->
+  <section id="projects" class="container">
+    <div class="section-hd">
+      <div>
+        <div class="eyebrow">Impact</div>
+        <h2 class="title">Selected projects</h2>
+        <p class="lead">A few systems where careful engineering + ML delivered measurable wins.</p>
+      </div>
+    </div>
+
+    <div class="projects">
+      <article class="card">
+        <div class="thumb"></div>
+        <div class="body">
+          <span class="tag">Kafka → Glue → S3 → Redshift</span>
+          <h3>Boeing Airlines: Frequent‑Flyer Fraud Detection</h3>
+          <p>Reusable ingestion with schema validation, idempotent upserts, and metrics/alerts; integrated SageMaker scoring; improved detection by 18% with dashboards on Redshift.</p>
+          <a class="btn" href="#contact">Ask me about the architecture</a>
+        </div>
+      </article>
+
+      <article class="card">
+        <div class="thumb"></div>
+        <div class="body">
+          <span class="tag">TensorFlow • ResNet‑50</span>
+          <h3>COVID‑19 Detection via Chest X‑Rays</h3>
+          <p>Reproducible pipeline with augmentation, leakage checks, and transfer learning. AUROC 0.97, F1 0.92 on held‑out set; shipped CLI/REST batch inference.</p>
+          <a class="btn" href="https://ieeexplore.ieee.org/document/10370248" target="_blank" rel="noopener">Read publication</a>
+        </div>
+      </article>
+
+      <article class="card">
+        <div class="thumb"></div>
+        <div class="body">
+          <span class="tag">LLMs • Sentence‑Transformers</span>
+          <h3>Trigger‑Warning Classification (Reddit)</h3>
+          <p>Dynamic k‑shot prompt builder using cosine similarity over embeddings; agentic validation loop with per‑label perplexity and confusion reports; AWS‑orchestrated runs.</p>
+          <a class="btn" href="#contact">Discuss evaluation loop</a>
+        </div>
+      </article>
+
+      <article class="card">
+        <div class="thumb"></div>
+        <div class="body">
+          <span class="tag">Java • Spring • SQL</span>
+          <h3>Card Fraud‑Risk ETL Modernization</h3>
+          <p>Restartable batch jobs with JDBC readers/writers, tuned queries, transaction boundaries, and audit logging; 40% storage reduction via S3 lifecycle policies.</p>
+          <a class="btn" href="#contact">See the checklist</a>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact" class="contact">
+    <div class="container">
+      <div class="section-hd">
+        <div>
+          <div class="eyebrow">Say hello</div>
+          <h2 class="title">Let’s build something resilient</h2>
+          <p class="lead">The best systems are boring to operate and exciting to ship. If that resonates, I’d love to chat.</p>
+        </div>
+      </div>
+
+      <div style="display:grid;grid-template-columns:1.2fr .8fr;gap:24px;align-items:start">
+        <form onsubmit="event.preventDefault(); alert('Thanks! I\'ll get back to you soon.');">
+          <input class="full" type="text" placeholder="Your name" required>
+          <input type="email" placeholder="Email" required>
+          <input type="text" placeholder="Subject">
+          <textarea class="full" placeholder="Message" required></textarea>
+          <button class="btn" type="submit">Send message</button>
+        </form>
+
+        <aside style="background:rgba(16,19,26,.6);border:1px solid rgba(125,211,252,.12);border-radius:16px;padding:16px">
+          <p><strong>Location:</strong> Falls Church, Virginia (Open to Relocate)</p>
+          <p><strong>Email:</strong> <a href="mailto:shirlenebandela@gmail.com">shirlenebandela@gmail.com</a></p>
+          <p><strong>Phone:</strong> <a href="tel:+15714423221">(571)‑442‑3221</a></p>
+          <p><strong>LinkedIn:</strong> <a href="https://www.linkedin.com/in/shirlene-rose-bandela/" target="_blank" rel="noopener">/in/shirlene-rose-bandela</a></p>
+          <p><strong>Certification:</strong> <a href="https://www.credly.com/badges/baa8e773-6873-48fa-86d8-326bb1955a6c/public_url" target="_blank" rel="noopener">AWS CLF‑C02</a></p>
+        </aside>
+      </div>
+    </div>
+    <footer>
+      © <span id="year"></span> Shirlene Rose Bandela • Built with HTML/CSS/GSAP • Theme: Cyan/Violet Nebula
+    </footer>
+  </section>
+
+  <!-- GSAP -->
+  <script src="https://unpkg.com/gsap@3/dist/gsap.min.js"></script>
+  <script src="https://unpkg.com/gsap@3/dist/ScrollTrigger.min.js"></script>
+  <script>
+    // Basic helpers
+    const qs = s => document.querySelector(s);
+    const qsa = s => Array.from(document.querySelectorAll(s));
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // Reveal on load
+    gsap.set('.hero .badge, h1, .subtitle, .cta', {autoAlpha:0, y:20});
+    gsap.set('.portrait', {autoAlpha:0, y:20, rotate:-2});
+    gsap.timeline({defaults:{ease:'power3.out'}})
+      .to('.hero .badge', {autoAlpha:1, y:0, duration:.4})
+      .to('h1', {autoAlpha:1, y:0, duration:.6}, '-=.1')
+      .to('.subtitle', {autoAlpha:1, y:0, duration:.6}, '-=.3')
+      .to('.cta', {autoAlpha:1, y:0, duration:.6}, '-=.4')
+      .to('.portrait', {autoAlpha:1, y:0, rotate:0, duration:.7}, '-=.6');
+
+    // Floating chips
+    qsa('#chips .chip').forEach((el,i)=>{
+      gsap.from(el, {scrollTrigger:{trigger:el,start:'top 80%'}, y:16, autoAlpha:0, duration:.4, delay:i*0.03});
+    });
+
+    // Skill meters fill
+    qsa('.meter .bar > span').forEach((bar)=>{
+      const fill = bar.dataset.fill || 80;
+      gsap.to(bar, {scrollTrigger:{trigger:bar, start:'top 85%'}, width: fill+'%', duration:1.2, ease:'power2.out'});
+    });
+
+    // Timeline items parallax + highlight
+    qsa('.t-item').forEach((item, i)=>{
+      gsap.from(item, {scrollTrigger:{trigger:item,start:'top 85%'}, y:28, autoAlpha:0, duration:.6, ease:'power3.out'});
+    });
+
+    // Project cards hover tilt
+    qsa('.card').forEach(card=>{
+      const body = card.querySelector('.body');
+      card.addEventListener('mousemove', (e)=>{
+        const r = card.getBoundingClientRect();
+        const rx = ((e.clientY - r.top)/r.height - .5) * 6;
+        const ry = ((e.clientX - r.left)/r.width - .5) * -6;
+        card.style.transform = `perspective(800px) rotateX(${rx}deg) rotateY(${ry}deg)`;
+      });
+      card.addEventListener('mouseleave', ()=>{
+        card.style.transform = '';
+      });
+      gsap.from(card, {scrollTrigger:{trigger:card,start:'top 85%'}, y:26, autoAlpha:0, duration:.6});
+    });
+
+    // Smooth scroll for nav
+    qsa('header.nav a').forEach(a=>{
+      a.addEventListener('click', (e)=>{
+        const id = a.getAttribute('href'); if(!id.startsWith('#')) return;
+        e.preventDefault(); document.querySelector(id).scrollIntoView({behavior:'smooth'});
+      });
+    });
+
+    // Sticky timeline accent line grow
+    const tl = gsap.timeline({scrollTrigger:{
+      trigger:'#timeline', start:'top 70%', end:'bottom bottom', scrub: true
+    }});
+    tl.fromTo('.line', {scaleY:0, transformOrigin:'top center'}, {scaleY:1});
+  </script>
+</body>
+</html>
