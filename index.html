@@ -83,7 +83,7 @@
     }
 
     /* SECTION WRAPPER */
-    section{padding:90px 0}
+    section{padding:100px 0} /* a little more room between sections */
     section .section-hd{display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:22px}
     .eyebrow{font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:#b9cdf0;opacity:.9;font-size:12px}
     .title{font-size:clamp(24px,3vw,36px);margin:6px 0 12px 0}
@@ -100,8 +100,21 @@
     .t-item p{margin:8px 0 0 0;color:var(--muted)}
 
     /* SKILLS */
-    .skills-grid{display:grid;grid-template-columns:repeat(12,1fr);gap:12px;margin-top:16px}
-    .chip{grid-column:span 3;min-width:0;display:flex;align-items:center;justify-content:center;padding:12px;border-radius:999px;background:rgba(167,139,250,.14);border:1px solid rgba(167,139,250,.25);white-space:nowrap}
+    .skills-grid{
+      display:grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap:12px;
+      margin-top:16px;
+    }
+    .chip{
+      display:flex;align-items:center;justify-content:center;
+      padding:12px 16px;border-radius:999px;
+      background:rgba(167,139,250,.14);
+      border:1px solid rgba(167,139,250,.25);
+      white-space:normal;        /* allow wrapping */
+      overflow-wrap:anywhere;    /* break long sequences */
+    }
+    .meters{display:grid;gap:12px;margin-top:18px;margin-bottom:28px}
     .meter{display:flex;align-items:center;gap:10px;background:rgba(16,19,26,.6);border:1px solid rgba(125,211,252,.12);padding:14px;border-radius:14px}
     .meter .bar{flex:1;height:10px;border-radius:999px;background:rgba(125,211,252,.12);overflow:hidden}
     .meter .bar > span{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--accent),var(--accent-2))}
@@ -138,7 +151,6 @@
     @media (max-width: 900px){
       .hero .container{grid-template-columns:1fr;gap:22px;text-align:center}
       .portrait{justify-self:center}
-      .skills-grid .chip{grid-column:span 6}
       .projects .card{grid-column:span 12}
       .t-item{grid-template-columns:50px 1fr}
       form{grid-template-columns:1fr}
@@ -167,7 +179,7 @@
         <p class="subtitle">I build reliable, scalable data systems and ML workflows — from Java/Spring Batch and SQL tuning to AWS data lakes and LLM-driven analytics. I love turning messy data into observable, production-grade pipelines.</p>
         <div class="cta">
           <a class="btn" href="#projects">See my work</a>
-          <a class="btn secondary" href="/Shirlene_Resume.pdf" target="_blank" rel="noopener">Download Résumé</a>
+          <a class="btn secondary" href="Shirlene_Resume.pdf" target="_blank" rel="noopener">Download Résumé</a>
         </div>
         <div style="margin-top:14px;color:var(--muted)">
           Based in Falls Church, VA • Open to relocate • <a href="mailto:shirlenebandela@gmail.com">shirlenebandela@gmail.com</a>
@@ -252,7 +264,7 @@
       <div class="chip">React • HTML5 • CSS3</div>
     </div>
 
-    <div style="margin-top:18px;display:grid;gap:12px">
+    <div class="meters">
       <div class="meter"><span>Data Engineering</span><div class="bar"><span data-fill="95"></span></div></div>
       <div class="meter"><span>Machine Learning</span><div class="bar"><span data-fill="85"></span></div></div>
       <div class="meter"><span>AWS Cloud</span><div class="bar"><span data-fill="88"></span></div></div>
@@ -325,7 +337,7 @@
       </div>
 
       <div style="display:grid;grid-template-columns:1.2fr .8fr;gap:24px;align-items:start">
-        <form onsubmit="event.preventDefault(); alert('Thanks! I\'ll get back to you soon.');">
+        <form onsubmit="event.preventDefault(); alert('Thanks! I\\'ll get back to you soon.');">
           <input class="full" type="text" placeholder="Your name" required>
           <input type="email" placeholder="Email" required>
           <input type="text" placeholder="Subject">
@@ -384,16 +396,13 @@
 
     // Project cards hover tilt
     qsa('.card').forEach(card=>{
-      const body = card.querySelector('.body');
       card.addEventListener('mousemove', (e)=>{
         const r = card.getBoundingClientRect();
         const rx = ((e.clientY - r.top)/r.height - .5) * 6;
         const ry = ((e.clientX - r.left)/r.width - .5) * -6;
         card.style.transform = `perspective(800px) rotateX(${rx}deg) rotateY(${ry}deg)`;
       });
-      card.addEventListener('mouseleave', ()=>{
-        card.style.transform = '';
-      });
+      card.addEventListener('mouseleave', ()=>{ card.style.transform = ''; });
       gsap.from(card, {scrollTrigger:{trigger:card,start:'top 85%'}, y:26, autoAlpha:0, duration:.6});
     });
 
