@@ -14,8 +14,8 @@
       --card: #10131a;
       --muted: #9db0c0;
       --text: #eaf2ff;
-      --accent: #7dd3fc;   /* cyan-300 */
-      --accent-2: #a78bfa; /* violet-400 */
+      --accent: #7dd3fc;
+      --accent-2: #a78bfa;
       --glow: 0 0 40px rgba(125,211,252,.25);
       --radius: 20px;
       --maxw: 1100px;
@@ -51,28 +51,29 @@
     .nav-inner a:hover{background:rgba(125,211,252,.12)}
     .brand{font-weight:800;letter-spacing:.3px;background:linear-gradient(90deg,var(--accent),var(--accent-2));-webkit-background-clip:text;color:transparent}
 
-    /* SECTION: structure + per-section background skins */
+    /* SECTION (full-width) + per-section skins */
     section{
       position:relative;
       padding:100px 0;
       scroll-margin-top: calc(var(--navh) + 16px);
-      overflow:hidden; /* so skin doesn't spill */
+      overflow:hidden;
     }
-    /* skin wrapper */
     .skin::before{
       content:"";
-      position:absolute; inset:-1px; z-index:-1; /* sit behind content */
+      position:absolute;
+      inset:0;           /* cover the WHOLE section */
+      z-index:-1;
       pointer-events:none;
-      background: #0b0d12; /* fallback */
+      background:#0b0d12;
     }
-    /* Skin A: darker, violet-leaning */
+    /* A: violet-leaning */
     .bg-a::before{
       background:
         radial-gradient(1100px 500px at 80% -10%, rgba(167,139,250,.16), transparent 60%),
         radial-gradient(900px 420px at -10% 40%, rgba(125,211,252,.10), transparent 60%),
         linear-gradient(180deg, #0a0c11, #0b0d12 40%);
     }
-    /* Skin B: slightly lighter, cyan-leaning */
+    /* B: cyan-leaning */
     .bg-b::before{
       background:
         radial-gradient(1000px 460px at 15% -10%, rgba(125,211,252,.16), transparent 60%),
@@ -92,8 +93,7 @@
     .portrait{
       width:min(420px, 80vw);aspect-ratio:1/1.1;border-radius:24px;position:relative;overflow:hidden;
       background: radial-gradient(60% 60% at 70% 20%, rgba(167,139,250,.2), transparent), #0e1118;
-      border:1px solid rgba(167,139,250,.25);
-      box-shadow: var(--glow);
+      border:1px solid rgba(167,139,250,.25); box-shadow: var(--glow);
     }
     .portrait::after{
       content:"SR";position:absolute;inset:0;display:grid;place-items:center;font: 900 clamp(80px,14vw,160px)/1 "Inter";
@@ -177,7 +177,7 @@
     </nav>
   </header>
 
-  <!-- HERO (its own look; no skin) -->
+  <!-- HERO (Skin A) -->
   <section id="hero" class="hero skin bg-a">
     <div class="container">
       <div>
@@ -197,142 +197,148 @@
   </section>
 
   <!-- TIMELINE (Skin A) -->
-  <section id="timeline" class="container skin bg-a">
-    <div class="section-hd">
-      <div>
-        <div class="eyebrow">Journey</div>
-        <h2 class="title">From ETL to LLMs — a systems-first story</h2>
-        <p class="lead">Highlights from experience and education that shaped how I design for reliability, scale, and clarity.</p>
+  <section id="timeline" class="skin bg-a">
+    <div class="container">
+      <div class="section-hd">
+        <div>
+          <div class="eyebrow">Journey</div>
+          <h2 class="title">From ETL to LLMs — a systems-first story</h2>
+          <p class="lead">Highlights from experience and education that shaped how I design for reliability, scale, and clarity.</p>
+        </div>
       </div>
-    </div>
-    <div class="timeline">
-      <div class="line"></div>
+      <div class="timeline">
+        <div class="line"></div>
 
-      <article class="t-item">
-        <div class="dot"></div>
-        <div>
-          <h3>Research Assistant — Virginia Tech (USA)</h3>
-          <div class="meta">Jun 2025 – Present</div>
-          <h4>Agentic LLM pipeline for multi-label Reddit trigger warnings</h4>
-          <p>Built modular Python + LLM pipeline with dynamic k-shot prompts via cosine-similarity (Sentence-Transformers), caching, and batch execution. Added validation loop (per-label perplexity + rule-based triage) and AWS EC2/S3 orchestration.</p>
-        </div>
-      </article>
+        <article class="t-item">
+          <div class="dot"></div>
+          <div>
+            <h3>Research Assistant — Virginia Tech (USA)</h3>
+            <div class="meta">Jun 2025 – Present</div>
+            <h4>Agentic LLM pipeline for multi-label Reddit trigger warnings</h4>
+            <p>Built modular Python + LLM pipeline with dynamic k-shot prompts via cosine-similarity (Sentence-Transformers), caching, and batch execution. Added validation loop (per-label perplexity + rule-based triage) and AWS EC2/S3 orchestration.</p>
+          </div>
+        </article>
 
-      <article class="t-item">
-        <div class="dot"></div>
-        <div>
-          <h3>Software/Data Engineer — JPMorgan Chase & Co. (India)</h3>
-          <div class="meta">May 2021 – Aug 2023</div>
-          <h4>Modernized core fraud-risk ETL with Java/Spring Batch & SQL</h4>
-          <p>Migrated brittle scripts to restartable jobs; tuned Oracle/Teradata SQL to remove full scans; added data-quality gates, idempotency, and observability. Cut S3 storage costs by 40% across 30+ microservices; owned CI/CD with Jenkins & Spinnaker.</p>
-        </div>
-      </article>
+        <article class="t-item">
+          <div class="dot"></div>
+          <div>
+            <h3>Software/Data Engineer — JPMorgan Chase & Co. (India)</h3>
+            <div class="meta">May 2021 – Aug 2023</div>
+            <h4>Modernized core fraud-risk ETL with Java/Spring Batch & SQL</h4>
+            <p>Migrated brittle scripts to restartable jobs; tuned Oracle/Teradata SQL to remove full scans; added data-quality gates, idempotency, and observability. Cut S3 storage costs by 40% across 30+ microservices; owned CI/CD with Jenkins & Spinnaker.</p>
+          </div>
+        </article>
 
-      <article class="t-item">
-        <div class="dot"></div>
-        <div>
-          <h3>ML Research Intern — IIT Madras Research Park / VT India (India)</h3>
-          <div class="meta">May 2024 – Jul 2024</div>
-          <h4>Lung-sound analytics with MFCC & Mel-Spectrograms</h4>
-          <p>Engineered denoising + feature pipelines and model baselines (TensorFlow/scikit-learn). Improved diagnostic accuracy and packaged reproducible CLIs & configs.</p>
-        </div>
-      </article>
+        <article class="t-item">
+          <div class="dot"></div>
+          <div>
+            <h3>ML Research Intern — IIT Madras Research Park / VT India (India)</h3>
+            <div class="meta">May 2024 – Jul 2024</div>
+            <h4>Lung-sound analytics with MFCC & Mel-Spectrograms</h4>
+            <p>Engineered denoising + feature pipelines and model baselines (TensorFlow/scikit-learn). Improved diagnostic accuracy and packaged reproducible CLIs & configs.</p>
+          </div>
+        </article>
 
-      <article class="t-item">
-        <div class="dot"></div>
-        <div>
-          <h3>Virginia Tech — M.Eng. CS (Data Analytics & AI)</h3>
-          <div class="meta">Aug 2023 – May 2025</div>
-          <h4>ML, NLP, AI, ML with Big Data, Ethics</h4>
-          <p>Hands-on work across distributed ML, data engineering, and human-centered AI systems.</p>
-        </div>
-      </article>
+        <article class="t-item">
+          <div class="dot"></div>
+          <div>
+            <h3>Virginia Tech — M.Eng. CS (Data Analytics & AI)</h3>
+            <div class="meta">Aug 2023 – May 2025</div>
+            <h4>ML, NLP, AI, ML with Big Data, Ethics</h4>
+            <p>Hands-on work across distributed ML, data engineering, and human-centered AI systems.</p>
+          </div>
+        </article>
+      </div>
     </div>
   </section>
 
   <!-- SKILLS (Skin B) -->
-  <section id="skills" class="container skin bg-b">
-    <div class="section-hd">
-      <div>
-        <div class="eyebrow">Toolkit</div>
-        <h2 class="title">Skills that ship systems</h2>
-        <p class="lead">A snapshot of stacks I’ve used to move data safely from ingestion → insight.</p>
+  <section id="skills" class="skin bg-b">
+    <div class="container">
+      <div class="section-hd">
+        <div>
+          <div class="eyebrow">Toolkit</div>
+          <h2 class="title">Skills that ship systems</h2>
+          <p class="lead">A snapshot of stacks I’ve used to move data safely from ingestion → insight.</p>
+        </div>
       </div>
-    </div>
 
-    <div class="skills-grid" id="chips">
-      <div class="chip">Java • Spring Batch/Boot</div>
-      <div class="chip">Python • Pandas • PySpark</div>
-      <div class="chip">SQL • Oracle • Teradata • Redshift</div>
-      <div class="chip">Kafka • Parquet • Data Modeling</div>
-      <div class="chip">AWS S3 • Glue • Lambda • Athena</div>
-      <div class="chip">SageMaker • CI/CD • Docker</div>
-      <div class="chip">Data Quality • Governance</div>
-      <div class="chip">React • HTML5 • CSS3</div>
-    </div>
+      <div class="skills-grid" id="chips">
+        <div class="chip">Java • Spring Batch/Boot</div>
+        <div class="chip">Python • Pandas • PySpark</div>
+        <div class="chip">SQL • Oracle • Teradata • Redshift</div>
+        <div class="chip">Kafka • Parquet • Data Modeling</div>
+        <div class="chip">AWS S3 • Glue • Lambda • Athena</div>
+        <div class="chip">SageMaker • CI/CD • Docker</div>
+        <div class="chip">Data Quality • Governance</div>
+        <div class="chip">React • HTML5 • CSS3</div>
+      </div>
 
-    <div class="meters">
-      <div class="meter"><span>Data Engineering</span><div class="bar"><span data-fill="95"></span></div></div>
-      <div class="meter"><span>Machine Learning</span><div class="bar"><span data-fill="85"></span></div></div>
-      <div class="meter"><span>AWS Cloud</span><div class="bar"><span data-fill="88"></span></div></div>
-      <div class="meter"><span>Frontend</span><div class="bar"><span data-fill="70"></span></div></div>
+      <div class="meters">
+        <div class="meter"><span>Data Engineering</span><div class="bar"><span data-fill="95"></span></div></div>
+        <div class="meter"><span>Machine Learning</span><div class="bar"><span data-fill="85"></span></div></div>
+        <div class="meter"><span>AWS Cloud</span><div class="bar"><span data-fill="88"></span></div></div>
+        <div class="meter"><span>Frontend</span><div class="bar"><span data-fill="70"></span></div></div>
+      </div>
     </div>
   </section>
 
   <!-- PROJECTS (Skin A) -->
-  <section id="projects" class="container skin bg-a">
-    <div class="section-hd">
-      <div>
-        <div class="eyebrow">Impact</div>
-        <h2 class="title">Selected projects</h2>
-        <p class="lead">A few systems where careful engineering + ML delivered measurable wins.</p>
+  <section id="projects" class="skin bg-a">
+    <div class="container">
+      <div class="section-hd">
+        <div>
+          <div class="eyebrow">Impact</div>
+          <h2 class="title">Selected projects</h2>
+          <p class="lead">A few systems where careful engineering + ML delivered measurable wins.</p>
+        </div>
       </div>
-    </div>
 
-    <div class="projects">
-      <article class="card">
-        <div class="thumb"></div>
-        <div class="body">
-          <span class="tag">Kafka → Glue → S3 → Redshift</span>
-          <h3>Boeing Airlines: Frequent-Flyer Fraud Detection</h3>
-          <p>Reusable ingestion with schema validation, idempotent upserts, and metrics/alerts; integrated SageMaker scoring; improved detection by 18% with dashboards on Redshift.</p>
-          <a class="btn" href="#contact">Ask me about the architecture</a>
-        </div>
-      </article>
+      <div class="projects">
+        <article class="card">
+          <div class="thumb"></div>
+          <div class="body">
+            <span class="tag">Kafka → Glue → S3 → Redshift</span>
+            <h3>Boeing Airlines: Frequent-Flyer Fraud Detection</h3>
+            <p>Reusable ingestion with schema validation, idempotent upserts, and metrics/alerts; integrated SageMaker scoring; improved detection by 18% with dashboards on Redshift.</p>
+            <a class="btn" href="#contact">Ask me about the architecture</a>
+          </div>
+        </article>
 
-      <article class="card">
-        <div class="thumb"></div>
-        <div class="body">
-          <span class="tag">TensorFlow • ResNet-50</span>
-          <h3>COVID-19 Detection via Chest X-Rays</h3>
-          <p>Reproducible pipeline with augmentation, leakage checks, and transfer learning. AUROC 0.97, F1 0.92 on held-out set; shipped CLI/REST batch inference.</p>
-          <a class="btn" href="https://ieeexplore.ieee.org/document/10370248" target="_blank" rel="noopener">Read publication</a>
-        </div>
-      </article>
+        <article class="card">
+          <div class="thumb"></div>
+          <div class="body">
+            <span class="tag">TensorFlow • ResNet-50</span>
+            <h3>COVID-19 Detection via Chest X-Rays</h3>
+            <p>Reproducible pipeline with augmentation, leakage checks, and transfer learning. AUROC 0.97, F1 0.92 on held-out set; shipped CLI/REST batch inference.</p>
+            <a class="btn" href="https://ieeexplore.ieee.org/document/10370248" target="_blank" rel="noopener">Read publication</a>
+          </div>
+        </article>
 
-      <article class="card">
-        <div class="thumb"></div>
-        <div class="body">
-          <span class="tag">LLMs • Sentence-Transformers</span>
-          <h3>Trigger-Warning Classification (Reddit)</h3>
-          <p>Dynamic k-shot prompt builder using cosine similarity over embeddings; agentic validation loop with per-label perplexity and confusion reports; AWS-orchestrated runs.</p>
-          <a class="btn" href="#contact">Discuss evaluation loop</a>
-        </div>
-      </article>
+        <article class="card">
+          <div class="thumb"></div>
+          <div class="body">
+            <span class="tag">LLMs • Sentence-Transformers</span>
+            <h3>Trigger-Warning Classification (Reddit)</h3>
+            <p>Dynamic k-shot prompt builder using cosine similarity over embeddings; agentic validation loop with per-label perplexity and confusion reports; AWS-orchestrated runs.</p>
+            <a class="btn" href="#contact">Discuss evaluation loop</a>
+          </div>
+        </article>
 
-      <article class="card">
-        <div class="thumb"></div>
-        <div class="body">
-          <span class="tag">Java • Spring • SQL</span>
-          <h3>Card Fraud-Risk ETL Modernization</h3>
-          <p>Restartable batch jobs with JDBC readers/writers, tuned queries, transaction boundaries, and audit logging; 40% storage reduction via S3 lifecycle policies.</p>
-          <a class="btn" href="#contact">See the checklist</a>
-        </div>
-      </article>
+        <article class="card">
+          <div class="thumb"></div>
+          <div class="body">
+            <span class="tag">Java • Spring • SQL</span>
+            <h3>Card Fraud-Risk ETL Modernization</h3>
+            <p>Restartable batch jobs with JDBC readers/writers, tuned queries, transaction boundaries, and audit logging; 40% storage reduction via S3 lifecycle policies.</p>
+            <a class="btn" href="#contact">See the checklist</a>
+          </div>
+        </article>
+      </div>
     </div>
   </section>
 
-  <!-- CONTACT (keeps its own overlay already) -->
+  <!-- CONTACT (keeps its own overlay) -->
   <section id="contact" class="contact skin bg-b">
     <div class="container">
       <div class="section-hd">
@@ -420,7 +426,7 @@
       });
     });
 
-    // Timeline line grow
+    // Timeline vertical line grow
     const tl = gsap.timeline({scrollTrigger:{
       trigger:'#timeline', start:'top 70%', end:'bottom bottom', scrub: true
     }});
