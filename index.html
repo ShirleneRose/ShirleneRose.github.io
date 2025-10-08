@@ -14,12 +14,12 @@
       --card: #10131a;
       --muted: #9db0c0;
       --text: #eaf2ff;
-      --accent: #7dd3fc; /* cyan-300 */
+      --accent: #7dd3fc;   /* cyan-300 */
       --accent-2: #a78bfa; /* violet-400 */
       --glow: 0 0 40px rgba(125,211,252,.25);
       --radius: 20px;
       --maxw: 1100px;
-      --navh: 68px; /* approx height of fixed navbar for scroll offset */
+      --navh: 68px;
     }
     *{box-sizing:border-box}
     html,body{height:100%}
@@ -27,15 +27,14 @@
       margin:0;
       font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
       color:var(--text);
-      background:
-        radial-gradient(1100px 500px at 80% -10%, rgba(167,139,250,.15), transparent 60%),
-        radial-gradient(1200px 600px at -10% 10%, rgba(125,211,252,.18), transparent 60%),
-        linear-gradient(180deg, #090b10, #0b0d12 40%);
+      background:#0b0d12; /* base; section skins handle the art */
       overflow-x:hidden;
     }
     a{color:var(--accent);text-decoration:none}
     a:hover{text-decoration:underline}
     .container{width:100%;max-width:var(--maxw);margin:0 auto;padding:0 20px}
+
+    /* NAV */
     header.nav{
       position:fixed;inset-inline:0;top:12px;z-index:50;
       display:flex;justify-content:center;pointer-events:none;
@@ -52,38 +51,44 @@
     .nav-inner a:hover{background:rgba(125,211,252,.12)}
     .brand{font-weight:800;letter-spacing:.3px;background:linear-gradient(90deg,var(--accent),var(--accent-2));-webkit-background-clip:text;color:transparent}
 
-    /* FIXED BACKGROUND LAYER (prevents visible shift between sections) */
-    .bgfx{
-      position: fixed;
-      inset: 0;
-      pointer-events: none;
-      z-index: -1;
+    /* SECTION: structure + per-section background skins */
+    section{
+      position:relative;
+      padding:100px 0;
+      scroll-margin-top: calc(var(--navh) + 16px);
+      overflow:hidden; /* so skin doesn't spill */
+    }
+    /* skin wrapper */
+    .skin::before{
+      content:"";
+      position:absolute; inset:-1px; z-index:-1; /* sit behind content */
+      pointer-events:none;
+      background: #0b0d12; /* fallback */
+    }
+    /* Skin A: darker, violet-leaning */
+    .bg-a::before{
       background:
-        radial-gradient(1100px 500px at 80% -10%, rgba(167,139,250,.15), transparent 60%),
-        radial-gradient(1200px 600px at -10% 10%, rgba(125,211,252,.18), transparent 60%),
-        linear-gradient(180deg, #090b10, #0b0d12 40%);
+        radial-gradient(1100px 500px at 80% -10%, rgba(167,139,250,.16), transparent 60%),
+        radial-gradient(900px 420px at -10% 40%, rgba(125,211,252,.10), transparent 60%),
+        linear-gradient(180deg, #0a0c11, #0b0d12 40%);
+    }
+    /* Skin B: slightly lighter, cyan-leaning */
+    .bg-b::before{
+      background:
+        radial-gradient(1000px 460px at 15% -10%, rgba(125,211,252,.16), transparent 60%),
+        radial-gradient(900px 420px at 90% 30%, rgba(167,139,250,.12), transparent 60%),
+        linear-gradient(180deg, #0c0f15, #0b0d12 40%);
     }
 
     /* HERO */
-    .hero{min-height:100svh;display:grid;place-items:center;position:relative}
+    .hero{min-height:100svh;display:grid;place-items:center}
     .hero .container{display:grid;grid-template-columns:1.15fr .85fr;gap:40px;align-items:center}
     .badge{display:inline-flex;align-items:center;gap:8px;background:rgba(125,211,252,.12);color:#c7ebff;border:1px solid rgba(125,211,252,.25);padding:6px 10px;border-radius:999px;font-size:12px}
-    h1{
-      font-size: clamp(36px, 5vw, 64px);
-      line-height:1.05;margin:10px 0 8px 0;
-      font-weight:900;
-      letter-spacing:-.5px;
-    }
+    h1{font-size: clamp(36px, 5vw, 64px);line-height:1.05;margin:10px 0 8px 0;font-weight:900;letter-spacing:-.5px}
     .subtitle{color:var(--muted);font-size:clamp(14px,1.3vw,18px);max-width:60ch}
     .cta{display:flex;gap:12px;margin-top:22px;flex-wrap:wrap}
-    .btn{
-      display:inline-flex;align-items:center;gap:10px;padding:12px 16px;border-radius:12px;border:1px solid rgba(125,211,252,.25);
-      background:linear-gradient(180deg, rgba(125,211,252,.15), rgba(125,211,252,.05));
-      box-shadow: var(--glow);
-      color:var(--text);font-weight:600
-    }
+    .btn{display:inline-flex;align-items:center;gap:10px;padding:12px 16px;border-radius:12px;border:1px solid rgba(125,211,252,.25);background:linear-gradient(180deg, rgba(125,211,252,.15), rgba(125,211,252,.05));box-shadow: var(--glow);color:var(--text);font-weight:600}
     .btn.secondary{background:rgba(16,19,26,.6)}
-
     .portrait{
       width:min(420px, 80vw);aspect-ratio:1/1.1;border-radius:24px;position:relative;overflow:hidden;
       background: radial-gradient(60% 60% at 70% 20%, rgba(167,139,250,.2), transparent), #0e1118;
@@ -95,30 +100,11 @@
       letter-spacing:-3px;background:linear-gradient(135deg, rgba(125,211,252,.25), rgba(167,139,250,.25));-webkit-background-clip:text;color:transparent;opacity:.6
     }
 
-    /* SECTION WRAPPER */
-    section{
-      padding:100px 0;
-      scroll-margin-top: calc(var(--navh) + 16px);
-    }
-    section .section-hd{
-      display:flex;
-      align-items:flex-end;
-      justify-content:space-between;
-      margin-bottom:22px;
-    }
-    .eyebrow{
-      font-weight:700;
-      letter-spacing:.16em;
-      text-transform:uppercase;
-      color:#b9cdf0;
-      opacity:.9;
-      font-size:12px;
-    }
-    .title{
-      font-size:clamp(24px,3vw,36px);
-      margin:6px 0 12px 0;
-    }
-    .lead{ color:var(--muted); }
+    /* SECTION HEADER */
+    section .section-hd{display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:22px}
+    .eyebrow{font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:#b9cdf0;opacity:.9;font-size:12px}
+    .title{font-size:clamp(24px,3vw,36px);margin:6px 0 12px 0}
+    .lead{color:var(--muted)}
 
     /* TIMELINE */
     .timeline{position:relative}
@@ -131,20 +117,8 @@
     .t-item p{margin:8px 0 0 0;color:var(--muted)}
 
     /* SKILLS */
-    .skills-grid{
-      display:grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap:12px;
-      margin-top:16px;
-    }
-    .chip{
-      display:flex;align-items:center;justify-content:center;
-      padding:12px 16px;border-radius:999px;
-      background:rgba(167,139,250,.14);
-      border:1px solid rgba(167,139,250,.25);
-      white-space:normal;
-      overflow-wrap:anywhere;
-    }
+    .skills-grid{display:grid;grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));gap:12px;margin-top:16px}
+    .chip{display:flex;align-items:center;justify-content:center;padding:12px 16px;border-radius:999px;background:rgba(167,139,250,.14);border:1px solid rgba(167,139,250,.25);white-space:normal;overflow-wrap:anywhere}
     .meters{display:grid;gap:12px;margin-top:18px;margin-bottom:28px}
     .meter{display:flex;align-items:center;gap:10px;background:rgba(16,19,26,.6);border:1px solid rgba(125,211,252,.12);padding:14px;border-radius:14px}
     .meter .bar{flex:1;height:10px;border-radius:999px;background:rgba(125,211,252,.12);overflow:hidden}
@@ -172,9 +146,7 @@
     }
     form{display:grid;grid-template-columns:1fr 1fr;gap:12px}
     form .full{grid-column:1/-1}
-    input, textarea{
-      width:100%;padding:14px 16px;border-radius:12px;background:#0e1219;border:1px solid rgba(125,211,252,.18);color:var(--text)
-    }
+    input, textarea{width:100%;padding:14px 16px;border-radius:12px;background:#0e1219;border:1px solid rgba(125,211,252,.18);color:var(--text)}
     textarea{min-height:120px}
     footer{padding:24px 0 60px 0;color:#b6c8da;text-align:center}
 
@@ -187,9 +159,9 @@
       form{grid-template-columns:1fr}
     }
 
-    /* FINAL SPACING OVERRIDES: tighten Timeline ↔ Skills */
-    #timeline { padding-bottom: 72px !important; }
-    #skills   { padding-top:    72px !important; }
+    /* spacing tune between Timeline ↔ Skills (adjust to taste) */
+    #timeline { padding-bottom: 80px }
+    #skills   { padding-top:    96px }
   </style>
 </head>
 <body>
@@ -205,11 +177,8 @@
     </nav>
   </header>
 
-  <!-- FIXED BG LAYER -->
-  <div class="bgfx"></div>
-
-  <!-- HERO -->
-  <section id="hero" class="hero">
+  <!-- HERO (its own look; no skin) -->
+  <section id="hero" class="hero skin bg-a">
     <div class="container">
       <div>
         <span class="badge">Data Engineer • ML • LLM Pipelines</span>
@@ -227,8 +196,8 @@
     </div>
   </section>
 
-  <!-- TIMELINE -->
-  <section id="timeline" class="container">
+  <!-- TIMELINE (Skin A) -->
+  <section id="timeline" class="container skin bg-a">
     <div class="section-hd">
       <div>
         <div class="eyebrow">Journey</div>
@@ -281,8 +250,8 @@
     </div>
   </section>
 
-  <!-- SKILLS -->
-  <section id="skills" class="container">
+  <!-- SKILLS (Skin B) -->
+  <section id="skills" class="container skin bg-b">
     <div class="section-hd">
       <div>
         <div class="eyebrow">Toolkit</div>
@@ -310,8 +279,8 @@
     </div>
   </section>
 
-  <!-- PROJECTS -->
-  <section id="projects" class="container">
+  <!-- PROJECTS (Skin A) -->
+  <section id="projects" class="container skin bg-a">
     <div class="section-hd">
       <div>
         <div class="eyebrow">Impact</div>
@@ -363,8 +332,8 @@
     </div>
   </section>
 
-  <!-- CONTACT -->
-  <section id="contact" class="contact">
+  <!-- CONTACT (keeps its own overlay already) -->
+  <section id="contact" class="contact skin bg-b">
     <div class="container">
       <div class="section-hd">
         <div>
@@ -442,7 +411,7 @@
       gsap.from(card, {scrollTrigger:{trigger:card,start:'top 85%'}, y:26, autoAlpha:0, duration:.6});
     });
 
-    // Smooth scroll for nav (native smooth; anchors offset by CSS scroll-margin)
+    // Smooth scroll for nav
     document.querySelectorAll('header.nav a').forEach(a=>{
       a.addEventListener('click', (e)=>{
         const id = a.getAttribute('href'); if(!id || !id.startsWith('#')) return;
@@ -451,7 +420,7 @@
       });
     });
 
-    // Sticky timeline accent line grow
+    // Timeline line grow
     const tl = gsap.timeline({scrollTrigger:{
       trigger:'#timeline', start:'top 70%', end:'bottom bottom', scrub: true
     }});
