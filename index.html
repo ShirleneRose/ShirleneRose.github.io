@@ -53,6 +53,7 @@
 
     /* SECTION + skins */
     section{position:relative;padding:100px 0;scroll-margin-top: calc(var(--navh) + 16px);overflow:hidden}
+    .skin{ position:relative; } /* no z-index here (important) */
     .skin::before{content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;background:#0b0d12}
     .bg-a::before{
       background:
@@ -165,15 +166,13 @@
     #timeline { padding-bottom: 80px }
     #skills   { padding-top:    96px }
 
-    /* === BACKGROUND GRAPHS CANVAS (layering) === */
+    /* === BACKGROUND GRAPHS CANVAS (fixed layer) === */
     #bg-graphs{
       position:fixed; inset:0; pointer-events:none;
-      z-index:1;                 /* sits above section::before (-1), below content (z=2) */
-      opacity:.40;               /* tweak intensity */
+      z-index:0;         /* sits above body bg, below content (nav is z=50) */
+      opacity:.40;       /* adjust strength */
       width:100%; height:100%;
     }
-    .skin{ position:relative; z-index:2; }
-
     @media (prefers-reduced-motion: reduce){
       #bg-graphs{ display:none; }
     }
@@ -571,7 +570,6 @@
       if(!canvas) return;
       const ctx = canvas.getContext('2d');
 
-      // ensure canvas scales crisply
       function resize(){
         const DPR = Math.max(1, Math.min(2, window.devicePixelRatio || 1));
         const W = window.innerWidth;
@@ -582,24 +580,14 @@
       }
       resize(); window.addEventListener('resize', resize);
 
-      const state = {
-        W: () => window.innerWidth,
-        H: () => window.innerHeight,
-        LINES: [],
-        NODES: []
-      };
-
+      const state = { LINES: [], NODES: [] };
       function init(){
-        const W = state.W(), H = state.H();
+        const W = window.innerWidth, H = window.innerHeight;
         state.LINES = Array.from({length: 7}).map(() => ({
-          pts: Array.from({length: 7}).map((_, i) => ({
-            x: (i/6) * W,
-            y: H*0.25 + Math.random()*H*0.5
-          })),
+          pts: Array.from({length: 7}).map((_, i) => ({ x: (i/6)*W, y: H*0.25 + Math.random()*H*0.5 })),
           hue: 190 + Math.random()*80,
           sp: 0.3 + Math.random()*0.8
         }));
-
         state.NODES = Array.from({length: 28}).map(()=>({
           x: Math.random()*W, y: Math.random()*H,
           r: 2 + Math.random()*3, a: Math.random()*Math.PI*2,
@@ -609,16 +597,14 @@
       init(); window.addEventListener('resize', init);
 
       function draw(){
-        const W = state.W(), H = state.H();
+        const W = window.innerWidth, H = window.innerHeight;
         ctx.clearRect(0,0,W,H);
 
-        // subtle gradient wash
         const g = ctx.createLinearGradient(0,0,W,0);
         g.addColorStop(0,'rgba(125,211,252,.06)');
         g.addColorStop(1,'rgba(167,139,250,.06)');
         ctx.fillStyle=g; ctx.fillRect(0,0,W,H);
 
-        // animated lines
         state.LINES.forEach(L=>{
           L.pts.forEach((p,i)=>{ p.y += Math.sin((Date.now()*0.001*L.sp) + i)*0.12; });
           ctx.beginPath();
@@ -630,7 +616,6 @@
           ctx.shadowBlur = 8;
           ctx.stroke();
 
-          // dots
           for(let i=1;i<L.pts.length-1;i+=2){
             const p = L.pts[i];
             ctx.beginPath();
@@ -640,13 +625,13 @@
           }
         });
 
-        // floating nodes
         state.NODES.forEach(n=>{
           n.x += Math.cos(n.a)*n.sp*0.6;
           n.y += Math.sin(n.a)*n.sp*0.6;
           n.a += 0.005*n.sp;
-          if(n.x < -10) n.x = W+10; if(n.x > W+10) n.x = -10;
-          if(n.y < -10) n.y = H+10; if(n.y > H+10) n.y = -10;
+          const W2 = W+10, H2 = H+10;
+          if(n.x < -10) n.x = W2; if(n.x > W2) n.x = -10;
+          if(n.y < -10) n.y = H2; if(n.y > H2) n.y = -10;
 
           ctx.beginPath();
           ctx.arc(n.x, n.y, n.r, 0, Math.PI*2);
