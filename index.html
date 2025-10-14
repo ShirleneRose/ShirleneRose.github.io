@@ -7,200 +7,185 @@
   <meta name="description" content="Portfolio for Shirlene Rose Bandela — Data Engineering, ML & AI." />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&display=swap" rel="stylesheet">
 
   <style>
     :root{
-      --bg: #0b0d12;
-      --card: #10131a;
-      --muted: #9db0c0;
-      --text: #eaf2ff;
-      --accent: #7dd3fc;   /* cyan */
-      --accent-2: #a78bfa; /* violet */
-      --glow: 0 0 40px rgba(125,211,252,.25);
-      --radius: 20px;
-      --maxw: 1100px;
-      --navh: 68px;
+      /* Brand / theme */
+      --ink: #111318;               /* dark ink */
+      --muted-ink:#3a3f47;          /* body text on light */
+      --accent: #7dd3fc;            /* cyan */
+      --accent-2:#a78bfa;           /* violet */
 
-      --browser-yellow: #f6d873; /* hero background */
-      --browser-edge: #e3c757;   /* border edge tone */
-      --browser-win-bg:#ffffff;  /* inner window bg */
-      --browser-bar: #e8e8e8;    /* toolbar line */
-      --ink: #111318;            /* dark ink */
+      /* Canvas bands (alternate slightly for depth) */
+      --band-a:#f6d873;
+      --band-b:#f3cf5b;
+
+      /* Browser window */
+      --win: #ffffff;
+      --win-edge:#e3c757;
+      --win-bar:#e8e8e8;
+
+      /* Cards inside windows */
+      --card:#f9fafb;
+      --card-border:#e9edf0;
+
+      --radius:22px;
+      --maxw:1200px;
+      --navh:68px;
     }
+
     *{box-sizing:border-box}
     html,body{height:100%}
     body{
       margin:0;
-      font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
-      color:var(--text);
-      background:#0b0d12;
+      font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
+      color:var(--ink);
+      background:var(--band-a);
       overflow-x:hidden;
     }
-    a{color:var(--accent);text-decoration:none}
+    a{color:#0b6f9c;text-decoration:none}
     a:hover{text-decoration:underline}
-    .container{width:100%;max-width:var(--maxw);margin:0 auto;padding:0 20px}
 
-    /* NAV */
+    /* NAV (glass on yellow) */
     header.nav{
-      position:fixed;inset-inline:0;top:12px;z-index:50;
-      display:flex;justify-content:center;pointer-events:none;
+      position:fixed; inset-inline:0; top:12px; z-index:50;
+      display:flex; justify-content:center; pointer-events:none;
     }
     .nav-inner{
       pointer-events:auto;
-      display:flex;align-items:center;gap:14px;
-      background:rgba(16,19,26,.65);
-      backdrop-filter: blur(10px);
-      border:1px solid rgba(125,211,252,.15);
-      border-radius:999px; padding:10px 14px; box-shadow: var(--glow);
+      display:flex; align-items:center; gap:14px;
+      background:rgba(255,255,255,.6); backdrop-filter: blur(8px);
+      border:1px solid rgba(17,19,24,.08);
+      border-radius:999px; padding:10px 14px;
+      box-shadow: 0 8px 30px rgba(17,19,24,.08);
     }
-    .nav-inner a{padding:8px 12px;border-radius:999px;color:var(--text);opacity:.9}
-    .nav-inner a:hover{background:rgba(125,211,252,.12)}
-    .brand{font-weight:800;letter-spacing:.3px;background:linear-gradient(90deg,var(--accent),var(--accent-2));-webkit-background-clip:text;color:transparent}
+    .nav-inner a{padding:8px 12px;border-radius:999px;color:var(--ink);opacity:.9}
+    .nav-inner a:hover{background:rgba(0,0,0,.05)}
+    .brand{font-weight:900;letter-spacing:.3px;
+      background:linear-gradient(90deg,var(--accent),var(--accent-2));
+      -webkit-background-clip:text;color:transparent
+    }
 
-    /* ===== NEW HERO (Browser-style) ===== */
-    section{position:relative;scroll-margin-top: calc(var(--navh) + 16px)}
-    #hero.browser-hero{
-      padding: 120px 0 100px;
-      background:
-        linear-gradient(180deg, var(--browser-yellow), #f3cf5b);
-      color: var(--ink);
-    }
+    /* ===== Section bands (yellow canvas) ===== */
+    section{position:relative; padding:110px 0; scroll-margin-top: calc(var(--navh) + 16px)}
+    .band-a{background:var(--band-a)}
+    .band-b{background:var(--band-b)}
+
+    /* ===== Browser window wrapper (used everywhere) ===== */
     .browser-wrap{
-      width:min(1200px, 92vw);
+      width:min(var(--maxw), 92vw);
       margin: 0 auto;
-      background: var(--browser-win-bg);
-      border-radius: 22px;
-      box-shadow:
-        0 12px 40px rgba(0,0,0,.25),
-        0 2px 0 0 var(--browser-edge) inset;
+      background: var(--win);
+      border-radius: var(--radius);
+      box-shadow: 0 12px 40px rgba(17,19,24,.18), 0 2px 0 0 var(--win-edge) inset;
       overflow:hidden;
       border:1px solid rgba(17,19,24,.06);
     }
     .browser-topbar{
       height:52px; display:flex; align-items:center; gap:10px;
       padding: 0 16px; position:relative;
+      background:linear-gradient(#fff,#fff);
     }
     .dot{width:10px;height:10px;border-radius:999px}
-    .dot.red   { background:#ffbdad }
-    .dot.amber { background:#ffd666 }
-    .dot.green { background:#c4f0b4 }
-    .toolbar-line{
-      position:absolute; left:0; right:0; bottom:0; height:1px;
-      background: var(--browser-bar);
-    }
+    .dot.red{background:#ffbdad}
+    .dot.amber{background:#ffd666}
+    .dot.green{background:#c4f0b4}
+    .toolbar-line{position:absolute; left:0; right:0; bottom:0; height:1px; background:var(--win-bar)}
+    .browser-body{ padding: clamp(20px, 5vw, 46px) }
 
-    .browser-body{
-      padding: clamp(20px, 5vw, 46px);
-      display:grid; grid-template-columns:1.1fr .9fr; gap: clamp(18px,3.5vw,38px);
-      align-items:center;
-    }
-
+    /* ===== HERO ===== */
+    .hero-grid{ display:grid; grid-template-columns:1.1fr .9fr; gap: clamp(18px,3.5vw,38px); align-items:center }
     .hero-eyebrow{
       display:inline-flex; align-items:center; gap:8px;
-      background:#0b0d12; color:#eaf2ff; font-size:12px;
-      padding:6px 10px; border-radius:999px;
-      border:1px solid rgba(125,211,252,.25);
+      background:#111318; color:#fff; font-size:12px;
+      padding:6px 10px; border-radius:999px; border:1px solid rgba(255,255,255,.15);
     }
-
-    .hero-title{
-      font-size: clamp(40px, 6vw, 84px);
-      line-height: 1.02;
-      color: var(--ink);
-      margin: 12px 0 6px;
-      font-weight: 900;
-      letter-spacing: -.5px;
-    }
+    .hero-title{ font:900 clamp(40px,6vw,84px)/1.02 Inter; margin:12px 0 6px; letter-spacing:-.5px; color:var(--ink) }
     .hero-title em{
-      font-style: italic; font-weight: 900;
-      background: linear-gradient(90deg,var(--accent),var(--accent-2));
+      font-style:italic; font-weight:900;
+      background:linear-gradient(90deg,var(--accent),var(--accent-2));
       -webkit-background-clip:text; color:transparent;
     }
-    .hero-sub{
-      color:#3a3f47; max-width: 60ch;
-      font-size: clamp(14px,1.2vw,18px);
-    }
-    .cta-row{display:flex; gap:12px; margin-top:22px; flex-wrap:wrap}
+    .hero-sub{ color:var(--muted-ink); max-width:60ch; font-size:clamp(14px,1.2vw,18px) }
+    .cta-row{ display:flex; gap:12px; margin-top:22px; flex-wrap:wrap }
     .btn{
       display:inline-flex; align-items:center; justify-content:center;
       gap:10px; padding:14px 18px; border-radius:999px; font-weight:700;
       background:#111318; color:#fff; border:1px solid rgba(0,0,0,.1);
-      box-shadow: 0 8px 20px rgba(0,0,0,.15);
+      box-shadow: 0 8px 20px rgba(0,0,0,.12);
     }
     .btn.secondary{ background:#fff; color:#111318; border-color:#dcdcdc }
 
-    .hero-photo{
-      position:relative; width:min(560px, 100%); justify-self:end;
-      border-radius: 26px; overflow:hidden;
-      box-shadow: 0 10px 30px rgba(0,0,0,.18);
-      isolation:isolate;
-    }
-    .hero-photo img{
-      width:100%; height:auto; display:block; object-fit:cover;
-      transform: translateZ(0);
-    }
+    .hero-photo{ position:relative; width:min(560px,100%); justify-self:end; border-radius:26px; overflow:hidden; box-shadow:0 10px 30px rgba(0,0,0,.15) }
+    .hero-photo img{ width:100%; height:auto; display:block; object-fit:cover }
 
-    /* ===== Other sections keep the darker theme ===== */
-    .skin{ position:relative; }
-    .bg-a::before, .bg-b::before{ content:""; position:absolute; inset:0; z-index:-1 }
-    .bg-a::before{
-      background:
-        radial-gradient(1100px 500px at 80% -10%, rgba(167,139,250,.16), transparent 60%),
-        radial-gradient(900px 420px at -10% 40%, rgba(125,211,252,.10), transparent 60%),
-        linear-gradient(180deg, #0a0c11, #0b0d12 40%);
+    /* ===== Section headers (inside windows) ===== */
+    .section-hd{ display:flex; align-items:flex-end; justify-content:space-between; margin-bottom:12px }
+    .eyebrow{ font:700 12px/1 Inter; letter-spacing:.16em; text-transform:uppercase; color:#6b7280 }
+    .title{ font:800 clamp(22px,3vw,34px)/1.15 Inter; margin:6px 0 6px 0; color:var(--ink) }
+    .lead{ color:var(--muted-ink) }
+
+    /* ===== Timeline (light) ===== */
+    .timeline{ position:relative; margin-top:18px }
+    .t-item{
+      background:var(--card); border:1px solid var(--card-border); border-radius:16px;
+      padding:16px; display:grid; grid-template-columns:60px 1fr; gap:18px; margin:16px 0;
     }
-    .bg-b::before{
-      background:
-        radial-gradient(1000px 460px at 15% -10%, rgba(125,211,252,.16), transparent 60%),
-        radial-gradient(900px 420px at 90% 30%, rgba(167,139,250,.12), transparent 60%),
-        linear-gradient(180deg, #0c0f15, #0b0d12 40%);
+    .dotline{ width:18px;height:18px;border-radius:999px;background:radial-gradient(circle at 30% 30%, #fff, #7dd3fc); box-shadow:0 0 18px rgba(125,211,252,.5); margin-top:4px }
+    .t-item h3{ margin:0; font-size:18px }
+    .t-item h4{ margin:6px 0 8px; color:#374151; font-weight:700 }
+    .t-item .meta{ font:600 12px/1.2 Inter; color:#667085 }
+
+    /* ===== Skills ===== */
+    .skills-grid{ display:grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap:12px; margin-top:16px }
+    .chip{
+      display:flex; align-items:center; justify-content:center;
+      padding:12px 14px; border-radius:999px; background:#fff; border:1px solid var(--card-border);
     }
-
-    /* Timeline / skills / projects (unchanged) */
-    .timeline{position:relative}
-    .line{position:absolute;left:28px;top:0;bottom:0;width:3px;background:linear-gradient(var(--accent),transparent 80%)}
-    .t-item{display:grid;grid-template-columns:60px 1fr;gap:18px;margin:26px 0;padding:16px;border-radius:16px;background:rgba(16,19,26,.6);border:1px solid rgba(125,211,252,.12)}
-    .dotline{width:18px;height:18px;border-radius:999px;background:radial-gradient(circle at 30% 30%, #fff, var(--accent));box-shadow:0 0 24px rgba(125,211,252,.6);margin-top:4px}
-    .t-item h3{margin:0;font-size:18px}
-    .t-item h4{margin:6px 0 8px 0;color:#c5d9ff;font-weight:600}
-    .t-item .meta{font:600 12px/1.2 Inter;color:#b1c7ff;opacity:.9}
-    .t-item p{margin:8px 0 0 0;color:var(--muted)}
-
-    .skills-grid{display:grid;grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));gap:12px;margin-top:16px}
-    .chip{display:flex;align-items:center;justify-content:center;padding:12px 16px;border-radius:999px;background:rgba(167,139,250,.14);border:1px solid rgba(167,139,250,.25)}
-    .meters{display:grid;gap:12px;margin-top:18px;margin-bottom:28px}
-    .meter{display:flex;align-items:center;gap:10px;background:rgba(16,19,26,.6);border:1px solid rgba(125,211,252,.12);padding:14px;border-radius:14px}
-    .meter .bar{flex:1;height:10px;border-radius:999px;background:rgba(125,211,252,.12);overflow:hidden}
-    .meter .bar > span{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--accent),var(--accent-2))}
-
-    .projects{display:grid;grid-template-columns:repeat(12,1fr);gap:18px}
-    .card{grid-column:span 6;background:rgba(16,19,26,.6);border:1px solid rgba(125,211,252,.12);border-radius:18px;overflow:hidden;position:relative;transition:transform .4s ease, box-shadow .4s ease}
-    .card:hover{transform:translateY(-6px) scale(1.01); box-shadow:0 16px 60px rgba(125,211,252,.15)}
-    .card .thumb{height:160px;background:
-      radial-gradient(40% 60% at 60% 30%, rgba(167,139,250,.25), transparent),
-      radial-gradient(40% 60% at 40% 70%, rgba(125,211,252,.25), transparent),
-      linear-gradient(180deg, #0f1320, #0b0d12)}
-    .card .body{padding:16px 16px 18px 16px}
-    .tag{display:inline-flex;padding:6px 10px;border:1px solid rgba(125,211,252,.25);border-radius:999px;background:rgba(125,211,252,.08);font-size:12px;margin-right:8px}
-    .card h3{margin:8px 0 4px 0}
-    .card p{color:var(--muted);margin:8px 0 10px 0}
-    .card a.btn{margin-top:6px}
-
-    .contact{
-      background: radial-gradient(800px 400px at 10% 50%, rgba(125,211,252,.12), transparent),
-                  radial-gradient(800px 400px at 90% 0%, rgba(167,139,250,.12), transparent);
-      border-top:1px solid rgba(125,211,252,.15)
+    .meters{ display:grid; gap:12px; margin:18px 0 8px }
+    .meter{
+      display:flex; align-items:center; gap:10px; background:var(--card); border:1px solid var(--card-border);
+      padding:14px; border-radius:14px; color:#223
     }
-    form{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-    form .full{grid-column:1/-1}
-    input, textarea{width:100%;padding:14px 16px;border-radius:12px;background:#0e1219;border:1px solid rgba(125,211,252,.18);color:var(--text)}
-    textarea{min-height:120px}
-    footer{padding:24px 0 60px 0;color:#b6c8da;text-align:center}
+    .meter .bar{ flex:1; height:10px; border-radius:999px; background:#e6eef7; overflow:hidden }
+    .meter .bar > span{ display:block; height:100%; width:0; background:linear-gradient(90deg,var(--accent),var(--accent-2)) }
+
+    /* ===== KPIs (light) ===== */
+    .metrics-grid{ display:grid; grid-template-columns:repeat(auto-fit, minmax(220px,1fr)); gap:14px; margin-top:12px }
+    .kpi{ background:var(--card); border:1px solid var(--card-border); border-radius:16px; padding:14px 14px 12px }
+    .kpi-title{ font:600 12px/1 Inter; letter-spacing:.06em; color:#6b7280; text-transform:uppercase }
+    .kpi-number{ font:800 34px/1 Inter; margin:6px 0 8px; background:linear-gradient(90deg,var(--accent),var(--accent-2)); -webkit-background-clip:text; color:transparent }
+    .spark{ width:100%; height:32px; }
+    .spark path{ fill:none; stroke:url(#grad-kpi); stroke-width:2.2; stroke-linecap:round; opacity:.95 }
+
+    /* ===== Projects ===== */
+    .projects{ display:grid; grid-template-columns:repeat(12,1fr); gap:16px }
+    .card{ grid-column:span 6; background:var(--card); border:1px solid var(--card-border); border-radius:18px; overflow:hidden; transition:transform .25s ease, box-shadow .25s ease }
+    .card:hover{ transform:translateY(-4px); box-shadow:0 12px 30px rgba(0,0,0,.08) }
+    .card .thumb{ height:150px; background:
+      radial-gradient(40% 60% at 60% 30%, rgba(167,139,250,.2), transparent),
+      radial-gradient(40% 60% at 40% 70%, rgba(125,211,252,.2), transparent),
+      linear-gradient(180deg, #eef3fb, #eaf0ff) }
+    .card .body{ padding:16px 16px 18px }
+    .tag{ display:inline-flex; padding:6px 10px; border:1px solid var(--card-border); border-radius:999px; background:#fff; font-size:12px; margin-right:8px; color:#334155 }
+
+    /* ===== Contact ===== */
+    form{ display:grid; grid-template-columns:1fr 1fr; gap:12px }
+    form .full{ grid-column:1/-1 }
+    input, textarea{
+      width:100%; padding:14px 16px; border-radius:12px;
+      background:#fff; border:1px solid var(--card-border); color:var(--ink)
+    }
+    textarea{ min-height:120px }
+    footer{ padding:24px 0 60px 0; color:#374151; text-align:center }
 
     /* Responsive */
     @media (max-width: 980px){
-      .browser-body{grid-template-columns:1fr;gap:20px}
-      .hero-photo{justify-self:center}
+      .hero-grid{ grid-template-columns:1fr; gap:20px }
+      .hero-photo{ justify-self:center }
+      form{ grid-template-columns:1fr }
+      .projects .card{ grid-column: span 12 }
     }
   </style>
 </head>
@@ -219,16 +204,14 @@
   </header>
 
   <!-- ===== HERO (Browser window style) ===== -->
-  <section id="hero" class="browser-hero">
+  <section id="hero" class="band-a">
     <div class="browser-wrap">
       <div class="browser-topbar">
-        <span class="dot red"></span>
-        <span class="dot amber"></span>
-        <span class="dot green"></span>
+        <span class="dot red"></span><span class="dot amber"></span><span class="dot green"></span>
         <div class="toolbar-line"></div>
       </div>
 
-      <div class="browser-body">
+      <div class="browser-body hero-grid">
         <div>
           <span class="hero-eyebrow">Data Engineer • ML • LLM Pipelines</span>
           <h1 class="hero-title">Hi, I’m <em>Shirlene<br/>Rose Bandela.</em></h1>
@@ -248,7 +231,6 @@
         </div>
 
         <div class="hero-photo" aria-label="Portrait of Shirlene">
-          <!-- Replace with your photo path -->
           <img src="assets/shirleneb.jpg" alt="Shirlene Rose Bandela" />
         </div>
       </div>
@@ -256,218 +238,264 @@
   </section>
 
   <!-- ===== TIMELINE ===== -->
-  <section id="timeline" class="skin bg-a" style="padding:100px 0">
-    <div class="container">
-      <div class="section-hd">
-        <div>
-          <div class="eyebrow" style="font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:#b9cdf0;opacity:.9;font-size:12px">Journey</div>
-          <h2 class="title" style="font-size:clamp(24px,3vw,36px);margin:6px 0 12px 0">From ETL to LLMs — a systems-first story</h2>
-          <p class="lead" style="color:var(--muted)">Highlights from experience and education that shaped how I design for reliability, scale, and clarity.</p>
-        </div>
+  <section id="timeline" class="band-b">
+    <div class="browser-wrap">
+      <div class="browser-topbar">
+        <span class="dot red"></span><span class="dot amber"></span><span class="dot green"></span>
+        <div class="toolbar-line"></div>
       </div>
-      <div class="timeline">
-        <div class="line"></div>
 
-        <article class="t-item">
-          <div class="dotline"></div>
+      <div class="browser-body">
+        <div class="section-hd">
           <div>
-            <h3>Research Assistant — Virginia Tech (USA)</h3>
-            <div class="meta">Jun 2025 – Present</div>
-            <h4 style="color:#c5d9ff;font-weight:600;margin:6px 0 8px 0">Agentic LLM pipeline for multi-label Reddit trigger warnings</h4>
-            <p>Built modular Python + LLM pipeline with dynamic k-shot prompts via cosine-similarity (Sentence-Transformers), caching, and batch execution. Added validation loop and AWS EC2/S3 orchestration.</p>
+            <div class="eyebrow">Journey</div>
+            <h2 class="title">From ETL to LLMs — a systems-first story</h2>
+            <p class="lead">Highlights from experience and education that shaped how I design for reliability, scale, and clarity.</p>
           </div>
-        </article>
+        </div>
 
-        <article class="t-item">
-          <div class="dotline"></div>
-          <div>
-            <h3>Software/Data Engineer — JPMorgan Chase & Co. (India)</h3>
-            <div class="meta">May 2021 – Aug 2023</div>
-            <h4 style="color:#c5d9ff;font-weight:600;margin:6px 0 8px 0">Modernized core fraud-risk ETL with Java/Spring Batch & SQL</h4>
-            <p>Migrated brittle scripts to restartable jobs; tuned Oracle/Teradata SQL; added data-quality gates, idempotency, and observability. Cut S3 storage costs by 40%; owned CI/CD with Jenkins & Spinnaker.</p>
-          </div>
-        </article>
+        <div class="timeline">
+          <article class="t-item">
+            <div class="dotline"></div>
+            <div>
+              <h3>Research Assistant — Virginia Tech (USA)</h3>
+              <div class="meta">Jun 2025 – Present</div>
+              <h4>Agentic LLM pipeline for multi-label Reddit trigger warnings</h4>
+              <p>Built modular Python + LLM pipeline with dynamic k-shot prompts via cosine-similarity, caching, and batch execution; validation loop and AWS EC2/S3 orchestration.</p>
+            </div>
+          </article>
 
-        <article class="t-item">
-          <div class="dotline"></div>
-          <div>
-            <h3>ML Research Intern — IIT Madras Research Park / VT India (India)</h3>
-            <div class="meta">May 2024 – Jul 2024</div>
-            <h4 style="color:#c5d9ff;font-weight:600;margin:6px 0 8px 0">Lung-sound analytics with MFCC & Mel-Spectrograms</h4>
-            <p>Engineered denoising + feature pipelines and model baselines (TensorFlow/scikit-learn). Improved diagnostic accuracy and packaged reproducible CLIs & configs.</p>
-          </div>
-        </article>
+          <article class="t-item">
+            <div class="dotline"></div>
+            <div>
+              <h3>Software/Data Engineer — JPMorgan Chase & Co. (India)</h3>
+              <div class="meta">May 2021 – Aug 2023</div>
+              <h4>Modernized core fraud-risk ETL with Java/Spring Batch & SQL</h4>
+              <p>Migrated brittle scripts to restartable jobs; tuned Oracle/Teradata SQL; added data-quality gates, idempotency, and observability. 40% S3 storage cost reduction.</p>
+            </div>
+          </article>
 
-        <article class="t-item">
-          <div class="dotline"></div>
-          <div>
-            <h3>Virginia Tech — M.Eng. CS (Data Analytics & AI)</h3>
-            <div class="meta">Aug 2023 – May 2025</div>
-            <h4 style="color:#c5d9ff;font-weight:600;margin:6px 0 8px 0">ML, NLP, AI, ML with Big Data, Ethics</h4>
-            <p>Hands-on work across distributed ML, data engineering, and human-centered AI systems.</p>
-          </div>
-        </article>
+          <article class="t-item">
+            <div class="dotline"></div>
+            <div>
+              <h3>ML Research Intern — IIT Madras Research Park / VT India (India)</h3>
+              <div class="meta">May 2024 – Jul 2024</div>
+              <h4>Lung-sound analytics with MFCC & Mel-Spectrograms</h4>
+              <p>Engineered denoising + feature pipelines and model baselines (TensorFlow/scikit-learn). Improved diagnostic accuracy; reproducible CLIs & configs.</p>
+            </div>
+          </article>
+
+          <article class="t-item">
+            <div class="dotline"></div>
+            <div>
+              <h3>Virginia Tech — M.Eng. CS (Data Analytics & AI)</h3>
+              <div class="meta">Aug 2023 – May 2025</div>
+              <h4>ML, NLP, AI, ML with Big Data, Ethics</h4>
+              <p>Hands-on work across distributed ML, data engineering, and human-centered AI systems.</p>
+            </div>
+          </article>
+        </div>
       </div>
     </div>
   </section>
 
   <!-- ===== SKILLS ===== -->
-  <section id="skills" class="skin bg-b" style="padding:100px 0">
-    <div class="container">
-      <div class="section-hd">
-        <div>
-          <div class="eyebrow" style="font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:#b9cdf0;opacity:.9;font-size:12px">Toolkit</div>
-          <h2 class="title" style="font-size:clamp(24px,3vw,36px);margin:6px 0 12px 0">Skills that ship systems</h2>
-          <p class="lead" style="color:var(--muted)">Stacks I’ve used to move data safely from ingestion → insight.</p>
+  <section id="skills" class="band-a">
+    <div class="browser-wrap">
+      <div class="browser-topbar">
+        <span class="dot red"></span><span class="dot amber"></span><span class="dot green"></span>
+        <div class="toolbar-line"></div>
+      </div>
+
+      <div class="browser-body">
+        <div class="section-hd">
+          <div>
+            <div class="eyebrow">Toolkit</div>
+            <h2 class="title">Skills that ship systems</h2>
+            <p class="lead">Stacks I’ve used to move data safely from ingestion → insight.</p>
+          </div>
         </div>
-      </div>
 
-      <div class="skills-grid" id="chips">
-        <div class="chip">Java • Spring Batch/Boot</div>
-        <div class="chip">Python • Pandas • PySpark</div>
-        <div class="chip">SQL • Oracle • Teradata • Redshift</div>
-        <div class="chip">Kafka • Parquet • Data Modeling</div>
-        <div class="chip">AWS S3 • Glue • Lambda • Athena</div>
-        <div class="chip">SageMaker • CI/CD • Docker</div>
-        <div class="chip">Data Quality • Governance</div>
-        <div class="chip">React • HTML5 • CSS3</div>
-      </div>
+        <div class="skills-grid" id="chips">
+          <div class="chip">Java • Spring Batch/Boot</div>
+          <div class="chip">Python • Pandas • PySpark</div>
+          <div class="chip">SQL • Oracle • Teradata • Redshift</div>
+          <div class="chip">Kafka • Parquet • Data Modeling</div>
+          <div class="chip">AWS S3 • Glue • Lambda • Athena</div>
+          <div class="chip">SageMaker • CI/CD • Docker</div>
+          <div class="chip">Data Quality • Governance</div>
+          <div class="chip">React • HTML5 • CSS3</div>
+        </div>
 
-      <div class="meters">
-        <div class="meter"><span>Data Engineering</span><div class="bar"><span data-fill="95"></span></div></div>
-        <div class="meter"><span>Machine Learning</span><div class="bar"><span data-fill="85"></span></div></div>
-        <div class="meter"><span>AWS Cloud</span><div class="bar"><span data-fill="88"></span></div></div>
-        <div class="meter"><span>Frontend</span><div class="bar"><span data-fill="70"></span></div></div>
+        <div class="meters">
+          <div class="meter"><span>Data Engineering</span><div class="bar"><span data-fill="95"></span></div></div>
+          <div class="meter"><span>Machine Learning</span><div class="bar"><span data-fill="85"></span></div></div>
+          <div class="meter"><span>AWS Cloud</span><div class="bar"><span data-fill="88"></span></div></div>
+          <div class="meter"><span>Frontend</span><div class="bar"><span data-fill="70"></span></div></div>
+        </div>
       </div>
     </div>
   </section>
 
   <!-- ===== METRICS ===== -->
-  <section id="metrics" class="skin bg-a" style="padding:100px 0">
-    <div class="container">
-      <div class="section-hd">
-        <div>
-          <div class="eyebrow" style="font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:#b9cdf0;opacity:.9;font-size:12px">Live-ish metrics</div>
-          <h2 class="title" style="font-size:clamp(24px,3vw,36px);margin:6px 0 12px 0">Signals from shipped systems</h2>
-          <p class="lead" style="color:var(--muted)">Illustrative metrics from projects—animated for a quick visual read.</p>
-        </div>
+  <section id="metrics" class="band-b">
+    <div class="browser-wrap">
+      <div class="browser-topbar">
+        <span class="dot red"></span><span class="dot amber"></span><span class="dot green"></span>
+        <div class="toolbar-line"></div>
       </div>
 
-      <div class="metrics-grid" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px;margin-top:10px">
-        <article class="kpi" style="background:rgba(16,19,26,.6);border:1px solid rgba(125,211,252,.12);border-radius:16px;padding:14px 14px 12px">
-          <div style="font:600 12px/1 Inter;letter-spacing:.06em;color:#c9d7ff;opacity:.85;text-transform:uppercase">AUROC</div>
-          <div class="kpi-number" data-target="0.97" style="font:800 34px/1 Inter;margin:6px 0 8px;background:linear-gradient(90deg,var(--accent),var(--accent-2));-webkit-background-clip:text;color:transparent">0.00</div>
-          <svg class="spark" viewBox="0 0 100 26" preserveAspectRatio="none"><path d="M2 22 L18 20 L34 17 L50 16 L66 11 L82 7 L98 5" /></svg>
-          <div style="color:var(--muted);font-size:12px">Chest X-ray model</div>
-        </article>
+      <div class="browser-body">
+        <div class="section-hd">
+          <div>
+            <div class="eyebrow">Live-ish metrics</div>
+            <h2 class="title">Signals from shipped systems</h2>
+            <p class="lead">Illustrative metrics from projects—animated for a quick visual read.</p>
+          </div>
+        </div>
 
-        <article class="kpi" style="background:rgba(16,19,26,.6);border:1px solid rgba(125,211,252,.12);border-radius:16px;padding:14px 14px 12px">
-          <div style="font:600 12px/1 Inter;letter-spacing:.06em;color:#c9d7ff;opacity:.85;text-transform:uppercase">Latency</div>
-          <div class="kpi-number" data-target="120" style="font:800 34px/1 Inter;margin:6px 0 8px;background:linear-gradient(90deg,var(--accent),var(--accent-2));-webkit-background-clip:text;color:transparent">0</div>
-          <svg class="spark" viewBox="0 0 100 26"><path d="M2 8 L18 9 L34 11 L50 12 L66 14 L82 16 L98 18" /></svg>
-          <div style="color:var(--muted);font-size:12px">ms @ p95, ETL ingest</div>
-        </article>
+        <div class="metrics-grid">
+          <article class="kpi">
+            <div class="kpi-title">AUROC</div>
+            <div class="kpi-number" data-target="0.97">0.00</div>
+            <svg class="spark" viewBox="0 0 100 26" preserveAspectRatio="none">
+              <defs>
+                <linearGradient id="grad-kpi" x1="0" x2="1" y1="0" y2="0">
+                  <stop offset="0%" stop-color="#7dd3fc"/><stop offset="100%" stop-color="#a78bfa"/>
+                </linearGradient>
+              </defs>
+              <path d="M2 22 L18 20 L34 17 L50 16 L66 11 L82 7 L98 5" stroke="url(#grad-kpi)" fill="none" stroke-width="2.2" stroke-linecap="round"/>
+            </svg>
+            <div class="lead" style="font-size:12px">Chest X-ray model</div>
+          </article>
 
-        <article class="kpi" style="background:rgba(16,19,26,.6);border:1px solid rgba(125,211,252,.12);border-radius:16px;padding:14px 14px 12px">
-          <div style="font:600 12px/1 Inter;letter-spacing:.06em;color:#c9d7ff;opacity:.85;text-transform:uppercase">Storage</div>
-          <div class="kpi-number" data-target="-40" style="font:800 34px/1 Inter;margin:6px 0 8px;background:linear-gradient(90deg,var(--accent),var(--accent-2));-webkit-background-clip:text;color:transparent">0</div>
-          <svg class="spark" viewBox="0 0 100 26"><path d="M2 5 L18 7 L34 9 L50 12 L66 14 L82 18 L98 22" /></svg>
-          <div style="color:var(--muted);font-size:12px">cost change (%)</div>
-        </article>
+          <article class="kpi">
+            <div class="kpi-title">Latency</div>
+            <div class="kpi-number" data-target="120">0</div>
+            <svg class="spark" viewBox="0 0 100 26">
+              <path d="M2 8 L18 9 L34 11 L50 12 L66 14 L82 16 L98 18" stroke="url(#grad-kpi)" fill="none" stroke-width="2.2" stroke-linecap="round"/>
+            </svg>
+            <div class="lead" style="font-size:12px">ms @ p95, ETL ingest</div>
+          </article>
+
+          <article class="kpi">
+            <div class="kpi-title">Storage</div>
+            <div class="kpi-number" data-target="-40">0</div>
+            <svg class="spark" viewBox="0 0 100 26">
+              <path d="M2 5 L18 7 L34 9 L50 12 L66 14 L82 18 L98 22" stroke="url(#grad-kpi)" fill="none" stroke-width="2.2" stroke-linecap="round"/>
+            </svg>
+            <div class="lead" style="font-size:12px">cost change (%)</div>
+          </article>
+        </div>
       </div>
     </div>
   </section>
 
   <!-- ===== PROJECTS ===== -->
-  <section id="projects" class="skin bg-a" style="padding:100px 0">
-    <div class="container">
-      <div class="section-hd">
-        <div>
-          <div class="eyebrow" style="font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:#b9cdf0;opacity:.9;font-size:12px">Impact</div>
-          <h2 class="title" style="font-size:clamp(24px,3vw,36px);margin:6px 0 12px 0">Selected projects</h2>
-          <p class="lead" style="color:var(--muted)">A few systems where careful engineering + ML delivered measurable wins.</p>
-        </div>
+  <section id="projects" class="band-a">
+    <div class="browser-wrap">
+      <div class="browser-topbar">
+        <span class="dot red"></span><span class="dot amber"></span><span class="dot green"></span>
+        <div class="toolbar-line"></div>
       </div>
 
-      <div class="projects">
-        <article class="card">
-          <div class="thumb"></div>
-          <div class="body">
-            <span class="tag">Kafka → Glue → S3 → Redshift</span>
-            <h3>Boeing Airlines: Frequent-Flyer Fraud Detection</h3>
-            <p>Reusable ingestion with schema validation, idempotent upserts, and metrics/alerts; integrated SageMaker scoring; improved detection by 18% with dashboards on Redshift.</p>
-            <a class="btn" href="#contact">Ask me about the architecture</a>
+      <div class="browser-body">
+        <div class="section-hd">
+          <div>
+            <div class="eyebrow">Impact</div>
+            <h2 class="title">Selected projects</h2>
+            <p class="lead">A few systems where careful engineering + ML delivered measurable wins.</p>
           </div>
-        </article>
+        </div>
 
-        <article class="card">
-          <div class="thumb"></div>
-          <div class="body">
-            <span class="tag">TensorFlow • ResNet-50</span>
-            <h3>COVID-19 Detection via Chest X-Rays</h3>
-            <p>Reproducible pipeline with augmentation, leakage checks, and transfer learning. AUROC 0.97, F1 0.92 on held-out set; shipped CLI/REST batch inference.</p>
-            <a class="btn" href="https://ieeexplore.ieee.org/document/10370248" target="_blank" rel="noopener">Read publication</a>
-          </div>
-        </article>
+        <div class="projects">
+          <article class="card">
+            <div class="thumb"></div>
+            <div class="body">
+              <span class="tag">Kafka → Glue → S3 → Redshift</span>
+              <h3>Boeing Airlines: Frequent-Flyer Fraud Detection</h3>
+              <p class="lead">Reusable ingestion with schema validation, idempotent upserts, and metrics/alerts; integrated SageMaker scoring; improved detection by 18% with dashboards on Redshift.</p>
+              <a class="btn" href="#contact" style="margin-top:6px">Ask me about the architecture</a>
+            </div>
+          </article>
 
-        <article class="card">
-          <div class="thumb"></div>
-          <div class="body">
-            <span class="tag">LLMs • Sentence-Transformers</span>
-            <h3>Trigger-Warning Classification (Reddit)</h3>
-            <p>Dynamic k-shot prompt builder using cosine similarity over embeddings; agentic validation loop with per-label perplexity and confusion reports; AWS-orchestrated runs.</p>
-            <a class="btn" href="#contact">Discuss evaluation loop</a>
-          </div>
-        </article>
+          <article class="card">
+            <div class="thumb"></div>
+            <div class="body">
+              <span class="tag">TensorFlow • ResNet-50</span>
+              <h3>COVID-19 Detection via Chest X-Rays</h3>
+              <p class="lead">Reproducible pipeline with augmentation, leakage checks, and transfer learning. AUROC 0.97, F1 0.92 on held-out set; shipped CLI/REST batch inference.</p>
+              <a class="btn" href="https://ieeexplore.ieee.org/document/10370248" target="_blank" rel="noopener" style="margin-top:6px">Read publication</a>
+            </div>
+          </article>
 
-        <article class="card">
-          <div class="thumb"></div>
-          <div class="body">
-            <span class="tag">Java • Spring • SQL</span>
-            <h3>Card Fraud-Risk ETL Modernization</h3>
-            <p>Restartable batch jobs with JDBC readers/writers, tuned queries, transaction boundaries, and audit logging; 40% storage reduction via S3 lifecycle policies.</p>
-            <a class="btn" href="#contact">See the checklist</a>
-          </div>
-        </article>
+          <article class="card">
+            <div class="thumb"></div>
+            <div class="body">
+              <span class="tag">LLMs • Sentence-Transformers</span>
+              <h3>Trigger-Warning Classification (Reddit)</h3>
+              <p class="lead">Dynamic k-shot prompt builder using cosine similarity over embeddings; agentic validation loop with per-label perplexity and confusion reports; AWS-orchestrated runs.</p>
+              <a class="btn" href="#contact" style="margin-top:6px">Discuss evaluation loop</a>
+            </div>
+          </article>
+
+          <article class="card">
+            <div class="thumb"></div>
+            <div class="body">
+              <span class="tag">Java • Spring • SQL</span>
+              <h3>Card Fraud-Risk ETL Modernization</h3>
+              <p class="lead">Restartable batch jobs with JDBC readers/writers, tuned queries, transaction boundaries, and audit logging; 40% storage reduction via S3 lifecycle policies.</p>
+              <a class="btn" href="#contact" style="margin-top:6px">See the checklist</a>
+            </div>
+          </article>
+        </div>
       </div>
     </div>
   </section>
 
   <!-- ===== CONTACT ===== -->
-  <section id="contact" class="contact skin bg-b" style="padding:100px 0">
-    <div class="container">
-      <div class="section-hd">
-        <div>
-          <div class="eyebrow" style="font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:#b9cdf0;opacity:.9;font-size:12px">Say hello</div>
-          <h2 class="title" style="font-size:clamp(24px,3vw,36px);margin:6px 0 12px 0">Let’s build something resilient</h2>
-          <p class="lead" style="color:var(--muted)">The best systems are boring to operate and exciting to ship. If that resonates, I’d love to chat.</p>
+  <section id="contact" class="band-b">
+    <div class="browser-wrap">
+      <div class="browser-topbar">
+        <span class="dot red"></span><span class="dot amber"></span><span class="dot green"></span>
+        <div class="toolbar-line"></div>
+      </div>
+
+      <div class="browser-body">
+        <div class="section-hd">
+          <div>
+            <div class="eyebrow">Say hello</div>
+            <h2 class="title">Let’s build something resilient</h2>
+            <p class="lead">The best systems are boring to operate and exciting to ship. If that resonates, I’d love to chat.</p>
+          </div>
+        </div>
+
+        <div style="display:grid;grid-template-columns:1.2fr .8fr;gap:24px;align-items:start">
+          <form onsubmit="event.preventDefault(); alert('Thanks! I\\'ll get back to you soon.');">
+            <input class="full" type="text" placeholder="Your name" required>
+            <input type="email" placeholder="Email" required>
+            <input type="text" placeholder="Subject">
+            <textarea class="full" placeholder="Message" required></textarea>
+            <button class="btn" type="submit">Send message</button>
+          </form>
+
+          <aside style="background:var(--card);border:1px solid var(--card-border);border-radius:16px;padding:16px">
+            <p><strong>Location:</strong> Falls Church, Virginia (Open to Relocate)</p>
+            <p><strong>Email:</strong> <a href="mailto:shirlenebandela@gmail.com">shirlenebandela@gmail.com</a></p>
+            <p><strong>Phone:</strong> <a href="tel:+15714423221">(571)-442-3221</a></p>
+            <p><strong>LinkedIn:</strong> <a href="https://www.linkedin.com/in/shirlene-rose-bandela/" target="_blank" rel="noopener">/in/shirlene-rose-bandela</a></p>
+            <p><strong>Certification:</strong> <a href="https://www.credly.com/badges/baa8e773-6873-48fa-86d8-326bb1955a6c/public_url" target="_blank" rel="noopener">AWS CLF-C02</a></p>
+          </aside>
         </div>
       </div>
-
-      <div style="display:grid;grid-template-columns:1.2fr .8fr;gap:24px;align-items:start">
-        <form onsubmit="event.preventDefault(); alert('Thanks! I\\'ll get back to you soon.');">
-          <input class="full" type="text" placeholder="Your name" required>
-          <input type="email" placeholder="Email" required>
-          <input type="text" placeholder="Subject">
-          <textarea class="full" placeholder="Message" required></textarea>
-          <button class="btn" type="submit">Send message</button>
-        </form>
-
-        <aside style="background:rgba(16,19,26,.6);border:1px solid rgba(125,211,252,.12);border-radius:16px;padding:16px">
-          <p><strong>Location:</strong> Falls Church, Virginia (Open to Relocate)</p>
-          <p><strong>Email:</strong> <a href="mailto:shirlenebandela@gmail.com">shirlenebandela@gmail.com</a></p>
-          <p><strong>Phone:</strong> <a href="tel:+15714423221">(571)-442-3221</a></p>
-          <p><strong>LinkedIn:</strong> <a href="https://www.linkedin.com/in/shirlene-rose-bandela/" target="_blank" rel="noopener">/in/shirlene-rose-bandela</a></p>
-          <p><strong>Certification:</strong> <a href="https://www.credly.com/badges/baa8e773-6873-48fa-86d8-326bb1955a6c/public_url" target="_blank" rel="noopener">AWS CLF-C02</a></p>
-        </aside>
-      </div>
     </div>
-    <footer style="text-align:center;color:#b6c8da;margin-top:20px">
-      © <span id="year"></span> Shirlene Rose Bandela • Built with HTML/CSS/GSAP • Browser-style hero
+
+    <footer>
+      © <span id="year"></span> Shirlene Rose Bandela • Browser-style theme
     </footer>
   </section>
 
-  <!-- GSAP (content reveals) -->
+  <!-- Minimal animations (optional) -->
   <script src="https://unpkg.com/gsap@3/dist/gsap.min.js"></script>
   <script src="https://unpkg.com/gsap@3/dist/ScrollTrigger.min.js"></script>
   <script>
@@ -485,14 +513,25 @@
 
     // Chips / meters / timeline
     qsa('#chips .chip').forEach((el,i)=>{
-      gsap.from(el, {scrollTrigger:{trigger:el,start:'top 80%'}, y:16, autoAlpha:0, duration:.4, delay:i*0.03});
+      gsap.from(el, {scrollTrigger:{trigger:el,start:'top 85%'}, y:16, autoAlpha:0, duration:.35, delay:i*0.02});
     });
     qsa('.meter .bar > span').forEach((bar)=>{
       const fill = bar.dataset.fill || 80;
-      gsap.to(bar, {scrollTrigger:{trigger:bar, start:'top 85%'}, width: fill+'%', duration:1.2, ease:'power2.out'});
+      gsap.to(bar, {scrollTrigger:{trigger:bar, start:'top 85%'}, width: fill+'%', duration:1.0, ease:'power2.out'});
     });
     qsa('.t-item').forEach((item)=>{
-      gsap.from(item, {scrollTrigger:{trigger:item,start:'top 85%'}, y:28, autoAlpha:0, duration:.6, ease:'power3.out'});
+      gsap.from(item, {scrollTrigger:{trigger:item,start:'top 88%'}, y:24, autoAlpha:0, duration:.5, ease:'power2.out'});
+    });
+
+    // KPI numbers simple count (optional)
+    qsa('.kpi-number').forEach(el=>{
+      const target = parseFloat(el.dataset.target);
+      const decimals = (target < 1 && target > -1) ? 2 : 0;
+      gsap.fromTo(el, {val: 0}, {
+        scrollTrigger:{ trigger: el, start:'top 90%' },
+        val: target, duration: 1.0, ease:'power2.out',
+        onUpdate(){ el.textContent = (this.targets()[0].val).toFixed(decimals); }
+      });
     });
   </script>
 </body>
