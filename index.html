@@ -3,23 +3,30 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Shirlene Rose Bandela — Interactive Portfolio</title>
-  <meta name="description" content="One-page interactive portfolio for Shirlene Rose Bandela — Data Engineering, ML & AI." />
+  <title>Shirlene Rose Bandela — Portfolio</title>
+  <meta name="description" content="Portfolio for Shirlene Rose Bandela — Data Engineering, ML & AI." />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+
   <style>
     :root{
       --bg: #0b0d12;
       --card: #10131a;
       --muted: #9db0c0;
       --text: #eaf2ff;
-      --accent: #7dd3fc;
-      --accent-2: #a78bfa;
+      --accent: #7dd3fc;   /* cyan */
+      --accent-2: #a78bfa; /* violet */
       --glow: 0 0 40px rgba(125,211,252,.25);
       --radius: 20px;
       --maxw: 1100px;
       --navh: 68px;
+
+      --browser-yellow: #f6d873; /* hero background */
+      --browser-edge: #e3c757;   /* border edge tone */
+      --browser-win-bg:#ffffff;  /* inner window bg */
+      --browser-bar: #e8e8e8;    /* toolbar line */
+      --ink: #111318;            /* dark ink */
     }
     *{box-sizing:border-box}
     html,body{height:100%}
@@ -51,10 +58,91 @@
     .nav-inner a:hover{background:rgba(125,211,252,.12)}
     .brand{font-weight:800;letter-spacing:.3px;background:linear-gradient(90deg,var(--accent),var(--accent-2));-webkit-background-clip:text;color:transparent}
 
-    /* SECTION + skins */
-    section{position:relative;padding:100px 0;scroll-margin-top: calc(var(--navh) + 16px);overflow:hidden; z-index: 1;}
+    /* ===== NEW HERO (Browser-style) ===== */
+    section{position:relative;scroll-margin-top: calc(var(--navh) + 16px)}
+    #hero.browser-hero{
+      padding: 120px 0 100px;
+      background:
+        linear-gradient(180deg, var(--browser-yellow), #f3cf5b);
+      color: var(--ink);
+    }
+    .browser-wrap{
+      width:min(1200px, 92vw);
+      margin: 0 auto;
+      background: var(--browser-win-bg);
+      border-radius: 22px;
+      box-shadow:
+        0 12px 40px rgba(0,0,0,.25),
+        0 2px 0 0 var(--browser-edge) inset;
+      overflow:hidden;
+      border:1px solid rgba(17,19,24,.06);
+    }
+    .browser-topbar{
+      height:52px; display:flex; align-items:center; gap:10px;
+      padding: 0 16px; position:relative;
+    }
+    .dot{width:10px;height:10px;border-radius:999px}
+    .dot.red   { background:#ffbdad }
+    .dot.amber { background:#ffd666 }
+    .dot.green { background:#c4f0b4 }
+    .toolbar-line{
+      position:absolute; left:0; right:0; bottom:0; height:1px;
+      background: var(--browser-bar);
+    }
+
+    .browser-body{
+      padding: clamp(20px, 5vw, 46px);
+      display:grid; grid-template-columns:1.1fr .9fr; gap: clamp(18px,3.5vw,38px);
+      align-items:center;
+    }
+
+    .hero-eyebrow{
+      display:inline-flex; align-items:center; gap:8px;
+      background:#0b0d12; color:#eaf2ff; font-size:12px;
+      padding:6px 10px; border-radius:999px;
+      border:1px solid rgba(125,211,252,.25);
+    }
+
+    .hero-title{
+      font-size: clamp(40px, 6vw, 84px);
+      line-height: 1.02;
+      color: var(--ink);
+      margin: 12px 0 6px;
+      font-weight: 900;
+      letter-spacing: -.5px;
+    }
+    .hero-title em{
+      font-style: italic; font-weight: 900;
+      background: linear-gradient(90deg,var(--accent),var(--accent-2));
+      -webkit-background-clip:text; color:transparent;
+    }
+    .hero-sub{
+      color:#3a3f47; max-width: 60ch;
+      font-size: clamp(14px,1.2vw,18px);
+    }
+    .cta-row{display:flex; gap:12px; margin-top:22px; flex-wrap:wrap}
+    .btn{
+      display:inline-flex; align-items:center; justify-content:center;
+      gap:10px; padding:14px 18px; border-radius:999px; font-weight:700;
+      background:#111318; color:#fff; border:1px solid rgba(0,0,0,.1);
+      box-shadow: 0 8px 20px rgba(0,0,0,.15);
+    }
+    .btn.secondary{ background:#fff; color:#111318; border-color:#dcdcdc }
+
+    .hero-photo{
+      position:relative; width:min(560px, 100%); justify-self:end;
+      border-radius: 26px; overflow:hidden;
+      box-shadow: 0 10px 30px rgba(0,0,0,.18);
+      isolation:isolate;
+    }
+    .hero-photo img{
+      width:100%; height:auto; display:block; object-fit:cover;
+      transform: translateZ(0);
+    }
+
+    /* ===== Other sections keep the darker theme ===== */
     .skin{ position:relative; }
-    .skin::before{content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;background:#0b0d12}
+    .bg-a::before, .bg-b::before{ content:""; position:absolute; inset:0; z-index:-1 }
     .bg-a::before{
       background:
         radial-gradient(1100px 500px at 80% -10%, rgba(167,139,250,.16), transparent 60%),
@@ -68,53 +156,23 @@
         linear-gradient(180deg, #0c0f15, #0b0d12 40%);
     }
 
-    /* HERO */
-    .hero{min-height:100svh;display:grid;place-items:center}
-    .hero .container{display:grid;grid-template-columns:1.15fr .85fr;gap:40px;align-items:center}
-    .badge{display:inline-flex;align-items:center;gap:8px;background:rgba(125,211,252,.12);color:#c7ebff;border:1px solid rgba(125,211,252,.25);padding:6px 10px;border-radius:999px;font-size:12px}
-    h1{font-size: clamp(36px, 5vw, 64px);line-height:1.05;margin:10px 0 8px 0;font-weight:900;letter-spacing:-.5px}
-    .subtitle{color:var(--muted);font-size:clamp(14px,1.3vw,18px);max-width:60ch}
-    .cta{display:flex;gap:12px;margin-top:22px;flex-wrap:wrap}
-    .btn{display:inline-flex;align-items:center;gap:10px;padding:12px 16px;border-radius:12px;border:1px solid rgba(125,211,252,.25);background:linear-gradient(180deg, rgba(125,211,252,.15), rgba(125,211,252,.05));box-shadow: var(--glow);color:var(--text);font-weight:600}
-    .btn.secondary{background:rgba(16,19,26,.6)}
-
-    .portrait{
-      width:min(420px, 80vw);aspect-ratio:1/1.1;border-radius:24px;position:relative;overflow:hidden;
-      background: radial-gradient(60% 60% at 70% 20%, rgba(167,139,250,.2), transparent), #0e1118;
-      border:1px solid rgba(167,139,250,.25); box-shadow: var(--glow);
-    }
-    .portrait::after{
-      content:"SR";position:absolute;inset:0;display:grid;place-items:center;font: 900 clamp(80px,14vw,160px)/1 "Inter";
-      letter-spacing:-3px;background:linear-gradient(135deg, rgba(125,211,252,.25), rgba(167,139,250,.25));-webkit-background-clip:text;color:transparent;opacity:.6
-    }
-    .portrait.has-photo::after{display:none}
-    .portrait.has-photo img{width:100%;height:100%;object-fit:cover;display:block;filter:saturate(1.04)}
-
-    /* SECTION HEADER */
-    section .section-hd{display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:22px}
-    .eyebrow{font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:#b9cdf0;opacity:.9;font-size:12px}
-    .title{font-size:clamp(24px,3vw,36px);margin:6px 0 12px 0}
-    .lead{color:var(--muted)}
-
-    /* TIMELINE */
+    /* Timeline / skills / projects (unchanged) */
     .timeline{position:relative}
     .line{position:absolute;left:28px;top:0;bottom:0;width:3px;background:linear-gradient(var(--accent),transparent 80%)}
     .t-item{display:grid;grid-template-columns:60px 1fr;gap:18px;margin:26px 0;padding:16px;border-radius:16px;background:rgba(16,19,26,.6);border:1px solid rgba(125,211,252,.12)}
-    .dot{width:18px;height:18px;border-radius:999px;background:radial-gradient(circle at 30% 30%, #fff, var(--accent));box-shadow:0 0 24px rgba(125,211,252,.6);margin-top:4px}
+    .dotline{width:18px;height:18px;border-radius:999px;background:radial-gradient(circle at 30% 30%, #fff, var(--accent));box-shadow:0 0 24px rgba(125,211,252,.6);margin-top:4px}
     .t-item h3{margin:0;font-size:18px}
     .t-item h4{margin:6px 0 8px 0;color:#c5d9ff;font-weight:600}
     .t-item .meta{font:600 12px/1.2 Inter;color:#b1c7ff;opacity:.9}
     .t-item p{margin:8px 0 0 0;color:var(--muted)}
 
-    /* SKILLS */
     .skills-grid{display:grid;grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));gap:12px;margin-top:16px}
-    .chip{display:flex;align-items:center;justify-content:center;padding:12px 16px;border-radius:999px;background:rgba(167,139,250,.14);border:1px solid rgba(167,139,250,.25);white-space:normal;overflow-wrap:anywhere}
+    .chip{display:flex;align-items:center;justify-content:center;padding:12px 16px;border-radius:999px;background:rgba(167,139,250,.14);border:1px solid rgba(167,139,250,.25)}
     .meters{display:grid;gap:12px;margin-top:18px;margin-bottom:28px}
     .meter{display:flex;align-items:center;gap:10px;background:rgba(16,19,26,.6);border:1px solid rgba(125,211,252,.12);padding:14px;border-radius:14px}
     .meter .bar{flex:1;height:10px;border-radius:999px;background:rgba(125,211,252,.12);overflow:hidden}
     .meter .bar > span{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--accent),var(--accent-2))}
 
-    /* PROJECTS */
     .projects{display:grid;grid-template-columns:repeat(12,1fr);gap:18px}
     .card{grid-column:span 6;background:rgba(16,19,26,.6);border:1px solid rgba(125,211,252,.12);border-radius:18px;overflow:hidden;position:relative;transition:transform .4s ease, box-shadow .4s ease}
     .card:hover{transform:translateY(-6px) scale(1.01); box-shadow:0 16px 60px rgba(125,211,252,.15)}
@@ -128,7 +186,6 @@
     .card p{color:var(--muted);margin:8px 0 10px 0}
     .card a.btn{margin-top:6px}
 
-    /* CONTACT */
     .contact{
       background: radial-gradient(800px 400px at 10% 50%, rgba(125,211,252,.12), transparent),
                   radial-gradient(800px 400px at 90% 0%, rgba(167,139,250,.12), transparent);
@@ -140,35 +197,11 @@
     textarea{min-height:120px}
     footer{padding:24px 0 60px 0;color:#b6c8da;text-align:center}
 
-    /* Metrics (new) */
-    .metrics-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px;margin-top:10px}
-    .kpi{background:rgba(16,19,26,.6);border:1px solid rgba(125,211,252,.12);border-radius:16px;padding:14px 14px 12px}
-    .kpi-title{font:600 12px/1 Inter;letter-spacing:.06em;color:#c9d7ff;opacity:.85;text-transform:uppercase}
-    .kpi-number{font:800 34px/1 Inter;margin:6px 0 8px;background:linear-gradient(90deg,var(--accent),var(--accent-2));-webkit-background-clip:text;color:transparent}
-    .kpi-foot{color:var(--muted);font-size:12px}
-    .spark{width:100%;height:32px;margin-top:2px}
-    .spark path{fill:none;stroke:url(#grad-kpi);stroke-width:2.2;stroke-linecap:round;opacity:.95}
-
-    /* === HERO-ONLY STATIC CONSTELLATION === */
-    #hero{position:relative}
-    #hero-bg{
-      position:absolute; inset:0;
-      pointer-events:none; z-index:0; opacity:.40; /* adjust intensity */
-    }
-    #hero .container{position:relative; z-index:1;} /* bring content above bg */
-
     /* Responsive */
-    @media (max-width: 900px){
-      .hero .container{grid-template-columns:1fr;gap:22px;text-align:center}
-      .portrait{justify-self:center}
-      .projects .card{grid-column:span 12}
-      .t-item{grid-template-columns:50px 1fr}
-      form{grid-template-columns:1fr}
+    @media (max-width: 980px){
+      .browser-body{grid-template-columns:1fr;gap:20px}
+      .hero-photo{justify-self:center}
     }
-
-    /* spacing tune */
-    #timeline { padding-bottom: 80px }
-    #skills   { padding-top:    96px }
   </style>
 </head>
 <body>
@@ -185,195 +218,92 @@
     </nav>
   </header>
 
-  <!-- HERO -->
-  <section id="hero" class="hero skin bg-a">
-    <!-- HERO-ONLY BACKGROUND (static SVG, full-width data viz) -->
-<svg id="hero-bg" viewBox="0 0 1600 760" preserveAspectRatio="none" aria-hidden="true"
-     style="position:absolute;inset:0;pointer-events:none;z-index:0;opacity:.45;">
-  <defs>
-    <!-- gentle wash -->
-    <linearGradient id="wash" x1="0" x2="1" y1="0" y2="0">
-      <stop offset="0%"  stop-color="rgba(125,211,252,0.12)"/>
-      <stop offset="100%" stop-color="rgba(167,139,250,0.12)"/>
-    </linearGradient>
-
-    <!-- chart colors -->
-    <linearGradient id="barFill" x1="0" x2="0" y1="0" y2="1">
-      <stop offset="0%"  stop-color="rgba(125,211,252,0.65)"/>
-      <stop offset="100%" stop-color="rgba(125,211,252,0.18)"/>
-    </linearGradient>
-    <linearGradient id="barFill2" x1="0" x2="0" y1="0" y2="1">
-      <stop offset="0%"  stop-color="rgba(167,139,250,0.60)"/>
-      <stop offset="100%" stop-color="rgba(167,139,250,0.16)"/>
-    </linearGradient>
-    <linearGradient id="lineStroke" x1="0" x2="1" y1="0" y2="0">
-      <stop offset="0%"  stop-color="rgba(125,211,252,0.85)"/>
-      <stop offset="100%" stop-color="rgba(167,139,250,0.85)"/>
-    </linearGradient>
-    <linearGradient id="areaFill" x1="0" x2="1" y1="0" y2="0">
-      <stop offset="0%"  stop-color="rgba(125,211,252,0.23)"/>
-      <stop offset="100%" stop-color="rgba(167,139,250,0.20)"/>
-    </linearGradient>
-
-    <!-- glow for dots and pies -->
-    <radialGradient id="glow" cx="50%" cy="50%" r="0.5">
-      <stop offset="0%" stop-color="rgba(199,235,255,0.95)"/>
-      <stop offset="55%" stop-color="rgba(157,210,252,0.35)"/>
-      <stop offset="100%" stop-color="rgba(157,210,252,0)"/>
-    </radialGradient>
-
-    <!-- soft blur filter -->
-    <filter id="blur4" x="-20%" y="-20%" width="140%" height="140%">
-      <feGaussianBlur stdDeviation="4" />
-    </filter>
-
-    <!-- faint grid dots -->
-    <pattern id="tinyDots" width="40" height="40" patternUnits="userSpaceOnUse">
-      <circle cx="20" cy="20" r="1" fill="rgba(180,200,220,0.12)"/>
-    </pattern>
-  </defs>
-
-  <!-- background wash + tiny dotted texture -->
-  <rect width="100%" height="100%" fill="url(#wash)"/>
-  <rect width="100%" height="100%" fill="url(#tinyDots)"/>
-
-  <!-- ========== LEFT CLUSTER: BAR CHARTS ========== -->
-  <g transform="translate(80,360)">
-    <!-- group 1 -->
-    <g transform="translate(0,0)">
-      <rect x="0"   y="-80" width="24" height="80"  fill="url(#barFill)"  rx="6"/>
-      <rect x="36"  y="-130" width="24" height="130" fill="url(#barFill2)" rx="6"/>
-      <rect x="72"  y="-100" width="24" height="100" fill="url(#barFill)"  rx="6"/>
-      <rect x="108" y="-160" width="24" height="160" fill="url(#barFill2)" rx="6"/>
-      <rect x="144" y="-120" width="24" height="120" fill="url(#barFill)"  rx="6"/>
-    </g>
-    <!-- group 2 (fainter) -->
-    <g transform="translate(210,20)" opacity=".75">
-      <rect x="0"   y="-60" width="18" height="60"  fill="url(#barFill2)" rx="5"/>
-      <rect x="28"  y="-110" width="18" height="110" fill="url(#barFill)"  rx="5"/>
-      <rect x="56"  y="-85" width="18" height="85"   fill="url(#barFill2)" rx="5"/>
-      <rect x="84"  y="-135" width="18" height="135" fill="url(#barFill)"  rx="5"/>
-      <rect x="112" y="-95" width="18" height="95"  fill="url(#barFill2)" rx="5"/>
-    </g>
-  </g>
-
-  <!-- ========== CENTER CLUSTER: LINE + AREA ========== -->
-  <g transform="translate(380,410)">
-    <!-- area under line -->
-    <path d="M0,110 
-             L60,95 L120,80 L180,88 L240,70 L300,78 L360,60 L420,66 L480,50 L540,56 L600,42 L660,48 L720,36 
-             L720,150 L0,150 Z"
-          fill="url(#areaFill)" filter="url(#blur4)"/>
-    <!-- line -->
-    <path d="M0,110 
-             L60,95 L120,80 L180,88 L240,70 L300,78 L360,60 L420,66 L480,50 L540,56 L600,42 L660,48 L720,36"
-          fill="none" stroke="url(#lineStroke)" stroke-width="2.2" stroke-linecap="round"/>
-    <!-- little highlight dots -->
-    <g>
-      <circle cx="120" cy="80" r="3.2" fill="url(#glow)"/>
-      <circle cx="240" cy="70" r="3.2" fill="url(#glow)"/>
-      <circle cx="360" cy="60" r="3.2" fill="url(#glow)"/>
-      <circle cx="480" cy="50" r="3.2" fill="url(#glow)"/>
-      <circle cx="600" cy="42" r="3.2" fill="url(#glow)"/>
-    </g>
-  </g>
-
-  <!-- ========== RIGHT CLUSTER: PIE / DONUT ========== -->
-  <g transform="translate(1250,290)">
-    <!-- donut base (very soft) -->
-    <circle cx="0" cy="0" r="86" fill="none" stroke="rgba(200,210,255,0.10)" stroke-width="22"/>
-    <!-- slices -->
-    <path d="M0,0 L86,0 A86,86 0 0,1 28,81 Z" fill="rgba(125,211,252,0.30)"/>
-    <path d="M0,0 L28,81 A86,86 0 0,1 -78,39 Z" fill="rgba(167,139,250,0.28)"/>
-    <path d="M0,0 L-78,39 A86,86 0 0,1 -36,-78 Z" fill="rgba(125,211,252,0.22)"/>
-    <path d="M0,0 L-36,-78 A86,86 0 0,1 86,0 Z" fill="rgba(167,139,250,0.24)"/>
-    <!-- center hole -->
-    <circle cx="0" cy="0" r="44" fill="rgba(10,12,17,0.9)" />
-    <!-- small glow dots around -->
-    <g opacity=".9">
-      <circle cx="110" cy="12" r="5" fill="url(#glow)"/>
-      <circle cx="-95" cy="-6" r="5" fill="url(#glow)"/>
-      <circle cx="-18" cy="104" r="5" fill="url(#glow)"/>
-    </g>
-  </g>
-
-  <!-- ========== DIAGONAL “DATA ROUTES” LINES (very faint) ========== -->
-  <g opacity=".35" stroke="rgba(220,230,255,0.18)" stroke-width="1">
-    <path d="M-30,260 C220,200 420,240 640,200 S1060,150 1640,190"/>
-    <path d="M-30,520 C260,470 480,520 760,470 S1180,430 1640,470"/>
-    <path d="M-30,650 C280,610 520,650 860,600 S1340,560 1640,600"/>
-  </g>
-</svg>
-
-
-    <div class="container">
-      <div>
-        <span class="badge">Data Engineer • ML • LLM Pipelines</span>
-        <h1>Hi, I’m <span style="background:linear-gradient(90deg,var(--accent),var(--accent-2));-webkit-background-clip:text;color:transparent">Shirlene Rose Bandela</span>.</h1>
-        <p class="subtitle">I build reliable, scalable data systems and ML workflows — from Java/Spring Batch and SQL tuning to AWS data lakes and LLM-driven analytics. I love turning messy data into observable, production-grade pipelines.</p>
-        <div class="cta">
-          <a class="btn" href="#projects">See my work</a>
-          <a class="btn secondary" href="assets/Shirlene_Resume.pdf" target="_blank" rel="noopener">Download Resume</a>
-        </div>
-        <div style="margin-top:14px;color:var(--muted)">
-          Based in Falls Church, VA • Open to relocate • <a href="mailto:shirlenebandela@gmail.com">shirlenebandela@gmail.com</a>
-        </div>
+  <!-- ===== HERO (Browser window style) ===== -->
+  <section id="hero" class="browser-hero">
+    <div class="browser-wrap">
+      <div class="browser-topbar">
+        <span class="dot red"></span>
+        <span class="dot amber"></span>
+        <span class="dot green"></span>
+        <div class="toolbar-line"></div>
       </div>
-      <div class="portrait has-photo" aria-label="Portrait photo of Shirlene">
-        <img src="assets/shirleneb.jpg" alt="Portrait of Shirlene Rose Bandela" loading="eager" />
+
+      <div class="browser-body">
+        <div>
+          <span class="hero-eyebrow">Data Engineer • ML • LLM Pipelines</span>
+          <h1 class="hero-title">Hi, I’m <em>Shirlene<br/>Rose Bandela.</em></h1>
+          <p class="hero-sub">
+            I build reliable, scalable data systems and ML workflows — from Java/Spring Batch and SQL tuning
+            to AWS data lakes and LLM-driven analytics. I love turning messy data into observable,
+            production-grade pipelines.
+          </p>
+          <div class="cta-row">
+            <a class="btn" href="#projects">See my work</a>
+            <a class="btn secondary" href="assets/Shirlene_Resume.pdf" target="_blank" rel="noopener">Download Resume</a>
+          </div>
+          <p style="margin-top:14px;color:#626b77">
+            Based in Falls Church, VA • Open to relocate •
+            <a href="mailto:shirlenebandela@gmail.com">shirlenebandela@gmail.com</a>
+          </p>
+        </div>
+
+        <div class="hero-photo" aria-label="Portrait of Shirlene">
+          <!-- Replace with your photo path -->
+          <img src="assets/shirleneb.jpg" alt="Shirlene Rose Bandela" />
+        </div>
       </div>
     </div>
   </section>
 
-  <!-- TIMELINE -->
-  <section id="timeline" class="skin bg-a">
+  <!-- ===== TIMELINE ===== -->
+  <section id="timeline" class="skin bg-a" style="padding:100px 0">
     <div class="container">
       <div class="section-hd">
         <div>
-          <div class="eyebrow">Journey</div>
-          <h2 class="title">From ETL to LLMs — a systems-first story</h2>
-          <p class="lead">Highlights from experience and education that shaped how I design for reliability, scale, and clarity.</p>
+          <div class="eyebrow" style="font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:#b9cdf0;opacity:.9;font-size:12px">Journey</div>
+          <h2 class="title" style="font-size:clamp(24px,3vw,36px);margin:6px 0 12px 0">From ETL to LLMs — a systems-first story</h2>
+          <p class="lead" style="color:var(--muted)">Highlights from experience and education that shaped how I design for reliability, scale, and clarity.</p>
         </div>
       </div>
       <div class="timeline">
         <div class="line"></div>
 
         <article class="t-item">
-          <div class="dot"></div>
+          <div class="dotline"></div>
           <div>
             <h3>Research Assistant — Virginia Tech (USA)</h3>
             <div class="meta">Jun 2025 – Present</div>
-            <h4>Agentic LLM pipeline for multi-label Reddit trigger warnings</h4>
-            <p>Built modular Python + LLM pipeline with dynamic k-shot prompts via cosine-similarity (Sentence-Transformers), caching, and batch execution. Added validation loop (per-label perplexity + rule-based triage) and AWS EC2/S3 orchestration.</p>
+            <h4 style="color:#c5d9ff;font-weight:600;margin:6px 0 8px 0">Agentic LLM pipeline for multi-label Reddit trigger warnings</h4>
+            <p>Built modular Python + LLM pipeline with dynamic k-shot prompts via cosine-similarity (Sentence-Transformers), caching, and batch execution. Added validation loop and AWS EC2/S3 orchestration.</p>
           </div>
         </article>
 
         <article class="t-item">
-          <div class="dot"></div>
+          <div class="dotline"></div>
           <div>
             <h3>Software/Data Engineer — JPMorgan Chase & Co. (India)</h3>
             <div class="meta">May 2021 – Aug 2023</div>
-            <h4>Modernized core fraud-risk ETL with Java/Spring Batch & SQL</h4>
-            <p>Migrated brittle scripts to restartable jobs; tuned Oracle/Teradata SQL to remove full scans; added data-quality gates, idempotency, and observability. Cut S3 storage costs by 40% across 30+ microservices; owned CI/CD with Jenkins & Spinnaker.</p>
+            <h4 style="color:#c5d9ff;font-weight:600;margin:6px 0 8px 0">Modernized core fraud-risk ETL with Java/Spring Batch & SQL</h4>
+            <p>Migrated brittle scripts to restartable jobs; tuned Oracle/Teradata SQL; added data-quality gates, idempotency, and observability. Cut S3 storage costs by 40%; owned CI/CD with Jenkins & Spinnaker.</p>
           </div>
         </article>
 
         <article class="t-item">
-          <div class="dot"></div>
+          <div class="dotline"></div>
           <div>
             <h3>ML Research Intern — IIT Madras Research Park / VT India (India)</h3>
             <div class="meta">May 2024 – Jul 2024</div>
-            <h4>Lung-sound analytics with MFCC & Mel-Spectrograms</h4>
+            <h4 style="color:#c5d9ff;font-weight:600;margin:6px 0 8px 0">Lung-sound analytics with MFCC & Mel-Spectrograms</h4>
             <p>Engineered denoising + feature pipelines and model baselines (TensorFlow/scikit-learn). Improved diagnostic accuracy and packaged reproducible CLIs & configs.</p>
           </div>
         </article>
 
         <article class="t-item">
-          <div class="dot"></div>
+          <div class="dotline"></div>
           <div>
             <h3>Virginia Tech — M.Eng. CS (Data Analytics & AI)</h3>
             <div class="meta">Aug 2023 – May 2025</div>
-            <h4>ML, NLP, AI, ML with Big Data, Ethics</h4>
+            <h4 style="color:#c5d9ff;font-weight:600;margin:6px 0 8px 0">ML, NLP, AI, ML with Big Data, Ethics</h4>
             <p>Hands-on work across distributed ML, data engineering, and human-centered AI systems.</p>
           </div>
         </article>
@@ -381,14 +311,14 @@
     </div>
   </section>
 
-  <!-- SKILLS -->
-  <section id="skills" class="skin bg-b">
+  <!-- ===== SKILLS ===== -->
+  <section id="skills" class="skin bg-b" style="padding:100px 0">
     <div class="container">
       <div class="section-hd">
         <div>
-          <div class="eyebrow">Toolkit</div>
-          <h2 class="title">Skills that ship systems</h2>
-          <p class="lead">A snapshot of stacks I’ve used to move data safely from ingestion → insight.</p>
+          <div class="eyebrow" style="font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:#b9cdf0;opacity:.9;font-size:12px">Toolkit</div>
+          <h2 class="title" style="font-size:clamp(24px,3vw,36px);margin:6px 0 12px 0">Skills that ship systems</h2>
+          <p class="lead" style="color:var(--muted)">Stacks I’ve used to move data safely from ingestion → insight.</p>
         </div>
       </div>
 
@@ -412,56 +342,50 @@
     </div>
   </section>
 
-  <!-- METRICS -->
-  <section id="metrics" class="skin bg-a">
+  <!-- ===== METRICS ===== -->
+  <section id="metrics" class="skin bg-a" style="padding:100px 0">
     <div class="container">
       <div class="section-hd">
         <div>
-          <div class="eyebrow">Live-ish metrics</div>
-          <h2 class="title">Signals from shipped systems</h2>
-          <p class="lead">Illustrative metrics from projects—animated for a quick visual read.</p>
+          <div class="eyebrow" style="font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:#b9cdf0;opacity:.9;font-size:12px">Live-ish metrics</div>
+          <h2 class="title" style="font-size:clamp(24px,3vw,36px);margin:6px 0 12px 0">Signals from shipped systems</h2>
+          <p class="lead" style="color:var(--muted)">Illustrative metrics from projects—animated for a quick visual read.</p>
         </div>
       </div>
 
-      <div class="metrics-grid">
-        <article class="kpi">
-          <div class="kpi-title">AUROC</div>
-          <div class="kpi-number" data-target="0.97">0.00</div>
-          <svg class="spark" viewBox="0 0 100 26" preserveAspectRatio="none">
-            <path d="M2 22 L18 20 L34 17 L50 16 L66 11 L82 7 L98 5" />
-          </svg>
-          <div class="kpi-foot">Chest X-ray model</div>
+      <div class="metrics-grid" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px;margin-top:10px">
+        <article class="kpi" style="background:rgba(16,19,26,.6);border:1px solid rgba(125,211,252,.12);border-radius:16px;padding:14px 14px 12px">
+          <div style="font:600 12px/1 Inter;letter-spacing:.06em;color:#c9d7ff;opacity:.85;text-transform:uppercase">AUROC</div>
+          <div class="kpi-number" data-target="0.97" style="font:800 34px/1 Inter;margin:6px 0 8px;background:linear-gradient(90deg,var(--accent),var(--accent-2));-webkit-background-clip:text;color:transparent">0.00</div>
+          <svg class="spark" viewBox="0 0 100 26" preserveAspectRatio="none"><path d="M2 22 L18 20 L34 17 L50 16 L66 11 L82 7 L98 5" /></svg>
+          <div style="color:var(--muted);font-size:12px">Chest X-ray model</div>
         </article>
 
-        <article class="kpi">
-          <div class="kpi-title">Latency</div>
-          <div class="kpi-number" data-target="120">0</div>
-          <svg class="spark" viewBox="0 0 100 26">
-            <path d="M2 8 L18 9 L34 11 L50 12 L66 14 L82 16 L98 18" />
-          </svg>
-          <div class="kpi-foot">ms @ p95, ETL ingest</div>
+        <article class="kpi" style="background:rgba(16,19,26,.6);border:1px solid rgba(125,211,252,.12);border-radius:16px;padding:14px 14px 12px">
+          <div style="font:600 12px/1 Inter;letter-spacing:.06em;color:#c9d7ff;opacity:.85;text-transform:uppercase">Latency</div>
+          <div class="kpi-number" data-target="120" style="font:800 34px/1 Inter;margin:6px 0 8px;background:linear-gradient(90deg,var(--accent),var(--accent-2));-webkit-background-clip:text;color:transparent">0</div>
+          <svg class="spark" viewBox="0 0 100 26"><path d="M2 8 L18 9 L34 11 L50 12 L66 14 L82 16 L98 18" /></svg>
+          <div style="color:var(--muted);font-size:12px">ms @ p95, ETL ingest</div>
         </article>
 
-        <article class="kpi">
-          <div class="kpi-title">Storage</div>
-          <div class="kpi-number" data-target="-40">0</div>
-          <svg class="spark" viewBox="0 0 100 26">
-            <path d="M2 5 L18 7 L34 9 L50 12 L66 14 L82 18 L98 22" />
-          </svg>
-          <div class="kpi-foot">cost change (%)</div>
+        <article class="kpi" style="background:rgba(16,19,26,.6);border:1px solid rgba(125,211,252,.12);border-radius:16px;padding:14px 14px 12px">
+          <div style="font:600 12px/1 Inter;letter-spacing:.06em;color:#c9d7ff;opacity:.85;text-transform:uppercase">Storage</div>
+          <div class="kpi-number" data-target="-40" style="font:800 34px/1 Inter;margin:6px 0 8px;background:linear-gradient(90deg,var(--accent),var(--accent-2));-webkit-background-clip:text;color:transparent">0</div>
+          <svg class="spark" viewBox="0 0 100 26"><path d="M2 5 L18 7 L34 9 L50 12 L66 14 L82 18 L98 22" /></svg>
+          <div style="color:var(--muted);font-size:12px">cost change (%)</div>
         </article>
       </div>
     </div>
   </section>
 
-  <!-- PROJECTS -->
-  <section id="projects" class="skin bg-a">
+  <!-- ===== PROJECTS ===== -->
+  <section id="projects" class="skin bg-a" style="padding:100px 0">
     <div class="container">
       <div class="section-hd">
         <div>
-          <div class="eyebrow">Impact</div>
-          <h2 class="title">Selected projects</h2>
-          <p class="lead">A few systems where careful engineering + ML delivered measurable wins.</p>
+          <div class="eyebrow" style="font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:#b9cdf0;opacity:.9;font-size:12px">Impact</div>
+          <h2 class="title" style="font-size:clamp(24px,3vw,36px);margin:6px 0 12px 0">Selected projects</h2>
+          <p class="lead" style="color:var(--muted)">A few systems where careful engineering + ML delivered measurable wins.</p>
         </div>
       </div>
 
@@ -509,14 +433,14 @@
     </div>
   </section>
 
-  <!-- CONTACT -->
-  <section id="contact" class="contact skin bg-b">
+  <!-- ===== CONTACT ===== -->
+  <section id="contact" class="contact skin bg-b" style="padding:100px 0">
     <div class="container">
       <div class="section-hd">
         <div>
-          <div class="eyebrow">Say hello</div>
-          <h2 class="title">Let’s build something resilient</h2>
-          <p class="lead">The best systems are boring to operate and exciting to ship. If that resonates, I’d love to chat.</p>
+          <div class="eyebrow" style="font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:#b9cdf0;opacity:.9;font-size:12px">Say hello</div>
+          <h2 class="title" style="font-size:clamp(24px,3vw,36px);margin:6px 0 12px 0">Let’s build something resilient</h2>
+          <p class="lead" style="color:var(--muted)">The best systems are boring to operate and exciting to ship. If that resonates, I’d love to chat.</p>
         </div>
       </div>
 
@@ -538,100 +462,37 @@
         </aside>
       </div>
     </div>
-    <footer>
-      © <span id="year"></span> Shirlene Rose Bandela • Built with HTML/CSS/GSAP • Theme: Cyan/Violet Nebula
+    <footer style="text-align:center;color:#b6c8da;margin-top:20px">
+      © <span id="year"></span> Shirlene Rose Bandela • Built with HTML/CSS/GSAP • Browser-style hero
     </footer>
   </section>
 
-  <!-- GSAP -->
+  <!-- GSAP (content reveals) -->
   <script src="https://unpkg.com/gsap@3/dist/gsap.min.js"></script>
   <script src="https://unpkg.com/gsap@3/dist/ScrollTrigger.min.js"></script>
-
   <script>
     const qsa = s => Array.from(document.querySelectorAll(s));
     document.getElementById('year').textContent = new Date().getFullYear();
 
-    // Reveal on load
-    gsap.set('.hero .badge, h1, .subtitle, .cta', {autoAlpha:0, y:20});
-    gsap.set('.portrait', {autoAlpha:0, y:20, rotate:-2});
+    // Hero reveal
+    gsap.set('.hero-eyebrow, .hero-title, .hero-sub, .cta-row, .hero-photo', {autoAlpha:0, y:20});
     gsap.timeline({defaults:{ease:'power3.out'}})
-      .to('.hero .badge', {autoAlpha:1, y:0, duration:.4})
-      .to('h1', {autoAlpha:1, y:0, duration:.6}, '-=.1')
-      .to('.subtitle', {autoAlpha:1, y:0, duration:.6}, '-=.3')
-      .to('.cta', {autoAlpha:1, y:0, duration:.6}, '-=.4')
-      .to('.portrait', {autoAlpha:1, y:0, rotate:0, duration:.7}, '-=.6');
+      .to('.hero-eyebrow', {autoAlpha:1, y:0, duration:.35})
+      .to('.hero-title',  {autoAlpha:1, y:0, duration:.55}, '-=.1')
+      .to('.hero-sub',    {autoAlpha:1, y:0, duration:.50}, '-=.2')
+      .to('.cta-row',     {autoAlpha:1, y:0, duration:.45}, '-=.25')
+      .to('.hero-photo',  {autoAlpha:1, y:0, duration:.55}, '-=.35');
 
-    // Floating chips
+    // Chips / meters / timeline
     qsa('#chips .chip').forEach((el,i)=>{
       gsap.from(el, {scrollTrigger:{trigger:el,start:'top 80%'}, y:16, autoAlpha:0, duration:.4, delay:i*0.03});
     });
-
-    // Skill meters fill
     qsa('.meter .bar > span').forEach((bar)=>{
       const fill = bar.dataset.fill || 80;
       gsap.to(bar, {scrollTrigger:{trigger:bar, start:'top 85%'}, width: fill+'%', duration:1.2, ease:'power2.out'});
     });
-
-    // Timeline items
     qsa('.t-item').forEach((item)=>{
       gsap.from(item, {scrollTrigger:{trigger:item,start:'top 85%'}, y:28, autoAlpha:0, duration:.6, ease:'power3.out'});
-    });
-
-    // Project cards hover tilt
-    qsa('.card').forEach(card=>{
-      card.addEventListener('mousemove', (e)=>{
-        const r = card.getBoundingClientRect();
-        const rx = ((e.clientY - r.top)/r.height - .5) * 6;
-        const ry = ((e.clientX - r.left)/r.width - .5) * -6;
-        card.style.transform = `perspective(800px) rotateX(${rx}deg) rotateY(${ry}deg)`;
-      });
-      card.addEventListener('mouseleave', ()=>{ card.style.transform = ''; });
-      gsap.from(card, {scrollTrigger:{trigger:card,start:'top 85%'}, y:26, autoAlpha:0, duration:.6});
-    });
-
-    // Smooth scroll for nav
-    document.querySelectorAll('header.nav a').forEach(a=>{
-      a.addEventListener('click', (e)=>{
-        const id = a.getAttribute('href'); if(!id || !id.startsWith('#')) return;
-        e.preventDefault();
-        document.querySelector(id).scrollIntoView({behavior:'smooth'});
-      });
-    });
-
-    // Timeline vertical line grow
-    const tl = gsap.timeline({scrollTrigger:{
-      trigger:'#timeline', start:'top 70%', end:'bottom bottom', scrub: true
-    }});
-    tl.fromTo('.line', {scaleY:0, transformOrigin:'top center'}, {scaleY:1});
-
-    /* ===== KPI spark + count-up ===== */
-    document.querySelectorAll('.spark').forEach(svg=>{
-      const defs = document.createElementNS('http://www.w3.org/2000/svg','defs');
-      const grad = document.createElementNS('http://www.w3.org/2000/svg','linearGradient');
-      grad.id = 'grad-kpi'; grad.setAttribute('x1','0'); grad.setAttribute('x2','1'); grad.setAttribute('y1','0'); grad.setAttribute('y2','0');
-      const s1 = document.createElementNS('http://www.w3.org/2000/svg','stop'); s1.setAttribute('offset','0%');  s1.setAttribute('stop-color','#7dd3fc');
-      const s2 = document.createElementNS('http://www.w3.org/2000/svg','stop'); s2.setAttribute('offset','100%'); s2.setAttribute('stop-color','#a78bfa');
-      grad.appendChild(s1); grad.appendChild(s2); defs.appendChild(grad); svg.prepend(defs);
-
-      const path = svg.querySelector('path');
-      const len = path.getTotalLength();
-      path.style.strokeDasharray = len;
-      path.style.strokeDashoffset = len;
-
-      gsap.to(path, {
-        scrollTrigger:{ trigger: svg, start:'top 90%' },
-        strokeDashoffset: 0, duration: 1.2, ease:'power2.out'
-      });
-    });
-
-    document.querySelectorAll('.kpi-number').forEach(el=>{
-      const target = parseFloat(el.dataset.target);
-      const decimals = (target < 1 && target > -1) ? 2 : 0;
-      gsap.fromTo(el, {val: 0}, {
-        scrollTrigger:{ trigger: el, start:'top 90%' },
-        val: target, duration: 1.1, ease:'power2.out',
-        onUpdate(){ el.textContent = (this.targets()[0].val).toFixed(decimals); }
-      });
     });
   </script>
 </body>
