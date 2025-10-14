@@ -48,25 +48,47 @@
     a{color:#0b6f9c;text-decoration:none}
     a:hover{text-decoration:underline}
 
-    /* NAV (glass on teal) */
+    /* NAV (black pill, white text) */
     header.nav{
-      position:fixed; inset-inline:0; top:12px; z-index:50;
-      display:flex; justify-content:center; pointer-events:none;
+    position:fixed; inset-inline:0; top:12px; z-index:50;
+    display:flex; justify-content:center; pointer-events:none;
     }
+
     .nav-inner{
-      pointer-events:auto;
-      display:flex; align-items:center; gap:14px;
-      background:rgba(255,255,255,.72); backdrop-filter: blur(10px);
-      border:1px solid rgba(17,19,24,.10);
-      border-radius:999px; padding:10px 14px;
-      box-shadow: 0 10px 30px rgba(17,19,24,.10);
+    pointer-events:auto;
+    display:flex; align-items:center; gap:14px;
+    background:#0b0b0c;                 /* solid black */
+    backdrop-filter:none;                /* no blur on black */
+    border:1px solid rgba(255,255,255,.12);
+    border-radius:999px; padding:10px 14px;
+    box-shadow: 0 10px 30px rgba(0,0,0,.35);
     }
-    .nav-inner a{padding:8px 12px;border-radius:999px;color:var(--ink);opacity:.9}
-    .nav-inner a:hover{background:rgba(0,0,0,.05)}
-    .brand{font-weight:900;letter-spacing:.3px;
-      background:linear-gradient(90deg,var(--accent),var(--accent-2));
-      -webkit-background-clip:text;color:transparent
+
+    .nav-inner a{
+    padding:8px 12px;
+    border-radius:999px;
+    color:#ffffff;                       /* white text */
+    opacity:.95;
+    text-decoration:none;
     }
+
+    .nav-inner a:hover{
+    background:rgba(255,255,255,.12);    /* subtle hover */
+    }
+
+    .brand{
+    font-weight:900; letter-spacing:.3px;
+    color:#ffffff;                       /* brand also white */
+    background:none;                     /* remove gradient */
+    -webkit-background-clip:initial;
+    }
+
+  /* optional: keyboard focus ring */
+    .nav-inner a:focus-visible{
+    outline:2px solid #ffffff;
+    outline-offset:2px;
+    }
+
 
     /* ===== Section bands ===== */
     section{position:relative; padding:110px 0; scroll-margin-top: calc(var(--navh) + 16px)}
