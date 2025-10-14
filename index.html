@@ -12,30 +12,24 @@
   <style>
     :root{
       /* Brand / theme */
-      --ink: #111318;               /* dark ink */
-      --muted-ink:#3a3f47;          /* body text on light */
-      --accent: #7dd3fc;            /* cyan */
-      --accent-2:#a78bfa;           /* violet */
+      --ink: #111318;                /* dark ink */
+      --muted-ink:#3a3f47;           /* body text on light */
 
-      /* Canvas bands (alternate slightly for depth) */
-      /* --band-a:#f6d873;
-      --band-b:#f3cf5b; */
-      /* accents (gradients, highlights) */
-      --accent:  #22d3ee;   /* cyan */
-      --accent-2:#14b8a6;   /* teal */
+      /* accent gradient (cyan → teal) */
+      --accent:  #22d3ee;
+      --accent-2:#14b8a6;
 
-      /* section background tints (very light, optional) */
-      --band-a:#EAF7FB;  /* soft aqua */
-      --band-b:#E6F6F4;  /* soft minty aqua */
+      /* TEAL canvas (richer for contrast) */
+      --band-a:#A9E0EA;   /* top / odd sections */
+      --band-b:#8FD4E3;   /* even sections (slightly darker) */
 
       /* Browser window */
       --win: #ffffff;
-      --win-edge:#e3c757;
       --win-bar:#e8e8e8;
 
       /* Cards inside windows */
       --card:#f9fafb;
-      --card-border:#e9edf0;
+      --card-border:#e3edf0;
 
       --radius:22px;
       --maxw:1200px;
@@ -54,7 +48,7 @@
     a{color:#0b6f9c;text-decoration:none}
     a:hover{text-decoration:underline}
 
-    /* NAV (glass on yellow) */
+    /* NAV (glass on teal) */
     header.nav{
       position:fixed; inset-inline:0; top:12px; z-index:50;
       display:flex; justify-content:center; pointer-events:none;
@@ -62,10 +56,10 @@
     .nav-inner{
       pointer-events:auto;
       display:flex; align-items:center; gap:14px;
-      background:rgba(255,255,255,.6); backdrop-filter: blur(8px);
-      border:1px solid rgba(17,19,24,.08);
+      background:rgba(255,255,255,.72); backdrop-filter: blur(10px);
+      border:1px solid rgba(17,19,24,.10);
       border-radius:999px; padding:10px 14px;
-      box-shadow: 0 8px 30px rgba(17,19,24,.08);
+      box-shadow: 0 10px 30px rgba(17,19,24,.10);
     }
     .nav-inner a{padding:8px 12px;border-radius:999px;color:var(--ink);opacity:.9}
     .nav-inner a:hover{background:rgba(0,0,0,.05)}
@@ -74,10 +68,18 @@
       -webkit-background-clip:text;color:transparent
     }
 
-    /* ===== Section bands (yellow canvas) ===== */
+    /* ===== Section bands ===== */
     section{position:relative; padding:110px 0; scroll-margin-top: calc(var(--navh) + 16px)}
     .band-a{background:var(--band-a)}
     .band-b{background:var(--band-b)}
+
+    /* Make HERO use a vignette so the card pops */
+    #hero{
+      background:
+        radial-gradient(1200px 600px at 80% -10%, rgba(0,0,0,.10), transparent 60%),
+        radial-gradient(900px 420px at -10% 40%, rgba(0,0,0,.08), transparent 60%),
+        linear-gradient(180deg, var(--band-a), var(--band-b));
+    }
 
     /* ===== Browser window wrapper (used everywhere) ===== */
     .browser-wrap{
@@ -85,14 +87,17 @@
       margin: 0 auto;
       background: var(--win);
       border-radius: var(--radius);
-      box-shadow: 0 12px 40px rgba(17,19,24,.18), 0 2px 0 0 var(--win-edge) inset;
+      /* stronger, crisper pop off the teal */
+      box-shadow:
+        0 22px 70px rgba(0,0,0,.22),
+        0 1px 0 rgba(255,255,255,.6) inset;
       overflow:hidden;
-      border:1px solid rgba(17,19,24,.06);
+      border:1px solid rgba(0,0,0,.10);
     }
     .browser-topbar{
       height:52px; display:flex; align-items:center; gap:10px;
       padding: 0 16px; position:relative;
-      background:linear-gradient(#fff,#fff);
+      background:#fff;
     }
     .dot{width:10px;height:10px;border-radius:999px}
     .dot.red{background:#ffbdad}
@@ -124,7 +129,7 @@
     }
     .btn.secondary{ background:#fff; color:#111318; border-color:#dcdcdc }
 
-    .hero-photo{ position:relative; width:min(560px,100%); justify-self:end; border-radius:26px; overflow:hidden; box-shadow:0 10px 30px rgba(0,0,0,.15) }
+    .hero-photo{ position:relative; width:min(560px,100%); justify-self:end; border-radius:26px; overflow:hidden; box-shadow:0 14px 36px rgba(0,0,0,.18) }
     .hero-photo img{ width:100%; height:auto; display:block; object-fit:cover }
 
     /* ===== Section headers (inside windows) ===== */
@@ -169,7 +174,7 @@
     /* ===== Projects ===== */
     .projects{ display:grid; grid-template-columns:repeat(12,1fr); gap:16px }
     .card{ grid-column:span 6; background:var(--card); border:1px solid var(--card-border); border-radius:18px; overflow:hidden; transition:transform .25s ease, box-shadow .25s ease }
-    .card:hover{ transform:translateY(-4px); box-shadow:0 12px 30px rgba(0,0,0,.08) }
+    .card:hover{ transform:translateY(-4px); box-shadow:0 12px 30px rgba(0,0,0,.10) }
     .card .thumb{ height:150px; background:
       radial-gradient(40% 60% at 60% 30%, rgba(167,139,250,.2), transparent),
       radial-gradient(40% 60% at 40% 70%, rgba(125,211,252,.2), transparent),
