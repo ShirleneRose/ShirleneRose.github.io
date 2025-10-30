@@ -148,11 +148,19 @@
 
     /* ===== Timeline ===== */
     .timeline{ position:relative; margin-top:18px }
-    .t-item{
-      background:var(--card); border:1px solid var(--card-border); border-radius:16px;
-      padding:16px; display:grid; grid-template-columns:60px 1fr; gap:18px; margin:16px 0;
-      align-items:center; /* NEW: vertically center bullet & text */
+    /* Add black border around each content box */
+    .t-item {
+      background: var(--card);
+      border: 2px solid #000;        /* black border */
+      border-radius: 16px;
+      padding: 16px;
+      display: grid;
+      grid-template-columns: 60px 1fr;
+      gap: 18px;
+      margin: 16px 0;
+      align-items: center;
     }
+
     /* NEW: teal, centered bullet */
     .dotline{
       width:18px; 
