@@ -151,8 +151,16 @@
     .t-item{
       background:var(--card); border:1px solid var(--card-border); border-radius:16px;
       padding:16px; display:grid; grid-template-columns:60px 1fr; gap:18px; margin:16px 0;
+      align-items:center; /* NEW: vertically center bullet & text */
     }
-    .dotline{ width:18px;height:18px;border-radius:999px;background:radial-gradient(circle at 30% 30%, #fff, #7dd3fc); box-shadow:0 0 18px rgba(125,211,252,.5); margin-top:4px }
+    /* NEW: teal, centered bullet */
+    .dotline{
+      width:18px; height:18px; border-radius:999px;
+      background: var(--accent);
+      box-shadow: 0 0 14px rgba(34,211,238,.45);
+      margin:auto;                /* centers inside its grid cell */
+      display:block;
+    }
     .t-item h3{ margin:0; font-size:18px }
     .t-item h4{ margin:6px 0 8px; color:#374151; font-weight:700 }
     .t-item .meta{ font:600 12px/1.2 Inter; color:#667085 }
@@ -492,7 +500,7 @@
         </div>
 
         <div style="display:grid;grid-template-columns:1.2fr .8fr;gap:24px;align-items:start">
-          <form onsubmit="event.preventDefault(); alert('Thanks! I\\'ll get back to you soon.');">
+          <form onsubmit="event.preventDefault(); alert('Thanks! I\'ll get back to you soon.');">
             <input class="full" type="text" placeholder="Your name" required>
             <input type="email" placeholder="Email" required>
             <input type="text" placeholder="Subject">
