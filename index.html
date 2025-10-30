@@ -177,26 +177,103 @@
     .t-item .meta{ font:600 12px/1.2 Inter; color:#667085 }
 
     /* ===== Skills ===== */
-    .skills-grid{ display:grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap:12px; margin-top:16px }
-    .chip{
-      display:flex; align-items:center; justify-content:center;
-      padding:12px 14px; border-radius:999px; background:#fff; border:1px solid var(--card-border);
-    }
-    .meters{ display:grid; gap:12px; margin:18px 0 8px }
-    .meter{
-      display:flex; align-items:center; gap:10px; background:var(--card); border:1px solid var(--card-border);
-      padding:14px; border-radius:14px; color:#223
-    }
-    .meter .bar{ flex:1; height:10px; border-radius:999px; background:#e6eef7; overflow:hidden }
-    .meter .bar > span{ display:block; height:100%; width:0; background:linear-gradient(90deg,var(--accent),var(--accent-2)) }
+.skills-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 12px;
+  margin-top: 16px;
+}
 
-    /* ===== KPIs ===== */
-    .metrics-grid{ display:grid; grid-template-columns:repeat(auto-fit, minmax(220px,1fr)); gap:14px; margin-top:12px }
-    .kpi{ background:var(--card); border:1px solid var(--card-border); border-radius:16px; padding:14px 14px 12px }
-    .kpi-title{ font:600 12px/1 Inter; letter-spacing:.06em; color:#6b7280; text-transform:uppercase }
-    .kpi-number{ font:800 34px/1 Inter; margin:6px 0 8px; background:linear-gradient(90deg,var(--accent),var(--accent-2)); -webkit-background-clip:text; color:transparent }
-    .spark{ width:100%; height:32px; }
-    .spark path{ fill:none; stroke:url(#grad-kpi); stroke-width:2.2; stroke-linecap:round; opacity:.95 }
+/* Each rounded skill chip */
+.chip {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px 14px;
+  border-radius: 999px;
+  background: #fff;
+  border: 2px solid #000;        /* black outline */
+  font-weight: 500;
+}
+
+/* The skill meters (Data Engineering, ML, etc.) */
+.meters {
+  display: grid;
+  gap: 12px;
+  margin: 18px 0 8px;
+}
+
+.meter {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: #fff;
+  border: 2px solid #000;        /* black outline */
+  padding: 14px;
+  border-radius: 14px;
+  color: #223;
+}
+
+/* Progress bar border + fill */
+.meter .bar {
+  flex: 1;
+  height: 10px;
+  border-radius: 999px;
+  background: #e6eef7;
+  overflow: hidden;
+  border: 1.5px solid #000;     /* black border around track */
+}
+
+.meter .bar > span {
+  display: block;
+  height: 100%;
+  width: 0;
+  background: linear-gradient(90deg, var(--accent), var(--accent-2));
+}
+
+/* ===== KPIs ===== */
+.metrics-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 14px;
+  margin-top: 12px;
+}
+
+.kpi {
+  background: var(--card);
+  border: 1px solid var(--card-border);
+  border-radius: 16px;
+  padding: 14px 14px 12px;
+}
+
+.kpi-title {
+  font: 600 12px/1 Inter;
+  letter-spacing: .06em;
+  color: #6b7280;
+  text-transform: uppercase;
+}
+
+.kpi-number {
+  font: 800 34px/1 Inter;
+  margin: 6px 0 8px;
+  background: linear-gradient(90deg, var(--accent), var(--accent-2));
+  -webkit-background-clip: text;
+  color: transparent;
+}
+
+.spark {
+  width: 100%;
+  height: 32px;
+}
+
+.spark path {
+  fill: none;
+  stroke: url(#grad-kpi);
+  stroke-width: 2.2;
+  stroke-linecap: round;
+  opacity: .95;
+}
+
 
     /* ===== Projects ===== */
     .projects{ display:grid; grid-template-columns:repeat(12,1fr); gap:16px }
