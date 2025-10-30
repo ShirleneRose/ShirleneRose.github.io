@@ -282,15 +282,55 @@
 
 
     /* ===== Projects ===== */
-    .projects{ display:grid; grid-template-columns:repeat(12,1fr); gap:16px }
-    .card{ grid-column:span 6; background:var(--card); border:1px solid var(--card-border); border-radius:18px; overflow:hidden; transition:transform .25s ease, box-shadow .25s ease }
-    .card:hover{ transform:translateY(-4px); box-shadow:0 12px 30px rgba(0,0,0,.08) }
-    .card .thumb{ height:150px; background:
-      radial-gradient(40% 60% at 60% 30%, rgba(167,139,250,.2), transparent),
-      radial-gradient(40% 60% at 40% 70%, rgba(125,211,252,.2), transparent),
-      linear-gradient(180deg, #eef3fb, #eaf0ff) }
-    .card .body{ padding:16px 16px 18px }
-    .tag{ display:inline-flex; padding:6px 10px; border:1px solid var(--card-border); border-radius:999px; background:#fff; font-size:12px; margin-right:8px; color:#334155 }
+.projects {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: 16px;
+}
+
+/* Each project card */
+.card {
+  grid-column: span 6;
+  background: var(--card);
+  border: 2px solid #000;              /* black outline */
+  border-radius: 18px;
+  overflow: hidden;
+  transition: transform .25s ease, box-shadow .25s ease;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+}
+
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.12);
+}
+
+/* Top area gradient / visual thumbnail */
+.card .thumb {
+  height: 150px;
+  background:
+    radial-gradient(40% 60% at 60% 30%, rgba(167,139,250,.2), transparent),
+    radial-gradient(40% 60% at 40% 70%, rgba(125,211,252,.2), transparent),
+    linear-gradient(180deg, #eef3fb, #eaf0ff);
+  border-bottom: 2px solid #000;       /* outline separation line */
+}
+
+/* Inner text area */
+.card .body {
+  padding: 16px 16px 18px;
+}
+
+/* Tag badges at top */
+.tag {
+  display: inline-flex;
+  padding: 6px 10px;
+  border: 2px solid #000;              /* black outline */
+  border-radius: 999px;
+  background: #fff;
+  font-size: 12px;
+  margin-right: 8px;
+  color: #334155;
+  font-weight: 500;
+}
 
     /* ===== Contact ===== */
     form{ display:grid; grid-template-columns:1fr 1fr; gap:12px }
