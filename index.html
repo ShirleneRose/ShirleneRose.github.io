@@ -78,15 +78,19 @@
     .band-b{background:var(--band-b)}
 
     /* ===== Browser window wrapper ===== */
-    .browser-wrap{
-      width:min(var(--maxw), 92vw);
-      margin: 0 auto;
-      background: var(--win);
-      border-radius: var(--radius);
-      box-shadow: 0 12px 40px rgba(17,19,24,.18);
-      overflow:hidden;
-      border:1px solid rgba(17,19,24,.06);
-    }
+    /* ===== Browser window wrapper ===== */
+.browser-wrap {
+  width: min(var(--maxw), 92vw);
+  margin: 0 auto;
+  background: var(--win);
+  border-radius: var(--radius);
+  box-shadow: 0 12px 40px rgba(17, 19, 24, .18);
+  overflow: hidden;
+
+  /* NEW — black border inside card */
+  border: 2px solid #000;
+}
+
     .browser-topbar{
       height:52px; display:flex; align-items:center; gap:10px;
       padding: 0 16px; position:relative; background:#fff;
