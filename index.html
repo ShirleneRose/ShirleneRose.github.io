@@ -118,8 +118,18 @@
       background:#111318; color:#fff; font-size:12px;
       padding:6px 10px; border-radius:999px; border:1px solid rgba(255,255,255,.15);
     }
-    .hero-title{ font:900 clamp(40px,6vw,84px)/1.02 Inter; margin:12px 0 6px; letter-spacing:-.5px; color:var(--ink) }
-    .hero-title em {
+    .hero-title {
+  font: 900 clamp(40px, 6vw, 84px) / 1.02 Inter;
+  margin: 12px 0 6px;
+  letter-spacing: -0.5px;
+  color: var(--ink);
+
+  /* White border around black text */
+  -webkit-text-stroke: 2px #fff;   /* white outline */
+  paint-order: stroke fill;
+}
+
+.hero-title em {
   font-style: italic;
   font-weight: 900;
   background: linear-gradient(90deg, var(--accent), var(--accent-2));
@@ -127,10 +137,11 @@
   background-clip: text;
   color: transparent;
 
-  /* Add black border around the text */
-  -webkit-text-stroke: 2px #000;   /* black outline */
+  /* Black border around gradient text */
+  -webkit-text-stroke: 2px #000;
   paint-order: stroke fill;
 }
+
 
     .hero-sub{ color:var(--muted-ink); max-width:60ch; font-size:clamp(14px,1.2vw,18px) }
     .cta-row{ display:flex; gap:12px; margin-top:22px; flex-wrap:wrap }
