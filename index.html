@@ -391,6 +391,7 @@
 }
 
 /* ===== Contact ===== */
+/* ===== Contact ===== */
 form {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -429,15 +430,26 @@ textarea {
 /* Right-side contact info box */
 section#contact aside {
   background: var(--card);
-  border: 2px solid #000;          /* black border */
+  border: 2px solid #000 !important;   /* force black border */
   border-radius: 16px;
   padding: 16px;
 }
 
-/* Button with matching border & shadow */
+/* Button with white border & shadow */
 form button.btn {
-  border: 2px solid #000;
+  background: #111318;                /* black button */
+  color: #fff;
+  border: 2px solid #fff !important;  /* white border */
+  border-radius: 999px;
+  padding: 14px 18px;
+  font-weight: 700;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
+  transition: transform 0.06s ease, background 0.2s ease;
+}
+
+form button.btn:hover {
+  background: #000;
+  transform: translateY(-1px);
 }
 
 footer {
