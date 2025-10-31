@@ -24,7 +24,7 @@
       --band-b:#8FD4E3;  /* even sections */
 
       /* Secondary button tint (light-teal) — set to match hero bg */
-      --btn-secondary: #BFEAF0;    /* tweak if you want a different tint */
+      --btn-secondary: #BFEAF0;
       --btn-secondary-hover:#AFE3EC;
 
       /* Surfaces */
@@ -51,61 +51,31 @@
     a:hover{text-decoration:underline}
 
     /* ===== NAV: black background, white text; gradient brand; white border ===== */
-header.nav {
-  position: fixed;
-  inset-inline: 0;
-  top: 12px;
-  z-index: 50;
-  display: flex;
-  justify-content: center;
-  pointer-events: none;
-}
+    header.nav{
+      position:fixed; inset-inline:0; top:12px; z-index:50;
+      display:flex; justify-content:center; pointer-events:none;
+    }
+    .nav-inner{
+      pointer-events:auto;
+      display:flex; align-items:center; gap:18px;
 
-.nav-inner {
-  pointer-events: auto;
-  display: flex;
-  align-items: center;
-  gap: 18px;
+      background:#0c0c0c;
+      color:#fff;
 
-  background: #0c0c0c;                     /* solid black */
-  color: #fff;
+      border:2px solid #fff;                  /* white border */
+      border-radius:999px; padding:10px 16px;
 
-  border: 2px solid #fff;                  /* ✨ white border */
-  border-radius: 999px;
-  padding: 10px 16px;
-
-  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.35);
-  transition: box-shadow 0.2s ease, transform 0.2s ease;
-}
-
-.nav-inner:hover {
-  box-shadow: 0 10px 32px rgba(255, 255, 255, 0.15); /* subtle glow on hover */
-  transform: translateY(-1px);
-}
-
-.nav-inner a {
-  color: #fff;
-  opacity: 0.9;
-  padding: 8px 12px;
-  border-radius: 999px;
-  transition: background 0.2s ease, opacity 0.2s ease;
-}
-
-.nav-inner a:hover {
-  background: rgba(255, 255, 255, 0.08);
-  opacity: 1;
-}
-
-/* Gradient brand text */
-.brand {
-  font-weight: 900;
-  letter-spacing: 0.3px;
-  background: linear-gradient(90deg, var(--accent), var(--accent-2));
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-}
-
+      box-shadow: 0 10px 28px rgba(0,0,0,.35);
+      transition: box-shadow .2s ease, transform .2s ease;
+    }
+    .nav-inner:hover{ box-shadow:0 10px 32px rgba(255,255,255,.15); transform:translateY(-1px) }
+    .nav-inner a{ color:#fff; opacity:.9; padding:8px 12px; border-radius:999px; transition:background .2s ease, opacity .2s ease }
+    .nav-inner a:hover{ background:rgba(255,255,255,.08); opacity:1 }
+    .brand{
+      font-weight:900; letter-spacing:.3px;
+      background:linear-gradient(90deg,var(--accent),var(--accent-2));
+      -webkit-background-clip:text; background-clip:text; color:transparent;
+    }
 
     /* ===== Sections ===== */
     section{position:relative; padding:110px 0; scroll-margin-top: calc(var(--navh) + 16px)}
@@ -113,35 +83,24 @@ header.nav {
     .band-b{background:var(--band-b)}
 
     /* ===== Browser window wrapper ===== */
-    /* ===== Browser window wrapper ===== */
-.browser-wrap {
-  width: min(var(--maxw), 92vw);
-  margin: 0 auto;
-  background: var(--win);
-  border-radius: var(--radius);
-  box-shadow: 0 12px 40px rgba(17, 19, 24, .18);
-  overflow: hidden;
-
-  /* NEW — black border inside card */
-  border: 2px solid #000;
-}
-
+    .browser-wrap{
+      width:min(var(--maxw), 92vw);
+      margin: 0 auto;
+      background: var(--win);
+      border-radius: var(--radius);
+      box-shadow: 0 12px 40px rgba(17,19,24,.18);
+      overflow:hidden;
+      border:2px solid #000;   /* black border */
+    }
     .browser-topbar{
       height:52px; display:flex; align-items:center; gap:10px;
       padding: 0 16px; position:relative; background:#fff;
     }
-    /* ===== Browser topbar dots ===== */
-.dot {
-  width: 10px;
-  height: 10px;
-  border-radius: 999px;
-  border: 1.5px solid #000;   /* black border around each dot */
-}
-
-/* Individual colors */
-.dot.red { background: #ffbdad; }
-.dot.amber { background: #ffd666; }
-.dot.green { background: #c4f0b4; }
+    /* topbar dots with black border */
+    .dot{width:10px;height:10px;border-radius:999px;border:1.5px solid #000}
+    .dot.red{background:#ffbdad}
+    .dot.amber{background:#ffd666}
+    .dot.green{background:#c4f0b4}
 
     .toolbar-line{position:absolute; left:0; right:0; bottom:0; height:1px; background:var(--win-bar)}
     .browser-body{ padding: clamp(20px, 5vw, 46px) }
@@ -153,82 +112,46 @@ header.nav {
       background:#111318; color:#fff; font-size:12px;
       padding:6px 10px; border-radius:999px; border:1px solid rgba(255,255,255,.15);
     }
-    .hero-title {
-  font: 900 clamp(40px, 6vw, 84px) / 1.02 Inter;
-  margin: 12px 0 6px;
-  letter-spacing: -0.5px;
-  color: var(--ink);
-
-  /* White border around black text */
-  -webkit-text-stroke: 2px #fff;   /* white outline */
-  paint-order: stroke fill;
-}
-
-.hero-title em {
-  font-style: italic;
-  font-weight: 900;
-  background: linear-gradient(90deg, var(--accent), var(--accent-2));
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-
-  /* Black border around gradient text */
-  -webkit-text-stroke: 2px #000;
-  paint-order: stroke fill;
-}
-
-
+    .hero-title{
+      font:900 clamp(40px,6vw,84px)/1.02 Inter; margin:12px 0 6px; letter-spacing:-.5px; color:var(--ink);
+      -webkit-text-stroke:2px #fff;  /* white outline so black text pops */
+      paint-order: stroke fill;
+    }
+    .hero-title em{
+      font-style:italic; font-weight:900;
+      background:linear-gradient(90deg,var(--accent),var(--accent-2));
+      -webkit-background-clip:text; background-clip:text; color:transparent;
+      -webkit-text-stroke:2px #000;  /* black outline around gradient letters */
+      paint-order: stroke fill;
+    }
     .hero-sub{ color:var(--muted-ink); max-width:60ch; font-size:clamp(14px,1.2vw,18px) }
+
+    /* ===== Buttons ===== */
     .cta-row{ display:flex; gap:12px; margin-top:22px; flex-wrap:wrap }
     .btn{
       display:inline-flex; align-items:center; justify-content:center;
       gap:10px; padding:14px 18px; border-radius:999px; font-weight:700;
-      background:#111318; color:#fff; border:1px solid rgba(0,0,0,.1);
-      box-shadow: 0 8px 20px rgba(0,0,0,.12);
-      transition: transform .06s ease;
+      background:#111318; color:#fff; border:2px solid #fff;  /* white border on black btn */
+      box-shadow: 0 8px 20px rgba(0,0,0,.25);
+      transition: transform .06s ease, background .2s ease;
     }
     .btn:active{ transform: translateY(1px) }
+    .btn:hover{ background:#000; transform: translateY(-1px)}
 
-    /* ===== Buttons ===== */
-.btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-  padding: 14px 18px;
-  border-radius: 999px;
-  font-weight: 700;
-  background: #111318;              /* black button */
-  color: #fff;
-  border: 2px solid #fff;           /* white border */
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
-  transition: transform 0.06s ease, background 0.2s ease;
-}
+    /* teal secondary with black border */
+    .btn.secondary{
+      background: var(--btn-secondary);
+      color: var(--ink);
+      border:2px solid #000;
+      box-shadow: 0 8px 20px rgba(0,0,0,.15);
+    }
+    .btn.secondary:hover{ background: var(--btn-secondary-hover); transform: translateY(-1px) }
 
-.btn:hover {
-  background: #000;
-  transform: translateY(-1px);
-}
-
-/* >>> UPDATED: secondary buttons to light-teal <<< */
-.btn.secondary {
-  background: var(--btn-secondary); /* teal button */
-  color: var(--ink);
-  border: 2px solid #000;           /* black border */
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
-}
-
-.btn.secondary:hover {
-  background: var(--btn-secondary-hover);
-  transform: translateY(-1px);
-}
-
-
-    /* >>> UPDATED: black border around hero image <<< */
+    /* hero photo card border */
     .hero-photo{
       position:relative; width:min(560px,100%); justify-self:end;
       border-radius:26px; overflow:hidden;
-      border:4px solid #000;           /* black border */
+      border:4px solid #000;
       box-shadow:0 10px 30px rgba(0,0,0,.15);
     }
     .hero-photo img{ width:100%; height:auto; display:block; object-fit:cover }
@@ -241,261 +164,77 @@ header.nav {
 
     /* ===== Timeline ===== */
     .timeline{ position:relative; margin-top:18px }
-    /* Add black border around each content box */
-    .t-item {
-      background: var(--card);
-      border: 2px solid #000;        /* black border */
-      border-radius: 16px;
-      padding: 16px;
-      display: grid;
-      grid-template-columns: 60px 1fr;
-      gap: 18px;
-      margin: 16px 0;
-      align-items: center;
+    .t-item{
+      background:var(--card); border:2px solid #000; border-radius:16px;
+      padding:16px; display:grid; grid-template-columns:60px 1fr; gap:18px; margin:16px 0; align-items:center;
     }
-
-    /* NEW: teal, centered bullet */
     .dotline{
-      width:18px; 
-      height:18px; 
-      border-radius:999px;
-      background: var(--accent);
-      border: 2px solid #000;                /* <- black border */
-      box-shadow: 0 0 14px rgba(34,211,238,.45);
-      margin:auto; 
-      display:block;
+      width:18px;height:18px;border-radius:999px;background:var(--accent);
+      border:2px solid #000; box-shadow:0 0 14px rgba(34,211,238,.45); margin:auto; display:block;
     }
     .t-item h3{ margin:0; font-size:18px }
     .t-item h4{ margin:6px 0 8px; color:#374151; font-weight:700 }
     .t-item .meta{ font:600 12px/1.2 Inter; color:#667085 }
 
     /* ===== Skills ===== */
-.skills-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 12px;
-  margin-top: 16px;
-}
+    .skills-grid{ display:grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap:12px; margin-top:16px }
+    .chip{
+      display:flex; align-items:center; justify-content:center; text-align:center;
+      padding:12px 18px; border-radius:999px; background:#fff; border:2px solid #000; font-weight:500; line-height:1.3;
+    }
 
-/* Each rounded skill chip */
-.chip {
-  display: flex;
-  align-items: center;
-  justify-content: center;   /* centers text horizontally */
-  text-align: center;        /* ensures multiline alignment */
-  padding: 12px 18px;
-  border-radius: 999px;
-  background: #fff;
-  border: 2px solid #000;    /* your black border theme */
-  font-weight: 500;
-  line-height: 1.3;
-}
+    .meters{ display:grid; gap:12px; margin:18px 0 8px }
+    .meter{
+      display:flex; align-items:center; gap:10px; justify-content:space-between;
+      background:#fff; border:2px solid #000; padding:14px; border-radius:14px; color:#223;
+    }
+    .meter > .label{ font-weight:700 }  /* bold labels */
+    .meter .bar{
+      flex:1; height:10px; border-radius:999px; background:#e6eef7; overflow:hidden; border:1.5px solid #000; position:relative;
+      margin: 0 8px;
+    }
+    .meter .bar > span{ display:block; height:100%; width:0; background:linear-gradient(90deg,var(--accent),var(--accent-2)); border-radius:999px }
+    .meter .percent{ font-weight:700; color:#000; min-width:42px; text-align:right }
 
-
-/* The skill meters (Data Engineering, ML, etc.) */
-.meters {
-  display: grid;
-  gap: 12px;
-  margin: 18px 0 8px;
-}
-
-.meter {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  background: #fff;
-  border: 2px solid #000;        /* black outline */
-  padding: 14px;
-  border-radius: 14px;
-  color: #223;
-}
-
-/* Progress bar border + fill */
-.meter .bar {
-  flex: 1;
-  height: 10px;
-  border-radius: 999px;
-  background: #e6eef7;
-  overflow: hidden;
-  border: 1.5px solid #000;     /* black border around track */
-}
-
-.meter .bar > span {
-  display: block;
-  height: 100%;
-  width: 0;
-  background: linear-gradient(90deg, var(--accent), var(--accent-2));
-}
-
-/* ===== KPIs ===== */
-.metrics-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 14px;
-  margin-top: 12px;
-}
-
-/* Each KPI card */
-.kpi {
-  background: #fff;
-  border: 2px solid #000;       /* black outline */
-  border-radius: 16px;
-  padding: 14px 14px 12px;
-  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08); /* subtle depth */
-}
-
-/* KPI title text */
-.kpi-title {
-  font: 600 12px/1 Inter;
-  letter-spacing: .06em;
-  color: #6b7280;
-  text-transform: uppercase;
-}
-
-/* KPI main number with gradient text */
-.kpi-number {
-  font: 800 34px/1 Inter;
-  margin: 6px 0 8px;
-  background: linear-gradient(90deg, var(--accent), var(--accent-2));
-  -webkit-background-clip: text;
-  color: transparent;
-}
-
-/* Sparkline chart style */
-.spark {
-  width: 100%;
-  height: 32px;
-}
-
-.spark path {
-  fill: none;
-  stroke: url(#grad-kpi);
-  stroke-width: 2.2;
-  stroke-linecap: round;
-  opacity: .95;
-}
-
-
+    /* ===== KPIs ===== */
+    .metrics-grid{ display:grid; grid-template-columns:repeat(auto-fit, minmax(220px,1fr)); gap:14px; margin-top:12px }
+    .kpi{ background:#fff; border:2px solid #000; border-radius:16px; padding:14px 14px 12px; box-shadow:0 6px 18px rgba(0,0,0,.08) }
+    .kpi-title{ font:600 12px/1 Inter; letter-spacing:.06em; color:#6b7280; text-transform:uppercase }
+    .kpi-number{ font:800 34px/1 Inter; margin:6px 0 8px; background:linear-gradient(90deg,var(--accent),var(--accent-2)); -webkit-background-clip:text; color:transparent }
+    .spark{ width:100%; height:32px }
+    .spark path{ fill:none; stroke:url(#grad-kpi); stroke-width:2.2; stroke-linecap:round; opacity:.95 }
 
     /* ===== Projects ===== */
-.projects {
-  display: grid;
-  grid-template-columns: repeat(12, 1fr);
-  gap: 16px;
-}
+    .projects{ display:grid; grid-template-columns:repeat(12,1fr); gap:16px }
+    .card{ grid-column:span 6; background:var(--card); border:2px solid #000; border-radius:18px; overflow:hidden; transition:transform .25s ease, box-shadow .25s ease; box-shadow:0 6px 18px rgba(0,0,0,.08) }
+    .card:hover{ transform:translateY(-4px); box-shadow:0 12px 30px rgba(0,0,0,.12) }
+    .card .thumb{
+      height:150px; background:
+        radial-gradient(40% 60% at 60% 30%, rgba(167,139,250,.2), transparent),
+        radial-gradient(40% 60% at 40% 70%, rgba(125,211,252,.2), transparent),
+        linear-gradient(180deg, #eef3fb, #eaf0ff);
+      border-bottom:2px solid #000;
+    }
+    .card .body{ padding:16px 16px 18px }
+    .tag{ display:inline-flex; padding:6px 10px; border:2px solid #000; border-radius:999px; background:#fff; font-size:12px; margin-right:8px; color:#334155; font-weight:500 }
 
-/* Each project card */
-.card {
-  grid-column: span 6;
-  background: var(--card);
-  border: 2px solid #000;              /* black outline */
-  border-radius: 18px;
-  overflow: hidden;
-  transition: transform .25s ease, box-shadow .25s ease;
-  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
-}
+    /* ===== Contact ===== */
+    form{ display:grid; grid-template-columns:1fr 1fr; gap:12px }
+    form .full{ grid-column:1/-1 }
+    input, textarea{
+      width:100%; padding:14px 16px; border-radius:12px; background:#fff; border:2px solid #000; color:var(--ink); transition:all .2s ease
+    }
+    input:focus, textarea:focus{ outline:none; border-color:var(--accent-2); box-shadow:0 0 0 2px rgba(20,184,166,.25) }
+    textarea{ min-height:120px }
+    section#contact aside{ background:var(--card); border:2px solid #000 !important; border-radius:16px; padding:16px }
 
-.card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.12);
-}
+    form button.btn{
+      background:#111318; color:#fff; border:2px solid #fff !important; border-radius:999px; padding:14px 18px; font-weight:700;
+      box-shadow:0 4px 10px rgba(0,0,0,.25); transition: transform .06s ease, background .2s ease;
+    }
+    form button.btn:hover{ background:#000; transform:translateY(-1px) }
 
-/* Top area gradient / visual thumbnail */
-.card .thumb {
-  height: 150px;
-  background:
-    radial-gradient(40% 60% at 60% 30%, rgba(167,139,250,.2), transparent),
-    radial-gradient(40% 60% at 40% 70%, rgba(125,211,252,.2), transparent),
-    linear-gradient(180deg, #eef3fb, #eaf0ff);
-  border-bottom: 2px solid #000;       /* outline separation line */
-}
-
-/* Inner text area */
-.card .body {
-  padding: 16px 16px 18px;
-}
-
-/* Tag badges at top */
-.tag {
-  display: inline-flex;
-  padding: 6px 10px;
-  border: 2px solid #000;              /* black outline */
-  border-radius: 999px;
-  background: #fff;
-  font-size: 12px;
-  margin-right: 8px;
-  color: #334155;
-  font-weight: 500;
-}
-
-/* ===== Contact ===== */
-/* ===== Contact ===== */
-form {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 12px;
-}
-
-form .full {
-  grid-column: 1 / -1;
-}
-
-/* Input fields & textarea with black border */
-input,
-textarea {
-  width: 100%;
-  padding: 14px 16px;
-  border-radius: 12px;
-  background: #fff;
-  border: 2px solid #000;          /* black border */
-  color: var(--ink);
-  transition: all 0.2s ease;
-}
-
-/* Focus effect with teal glow */
-input:focus,
-textarea:focus {
-  outline: none;
-  border-color: var(--accent-2);
-  box-shadow: 0 0 0 2px rgba(20, 184, 166, 0.25);
-}
-
-/* Textarea height */
-textarea {
-  min-height: 120px;
-}
-
-/* Right-side contact info box */
-section#contact aside {
-  background: var(--card);
-  border: 2px solid #000 !important;   /* force black border */
-  border-radius: 16px;
-  padding: 16px;
-}
-
-/* Button with white border & shadow */
-form button.btn {
-  background: #111318;                /* black button */
-  color: #fff;
-  border: 2px solid #fff !important;  /* white border */
-  border-radius: 999px;
-  padding: 14px 18px;
-  font-weight: 700;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
-  transition: transform 0.06s ease, background 0.2s ease;
-}
-
-form button.btn:hover {
-  background: #000;
-  transform: translateY(-1px);
-}
-
-footer {
-  padding: 24px 0 60px 0;
-  color: #374151;
-  text-align: center;
-}
-
+    footer{ padding:24px 0 60px 0; color:#374151; text-align:center }
 
     /* ===== Responsive ===== */
     @media (max-width: 980px){
@@ -645,10 +384,26 @@ footer {
         </div>
 
         <div class="meters">
-          <div class="meter"><span>Data Engineering</span><div class="bar"><span data-fill="95"></span></div></div>
-          <div class="meter"><span>Machine Learning</span><div class="bar"><span data-fill="85"></span></div></div>
-          <div class="meter"><span>AWS Cloud</span><div class="bar"><span data-fill="88"></span></div></div>
-          <div class="meter"><span>Frontend</span><div class="bar"><span data-fill="70"></span></div></div>
+          <div class="meter">
+            <span class="label">Data Engineering</span>
+            <div class="bar"><span data-fill="95"></span></div>
+            <span class="percent">0%</span>
+          </div>
+          <div class="meter">
+            <span class="label">Machine Learning</span>
+            <div class="bar"><span data-fill="85"></span></div>
+            <span class="percent">0%</span>
+          </div>
+          <div class="meter">
+            <span class="label">AWS Cloud</span>
+            <div class="bar"><span data-fill="88"></span></div>
+            <span class="percent">0%</span>
+          </div>
+          <div class="meter">
+            <span class="label">Frontend</span>
+            <div class="bar"><span data-fill="70"></span></div>
+            <span class="percent">0%</span>
+          </div>
         </div>
       </div>
     </div>
@@ -829,16 +584,35 @@ footer {
       .to('.cta-row',     {autoAlpha:1, y:0, duration:.45}, '-=.25')
       .to('.hero-photo',  {autoAlpha:1, y:0, duration:.55}, '-=.35');
 
-    // Chips / meters / timeline
+    // Chips / timeline
     qsa('#chips .chip').forEach((el,i)=>{
       gsap.from(el, {scrollTrigger:{trigger:el,start:'top 85%'}, y:16, autoAlpha:0, duration:.35, delay:i*0.02});
     });
-    qsa('.meter .bar > span').forEach((bar)=>{
-      const fill = bar.dataset.fill || 80;
-      gsap.to(bar, {scrollTrigger:{trigger:bar, start:'top 85%'}, width: fill+'%', duration:1.0, ease:'power2.out'});
-    });
     qsa('.t-item').forEach((item)=>{
       gsap.from(item, {scrollTrigger:{trigger:item,start:'top 88%'}, y:24, autoAlpha:0, duration:.5, ease:'power2.out'});
+    });
+
+    // Skill meters: animate bar and live-update percent text
+    qsa('.meter').forEach(m => {
+      const bar = m.querySelector('.bar > span');
+      const pct = m.querySelector('.percent');
+      const fill = parseInt(bar.dataset.fill || '0', 10);
+
+      gsap.to(bar, {
+        scrollTrigger:{ trigger: m, start:'top 85%' },
+        width: fill + '%',
+        duration: 1.0,
+        ease:'power2.out',
+        onUpdate(){
+          if (pct) {
+            const w = parseFloat(this.targets()[0].style.width) || 0;
+            pct.textContent = Math.round(w) + '%';
+          }
+        },
+        onComplete(){
+          if (pct) pct.textContent = fill + '%';
+        }
+      });
     });
 
     // KPI numbers count
