@@ -86,7 +86,6 @@
     .meter{display:flex;align-items:center;gap:10px;background:#fff;border:2px solid #000;padding:14px;border-radius:14px;color:#223;font-weight:700}
     .meter .bar{flex:1;height:10px;border-radius:999px;background:#e6eef7;overflow:hidden;border:1.5px solid #000;position:relative}
     .meter .bar > span{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--accent),var(--accent-2))}
-    /* percentage label inside bar */
     .meter .pct{margin-left:auto;font-weight:800}
 
     /* ===== Projects ===== */
@@ -108,6 +107,16 @@
     form button.btn:hover{background:#000;transform:translateY(-1px)}
     footer{padding:24px 0 60px 0;color:#374151;text-align:center}
 
+    /* ===== Modal (project details) ===== */
+    .modal{position:fixed;inset:0;display:none;align-items:center;justify-content:center;background:rgba(0,0,0,.45);z-index:1000}
+    .modal.show{display:flex}
+    .modal-card{width:min(720px,92vw);max-height:82vh;overflow:auto;background:#fff;border:2px solid #000;border-radius:18px;box-shadow:0 20px 50px rgba(0,0,0,.35)}
+    .modal-hd{display:flex;align-items:center;justify-content:space-between;padding:14px 16px;border-bottom:2px solid #000;background:#f9fafb;position:sticky;top:0;z-index:1;border-top-left-radius:16px;border-top-right-radius:16px}
+    .modal-title{font:800 20px/1.2 Inter;margin:0}
+    .modal-body{padding:18px 20px 8px}
+    .modal-close{appearance:none;border:2px solid #000;background:#fff;color:#111;padding:6px 10px;border-radius:999px;font-weight:700;cursor:pointer}
+    .modal-ftr{display:flex;gap:10px;justify-content:flex-end;padding:10px 16px 16px}
+
     /* ===== Responsive ===== */
     @media (max-width:980px){
       .hero-grid{grid-template-columns:1fr;gap:20px}
@@ -125,7 +134,6 @@
       <a href="#hero">Home</a>
       <a href="#timeline">Timeline</a>
       <a href="#skills">Skills</a>
-      <!-- removed Metrics link -->
       <a href="#projects">Projects</a>
       <a href="#contact">Contact</a>
     </nav>
@@ -305,7 +313,7 @@
               <span class="tag">Kafka → Glue → S3 → Redshift</span>
               <h3>Boeing Airlines: Frequent-Flyer Fraud Detection</h3>
               <p class="lead">Reusable ingestion with schema validation, idempotent upserts, and metrics/alerts; integrated SageMaker scoring; improved detection by 18% with dashboards on Redshift.</p>
-              <a class="btn" href="#contact" style="margin-top:6px">Ask me about the architecture</a>
+              <button type="button" class="btn open-modal" data-tpl="tpl-boeing" style="margin-top:6px">Ask me about the architecture</button>
             </div>
           </article>
 
@@ -315,7 +323,7 @@
               <span class="tag">TensorFlow • ResNet-50</span>
               <h3>COVID-19 Detection via Chest X-Rays</h3>
               <p class="lead">Reproducible pipeline with augmentation, leakage checks, and transfer learning. AUROC 0.97, F1 0.92 on held-out set; shipped CLI/REST batch inference.</p>
-              <a class="btn" href="https://ieeexplore.ieee.org/document/10370248" target="_blank" rel="noopener" style="margin-top:6px">Read publication</a>
+              <button type="button" class="btn open-modal" data-tpl="tpl-covid" style="margin-top:6px">Read publication</button>
             </div>
           </article>
 
@@ -325,7 +333,7 @@
               <span class="tag">LLMs • Sentence-Transformers</span>
               <h3>Trigger-Warning Classification (Reddit)</h3>
               <p class="lead">Dynamic k-shot prompt builder using cosine similarity over embeddings; agentic validation loop with per-label perplexity and confusion reports; AWS-orchestrated runs.</p>
-              <a class="btn" href="#contact" style="margin-top:6px">Discuss evaluation loop</a>
+              <button type="button" class="btn open-modal" data-tpl="tpl-tw" style="margin-top:6px">Discuss evaluation loop</button>
             </div>
           </article>
 
@@ -335,9 +343,90 @@
               <span class="tag">Java • Spring • SQL</span>
               <h3>Card Fraud-Risk ETL Modernization</h3>
               <p class="lead">Restartable batch jobs with JDBC readers/writers, tuned queries, transaction boundaries, and audit logging; 40% storage reduction via S3 lifecycle policies.</p>
-              <a class="btn" href="#contact" style="margin-top:6px">See the checklist</a>
+              <button type="button" class="btn open-modal" data-tpl="tpl-card" style="margin-top:6px">See the checklist</button>
             </div>
           </article>
+        </div>
+
+        <!-- ==== Project detail templates (hidden) ==== -->
+        <template id="tpl-boeing">
+          <div class="modal-hd">
+            <h3 class="modal-title">Boeing Airlines — Frequent-Flyer Fraud Detection</h3>
+            <button class="modal-close" data-close>Close</button>
+          </div>
+          <div class="modal-body">
+            <p class="lead">Reusable ingestion + ML scoring to surface anomalous loyalty activity.</p>
+            <ul>
+              <li><strong>Ingest:</strong> Kafka → AWS Glue → S3 (partitioned), schema validation, dead-letter S3.</li>
+              <li><strong>Quality gates:</strong> null/enum checks, referential integrity, row-count drift with alerts.</li>
+              <li><strong>Idempotent upserts:</strong> de-dup keyed on member_id + flight_ts; late-arrival handling.</li>
+              <li><strong>Scoring:</strong> SageMaker batch transform; features cached; outputs to Redshift.</li>
+              <li><strong>Observability:</strong> CloudWatch metrics/alarms; per-stage latency & error budgets.</li>
+              <li><strong>Impact:</strong> ~18% improved detection with Redshift dashboards.</li>
+            </ul>
+          </div>
+          <div class="modal-ftr">
+            <button class="btn secondary" data-close>Done</button>
+          </div>
+        </template>
+
+        <template id="tpl-covid">
+          <div class="modal-hd">
+            <h3 class="modal-title">COVID-19 Detection via Chest X-Rays</h3>
+            <button class="modal-close" data-close>Close</button>
+          </div>
+          <div class="modal-body">
+            <ul>
+              <li><strong>Model:</strong> ResNet-50 transfer learning; rigorous augmentation; leakage checks.</li>
+              <li><strong>Metrics:</strong> AUROC 0.97, F1 0.92 (held-out).</li>
+              <li><strong>Packaging:</strong> CLI + REST batch inference; reproducible runs/artifacts.</li>
+            </ul>
+            <p><a class="btn secondary" href="https://ieeexplore.ieee.org/document/10370248" target="_blank" rel="noopener">Open IEEE paper</a></p>
+          </div>
+          <div class="modal-ftr">
+            <button class="btn" data-close>Close</button>
+          </div>
+        </template>
+
+        <template id="tpl-tw">
+          <div class="modal-hd">
+            <h3 class="modal-title">Trigger-Warning Classification (Reddit)</h3>
+            <button class="modal-close" data-close>Close</button>
+          </div>
+          <div class="modal-body">
+            <ul>
+              <li><strong>Prompting:</strong> dynamic k-shot via cosine similarity (Sentence-Transformers) with per-label exemplars.</li>
+              <li><strong>Active learning:</strong> uncertainty sampling → human review → model refresh.</li>
+              <li><strong>Diagnostics:</strong> per-label perplexity, confusion, and drift tracking.</li>
+              <li><strong>Infra:</strong> AWS-orchestrated runs; caching + batching to control latency/cost.</li>
+            </ul>
+          </div>
+          <div class="modal-ftr">
+            <button class="btn secondary" data-close>Sounds good</button>
+          </div>
+        </template>
+
+        <template id="tpl-card">
+          <div class="modal-hd">
+            <h3 class="modal-title">Card Fraud-Risk ETL Modernization</h3>
+            <button class="modal-close" data-close>Close</button>
+          </div>
+          <div class="modal-body">
+            <ul>
+              <li><strong>Spring Batch:</strong> restartable jobs, chunked readers/writers, transaction boundaries.</li>
+              <li><strong>SQL tuning:</strong> Oracle/Teradata rewrites, stats, partition pruning.</li>
+              <li><strong>Auditability:</strong> lineage + job audit logs.</li>
+              <li><strong>Cost:</strong> ~40% storage reduction via S3 lifecycle & compaction.</li>
+            </ul>
+          </div>
+          <div class="modal-ftr">
+            <button class="btn" data-close>Close</button>
+          </div>
+        </template>
+
+        <!-- Reusable modal shell -->
+        <div class="modal" id="projectModal" aria-hidden="true">
+          <div class="modal-card" role="dialog" aria-modal="true"></div>
         </div>
       </div>
     </div>
@@ -412,6 +501,31 @@
     qsa('.t-item').forEach((item)=>{
       gsap.from(item, {scrollTrigger:{trigger:item,start:'top 88%'}, y:24, autoAlpha:0, duration:.5, ease:'power2.out'});
     });
+
+    // ----- Project modal logic -----
+    const modal = document.getElementById('projectModal');
+    const modalCard = modal.querySelector('.modal-card');
+
+    document.querySelectorAll('.open-modal').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const tpl = document.getElementById(btn.dataset.tpl);
+        if (!tpl) return;
+        modalCard.innerHTML = tpl.innerHTML;
+        modal.classList.add('show');
+        modal.setAttribute('aria-hidden', 'false');
+        modalCard.querySelectorAll('[data-close]').forEach(c =>
+          c.addEventListener('click', closeModal)
+        );
+      });
+    });
+
+    function closeModal(){
+      modal.classList.remove('show');
+      modal.setAttribute('aria-hidden','true');
+      modalCard.innerHTML = '';
+    }
+    modal.addEventListener('click', e => { if (e.target === modal) closeModal(); });
+    document.addEventListener('keydown', e => { if (e.key === 'Escape' && modal.classList.contains('show')) closeModal(); });
   </script>
 </body>
 </html>
