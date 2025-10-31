@@ -95,10 +95,19 @@
       height:52px; display:flex; align-items:center; gap:10px;
       padding: 0 16px; position:relative; background:#fff;
     }
-    .dot{width:10px;height:10px;border-radius:999px}
-    .dot.red{background:#ffbdad}
-    .dot.amber{background:#ffd666}
-    .dot.green{background:#c4f0b4}
+    /* ===== Browser topbar dots ===== */
+.dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 999px;
+  border: 1.5px solid #000;   /* black border around each dot */
+}
+
+/* Individual colors */
+.dot.red { background: #ffbdad; }
+.dot.amber { background: #ffd666; }
+.dot.green { background: #c4f0b4; }
+
     .toolbar-line{position:absolute; left:0; right:0; bottom:0; height:1px; background:var(--win-bar)}
     .browser-body{ padding: clamp(20px, 5vw, 46px) }
 
