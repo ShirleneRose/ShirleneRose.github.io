@@ -346,14 +346,60 @@
 }
 
 /* ===== Contact ===== */
-    form{ display:grid; grid-template-columns:1fr 1fr; gap:12px }
-    form .full{ grid-column:1/-1 }
-    input, textarea{
-      width:100%; padding:14px 16px; border-radius:12px;
-      background:#fff; border:1px solid var(--card-border); color:var(--ink)
-    }
-    textarea{ min-height:120px }
-    footer{ padding:24px 0 60px 0; color:#374151; text-align:center }
+form {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+form .full {
+  grid-column: 1 / -1;
+}
+
+/* Input fields & textarea with black border */
+input,
+textarea {
+  width: 100%;
+  padding: 14px 16px;
+  border-radius: 12px;
+  background: #fff;
+  border: 2px solid #000;          /* black border */
+  color: var(--ink);
+  transition: all 0.2s ease;
+}
+
+/* Focus effect with teal glow */
+input:focus,
+textarea:focus {
+  outline: none;
+  border-color: var(--accent-2);
+  box-shadow: 0 0 0 2px rgba(20, 184, 166, 0.25);
+}
+
+/* Textarea height */
+textarea {
+  min-height: 120px;
+}
+
+/* Right-side contact info box */
+section#contact aside {
+  background: var(--card);
+  border: 2px solid #000;          /* black border */
+  border-radius: 16px;
+  padding: 16px;
+}
+
+/* Button with matching border & shadow */
+form button.btn {
+  border: 2px solid #000;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
+}
+
+footer {
+  padding: 24px 0 60px 0;
+  color: #374151;
+  text-align: center;
+}
 
 
     /* ===== Responsive ===== */
