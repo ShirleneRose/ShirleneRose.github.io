@@ -24,23 +24,32 @@
     a{color:#0b6f9c;text-decoration:none} a:hover{text-decoration:underline}
 
     /* ===== NAV (white border) ===== */
-    header.nav{position:fixed;inset-inline:0;top:12px;z-index:50;display:flex;justify-content:center;pointer-events:none}
-    .nav-inner{
-      pointer-events:auto;display:flex;align-items:center;gap:18px;
-      background:#0c0c0c;color:#fff;border:2px solid #fff;border-radius:999px;padding:10px 16px;
-      box-shadow:0 10px 28px rgba(0,0,0,.35);transition:box-shadow .2s ease, transform .2s ease
+    header.nav{
+      position:fixed; inset-inline:0;
+      top:calc(8px + env(safe-area-inset-top)); /* iOS notch padding */
+      z-index:50; display:flex; justify-content:center; pointer-events:none
     }
+    .nav-inner{
+      pointer-events:auto; display:flex; align-items:center; gap:18px;
+      background:#0c0c0c; color:#fff; border:2px solid #fff; border-radius:999px; padding:10px 16px;
+      box-shadow:0 10px 28px rgba(0,0,0,.35); transition:box-shadow .2s ease, transform .2s ease;
+
+      /* prevent overflow on narrow phones */
+      max-width:calc(100vw - 24px);
+      overflow-x:auto; white-space:nowrap; overscroll-behavior-x:contain; -webkit-overflow-scrolling:touch;
+    }
+    .nav-inner::-webkit-scrollbar{display:none;}
     .nav-inner:hover{box-shadow:0 10px 32px rgba(255,255,255,.15);transform:translateY(-1px)}
     .nav-inner a{color:#fff;opacity:.9;padding:8px 12px;border-radius:999px;transition:background .2s ease, opacity .2s ease}
     .nav-inner a:hover{background:rgba(255,255,255,.08);opacity:1}
     .brand{font-weight:900;letter-spacing:.3px;background:linear-gradient(90deg,var(--accent),var(--accent-2));-webkit-background-clip:text;background-clip:text;color:transparent}
 
     /* ===== Sections ===== */
-    section{position:relative;padding:110px 0;scroll-margin-top:calc(var(--navh) + 16px)}
+    section{position:relative;padding:110px 0;scroll-margin-top:calc(var(--navh) + 24px)}
     .band-a{background:var(--band-a)} .band-b{background:var(--band-b)}
 
     /* ===== Browser window wrapper (with black border) ===== */
-    .browser-wrap{width:min(var(--maxw),92vw);margin:0 auto;background:var(--win);border-radius:var(--radius);box-shadow:0 12px 40px rgba(17,19,24,.18);overflow:hidden;border:2px solid #000}
+    .browser-wrap{width:clamp(320px,94vw,var(--maxw));margin:0 auto;background:var(--win);border-radius:var(--radius);box-shadow:0 12px 40px rgba(17,19,24,.18);overflow:hidden;border:2px solid #000}
     .browser-topbar{height:52px;display:flex;align-items:center;gap:10px;padding:0 16px;position:relative;background:#fff}
     .dot{width:10px;height:10px;border-radius:999px;border:1.5px solid #000}
     .dot.red{background:#ffbdad}.dot.amber{background:#ffd666}.dot.green{background:#c4f0b4}
@@ -50,8 +59,8 @@
     /* ===== HERO ===== */
     .hero-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:clamp(18px,3.5vw,38px);align-items:center}
     .hero-eyebrow{display:inline-flex;align-items:center;gap:8px;background:#111318;color:#fff;font-size:12px;padding:6px 10px;border-radius:999px;border:1px solid rgba(255,255,255,.15)}
-    .hero-title{font:900 clamp(40px,6vw,84px)/1.02 Inter;margin:12px 0 6px;letter-spacing:-.5px;color:var(--ink);-webkit-text-stroke:2px #fff;paint-order:stroke fill}
-    .hero-title em{font-style:italic;font-weight:900;background:linear-gradient(90deg,var(--accent),var(--accent-2));-webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-stroke:2px #000;paint-order:stroke fill}
+    .hero-title{font:900 clamp(40px,6vw,84px)/1.08 Inter;margin:12px 0 6px;letter-spacing:-.5px;color:var(--ink);-webkit-text-stroke:1.5px #fff;paint-order:stroke fill}
+    .hero-title em{font-style:italic;font-weight:900;background:linear-gradient(90deg,var(--accent),var(--accent-2));-webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-stroke:1.5px #000;paint-order:stroke fill}
     .hero-sub{color:var(--muted-ink);max-width:60ch;font-size:clamp(14px,1.2vw,18px)}
     .cta-row{display:flex;gap:12px;margin-top:22px;flex-wrap:wrap}
 
@@ -62,7 +71,7 @@
     .btn.secondary:hover{background:var(--btn-secondary-hover);transform:translateY(-1px)}
 
     /* ===== Hero photo ===== */
-    .hero-photo{position:relative;width:min(560px,100%);justify-self:end;border-radius:26px;overflow:hidden;border:4px solid #000;box-shadow:0 10px 30px rgba(0,0,0,.15)}
+    .hero-photo{position:relative;width:min(560px,100%);justify-self:end;border-radius:22px;overflow:hidden;border:3px solid #000;box-shadow:0 10px 30px rgba(0,0,0,.15)}
     .hero-photo img{width:100%;height:auto;display:block;object-fit:cover}
 
     /* ===== Section headers ===== */
@@ -94,20 +103,15 @@
     .card:hover{transform:translateY(-4px);box-shadow:0 12px 30px rgba(0,0,0,.12)}
     .card .thumb{
       height:150px;border-bottom:2px solid #000;
-      background-size:cover;background-position:center;
-      background-repeat:no-repeat;
-      /* subtle overlay to keep text readable */
-      position:relative;
+      background-size:cover;background-position:center;background-repeat:no-repeat;
+      position:relative; flex:0 0 auto; /* stiff height */
     }
-    .card .thumb::after{
-      content:""; position:absolute; inset:0;
-      background:linear-gradient(180deg, rgba(0,0,0,0.00), rgba(0,0,0,0.03));
-    }
+    .card .thumb::after{content:""; position:absolute; inset:0; background:linear-gradient(180deg, rgba(0,0,0,0.00), rgba(0,0,0,0.03));}
     .card .body{padding:16px 16px 18px}
     .tag{display:inline-flex;padding:6px 10px;border:2px solid #000;border-radius:999px;background:#fff;font-size:12px;margin-right:8px;color:#334155;font-weight:500}
 
     /* ===== Contact ===== */
-    form{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+    form{display:grid;grid-template-columns:1fr 1fr;gap:12px;min-width:0}
     form .full{grid-column:1/-1}
     input,textarea{width:100%;padding:14px 16px;border-radius:12px;background:#fff;border:2px solid #000;color:var(--ink);transition:all .2s ease}
     input:focus,textarea:focus{outline:none;border-color:var(--accent-2);box-shadow:0 0 0 2px rgba(20,184,166,.25)}
@@ -128,9 +132,7 @@
     .modal-ftr{display:flex;gap:10px;justify-content:flex-end;padding:10px 16px 16px}
 
     /* ===== Chat widget (menu mode) ===== */
-    #chat-launcher{
-      position:fixed; right:20px; bottom:20px; z-index:9999;
-    }
+    #chat-launcher{ position:fixed; right:20px; bottom:20px; z-index:9999; }
     .chat-panel{
       position:fixed; right:20px; bottom:80px; width:360px; max-width:92vw;
       background:#fff; border:2px solid #000; border-radius:16px;
@@ -144,57 +146,45 @@
     .msg{ margin:8px 0; }
     .msg .who{ font-weight:700; margin-bottom:2px; }
 
-    .options-wrap{
-      display:flex; flex-wrap:wrap; gap:8px; padding:10px; border-top:1.5px solid #000; background:#fafafa;
-    }
+    .options-wrap{ display:flex; flex-wrap:wrap; gap:8px; padding:10px; border-top:1.5px solid #000; background:#fafafa; }
     .qchip{
-      appearance:none; cursor:pointer;
-      border:2px solid #000; background:#fff; border-radius:999px;
-      padding:8px 12px; font-weight:700; font-size:12px;
-      transition:transform .04s ease, background .15s ease;
+      appearance:none; cursor:pointer; border:2px solid #000; background:#fff; border-radius:999px;
+      padding:8px 12px; font-weight:700; font-size:12px; transition:transform .04s ease, background .15s ease;
     }
     .qchip:hover{ background:#f2f7ff; transform:translateY(-1px); }
     .qchip:active{ transform:translateY(0); }
 
-    /* ===== Mobile polish ===== */
-    @media (max-width: 420px){
-      :root{ --navh:60px; --radius:18px; }
-      header.nav{ top:8px; }
-      .nav-inner{ padding:8px 10px; gap:10px; }
-      .nav-inner a{ padding:6px 8px; font-size:13px; }
-      .brand{ font-size:14px; }
+    /* ===== Earlier collapse for mobile ===== */
+    @media (max-width: 768px){
+      .hero-grid{ grid-template-columns:1fr; }
+      .hero-photo{ justify-self:start; width:88vw; border-radius:18px; }
+    }
 
-      section{ padding:86px 0; }
-      .browser-wrap{ width:94vw; border-radius:18px; }
+    /* ===== Mobile polish ===== */
+    @media (max-width: 480px){
+      :root{ --navh:60px; --radius:18px; }
+      section{ padding:90px 0; }
       .browser-topbar{ height:44px; }
 
-      .hero-title{ font:900 38px/1.05 Inter; -webkit-text-stroke:1.5px #fff; }
+      .hero-title{ font:900 34px/1.12 Inter; -webkit-text-stroke:1.2px #fff; }
+      .hero-title em{ -webkit-text-stroke:1.2px #000; }
       .hero-sub{ font-size:15px; }
       .cta-row .btn{ padding:12px 14px; font-size:14px; }
-      .hero-photo{ width:72vw; justify-self:start; border-radius:18px; }
 
-      .t-item{ grid-template-columns:42px 1fr; gap:12px; padding:14px; border-radius:14px; }
-      .t-item h3{ font-size:16px; }
-      .t-item h4{ font-size:14px; }
-      .t-item .meta{ font-size:11px; }
-
-      .chip{ padding:10px 12px; font-size:13px; }
-      .meter{ padding:12px; }
-      .meter .pct{ font-size:12px; }
-
-      .card{ border-radius:16px; }
+      .projects{ gap:14px; }
+      .card{ grid-column:span 12; border-radius:16px; }
       .card .thumb{ height:120px; }
-      .card .body{ padding:14px; }
 
       /* Contact column stack */
       #contact .browser-body > div[style]{
         grid-template-columns:1fr !important;
         gap:16px !important;
+        min-width:0;
       }
       input, textarea{ padding:12px 14px; font-size:16px; } /* prevent iOS zoom */
       footer{ padding:18px 0 70px 0; }
 
-      #chat-launcher{ right:16px; bottom:16px; padding:10px 14px; font-size:14px; }
+      #chat-launcher{ right:16px; bottom:calc(16px + env(safe-area-inset-bottom)); padding:10px 14px; font-size:14px; }
       .chat-panel{ right:8px; bottom:72px; width:92vw; border-radius:14px; }
       .chat-log{ height:52vh; }
       .section-hd .title{ font-size:24px; }
@@ -205,6 +195,7 @@
       .hero-title{ font-size:32px; }
       .cta-row .btn{ font-size:13px; padding:10px 12px; }
       .nav-inner a{ display:none; } /* keep brand only if extremely tight */
+      .brand{ font-size:14px; }
     }
   </style>
 </head>
@@ -531,7 +522,7 @@
           </div>
         </div>
 
-        <div style="display:grid;grid-template-columns:1.2fr .8fr;gap:24px;align-items:start">
+        <div style="display:grid;grid-template-columns:1.2fr .8fr;gap:24px;align-items:start;min-width:0">
           <form onsubmit="event.preventDefault(); alert('Thanks! I\\'ll get back to you soon.');">
             <input class="full" type="text" placeholder="Your name" required>
             <input type="email" placeholder="Email" required>
@@ -611,14 +602,12 @@
 
     // ===== Chat widget (menu-driven, portfolio-only) =====
     document.addEventListener('DOMContentLoaded', () => {
-      // Launcher
       const launch = document.createElement('button');
       launch.id = 'chat-launcher';
       launch.className = 'btn secondary';
       launch.textContent = 'Chat with me';
       document.body.appendChild(launch);
 
-      // Panel
       const panel = document.createElement('div');
       panel.id = 'chat-panel';
       panel.className = 'chat-panel';
@@ -642,7 +631,6 @@
         logEl.scrollTop = logEl.scrollHeight;
       }
 
-      // Site knowledge (answers)
       const KB = {
         summary:
 `I'm <strong>Shirlene Rose Bandela</strong> a Data Engineer & ML practitioner (Java/Spring Batch, SQL, AWS S3/Glue/Athena/Redshift, SageMaker; LLM k-shot + agentic validation). Based in Falls Church, VA; open to relocate.`,
@@ -661,7 +649,6 @@ Resume: <a href="assets/Shirlene_Resume.pdf" target="_blank" rel="noopener">Down
         certs: `Certification: AWS CLF-C02.`
       };
 
-      // Question catalogue (buttons)
       const QUESTION_SETS = [
         { id:'q1', label:'Summarize your profile',        key:'summary'  },
         { id:'q2', label:'Show your projects',            key:'projects' },
@@ -687,7 +674,7 @@ Resume: <a href="assets/Shirlene_Resume.pdf" target="_blank" rel="noopener">Down
         append('user', q.label);
         const ans = KB[q.key] || KB.na;
         append('assistant', ans);
-        renderOptions(); // re-show menu
+        renderOptions();
       }
 
       function openPanel(){
@@ -700,7 +687,6 @@ Resume: <a href="assets/Shirlene_Resume.pdf" target="_blank" rel="noopener">Down
       }
       function closePanel(){ panel.classList.remove('show'); }
 
-      // Events
       document.getElementById('chat-launcher').addEventListener('click', openPanel);
       closeB.addEventListener('click', closePanel);
       panel.addEventListener('click', (e)=>{ if (e.target === panel) closePanel(); });
