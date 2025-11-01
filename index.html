@@ -117,7 +117,7 @@
     .modal-close{appearance:none;border:2px solid #000;background:#fff;color:#111;padding:6px 10px;border-radius:999px;font-weight:700;cursor:pointer}
     .modal-ftr{display:flex;gap:10px;justify-content:flex-end;padding:10px 16px 16px}
 
-    /* ===== Chat widget ===== */
+    /* ===== Chat widget (menu mode) ===== */
     #chat-launcher{
       position:fixed; right:20px; bottom:20px; z-index:9999;
     }
@@ -131,10 +131,20 @@
     .chat-header{ display:flex; align-items:center; gap:8px; padding:10px 14px; border-bottom:1.5px solid #000; font-weight:800; background:#f7fafc;}
     .chat-close{ margin-left:auto; border:1.5px solid #000; border-radius:8px; background:#fff; padding:4px 8px; cursor:pointer; }
     .chat-log{ height:360px; overflow:auto; padding:12px; font-size:14px; }
-    .chat-form{ display:flex; gap:8px; padding:10px; border-top:1.5px solid #000; }
-    .chat-form input{ flex:1; padding:10px; border:1.5px solid #000; border-radius:10px; }
     .msg{ margin:8px 0; }
     .msg .who{ font-weight:700; margin-bottom:2px; }
+
+    .options-wrap{
+      display:flex; flex-wrap:wrap; gap:8px; padding:10px; border-top:1.5px solid #000; background:#fafafa;
+    }
+    .qchip{
+      appearance:none; cursor:pointer;
+      border:2px solid #000; background:#fff; border-radius:999px;
+      padding:8px 12px; font-weight:700; font-size:12px;
+      transition:transform .04s ease, background .15s ease;
+    }
+    .qchip:hover{ background:#f2f7ff; transform:translateY(-1px); }
+    .qchip:active{ transform:translateY(0); }
   </style>
 </head>
 <body>
@@ -251,7 +261,7 @@
     <div class="browser-wrap">
       <div class="browser-topbar">
         <span class="dot red"></span><span class="dot amber"></span><span class="dot green"></span>
-        <div class="toolbar-line"></div>
+      <div class="toolbar-line"></div>
       </div>
 
       <div class="browser-body">
@@ -338,25 +348,25 @@
             </div>
           </article>
 
-        <article class="card">
-          <div class="thumb"></div>
-          <div class="body">
-            <span class="tag">LLMs • Sentence-Transformers</span>
-            <h3>Trigger-Warning Classification (Reddit)</h3>
-            <p class="lead">Dynamic k-shot prompt builder using cosine similarity over embeddings; agentic validation loop with per-label perplexity and confusion reports; AWS-orchestrated runs.</p>
-            <button type="button" class="btn open-modal" data-tpl="tpl-tw" style="margin-top:6px">Discuss evaluation loop</button>
-          </div>
-        </article>
+          <article class="card">
+            <div class="thumb"></div>
+            <div class="body">
+              <span class="tag">LLMs • Sentence-Transformers</span>
+              <h3>Trigger-Warning Classification (Reddit)</h3>
+              <p class="lead">Dynamic k-shot prompt builder using cosine similarity over embeddings; agentic validation loop with per-label perplexity and confusion reports; AWS-orchestrated runs.</p>
+              <button type="button" class="btn open-modal" data-tpl="tpl-tw" style="margin-top:6px">Discuss evaluation loop</button>
+            </div>
+          </article>
 
-        <article class="card">
-          <div class="thumb"></div>
-          <div class="body">
-            <span class="tag">Java • Spring • SQL</span>
-            <h3>Card Fraud-Risk ETL Modernization</h3>
-            <p class="lead">Restartable batch jobs with JDBC readers/writers, tuned queries, transaction boundaries, and audit logging; 40% storage reduction via S3 lifecycle policies.</p>
-            <button type="button" class="btn open-modal" data-tpl="tpl-card" style="margin-top:6px">See the checklist</button>
-          </div>
-        </article>
+          <article class="card">
+            <div class="thumb"></div>
+            <div class="body">
+              <span class="tag">Java • Spring • SQL</span>
+              <h3>Card Fraud-Risk ETL Modernization</h3>
+              <p class="lead">Restartable batch jobs with JDBC readers/writers, tuned queries, transaction boundaries, and audit logging; 40% storage reduction via S3 lifecycle policies.</p>
+              <button type="button" class="btn open-modal" data-tpl="tpl-card" style="margin-top:6px">See the checklist</button>
+            </div>
+          </article>
         </div>
 
         <!-- ==== Project detail templates (hidden) ==== -->
@@ -538,7 +548,7 @@
     modal.addEventListener('click', e => { if (e.target === modal) closeModal(); });
     document.addEventListener('keydown', e => { if (e.key === 'Escape' && modal.classList.contains('show')) closeModal(); });
 
-    // ===== Chat widget (free/local, portfolio-only) =====
+    // ===== Chat widget (menu-driven, portfolio-only) =====
     document.addEventListener('DOMContentLoaded', () => {
       // Launcher
       const launch = document.createElement('button');
@@ -555,17 +565,13 @@
         <div class="chat-header">Shirlene’s Assistant (free)
           <button class="chat-close" aria-label="Close">×</button>
         </div>
-        <div id="chat-log" class="chat-log"></div>
-        <form id="chat-form" class="chat-form">
-          <input id="chat-input" type="text" placeholder="Ask about my profile, projects, resume…" required>
-          <button class="btn" type="submit">Send</button>
-        </form>`;
+        <div id="chat-log" class="chat-log" aria-live="polite"></div>
+        <div id="chat-options" class="options-wrap"></div>`;
       document.body.appendChild(panel);
 
-      const logEl  = panel.querySelector('#chat-log');
-      const form   = panel.querySelector('#chat-form');
-      const input  = panel.querySelector('#chat-input');
-      const closeB = panel.querySelector('.chat-close');
+      const logEl   = panel.querySelector('#chat-log');
+      const optsEl  = panel.querySelector('#chat-options');
+      const closeB  = panel.querySelector('.chat-close');
 
       function append(role, html) {
         const wrap = document.createElement('div');
@@ -575,7 +581,7 @@
         logEl.scrollTop = logEl.scrollHeight;
       }
 
-      // Hard-coded portfolio KB (site-only; anything else -> NA)
+      // Site knowledge (answers)
       const KB = {
         summary:
 `I'm <strong>Shirlene Rose Bandela</strong> — Data Engineer & ML practitioner (Java/Spring Batch, SQL, AWS S3/Glue/Athena/Redshift, SageMaker; LLM k-shot + agentic validation). Based in Falls Church, VA; open to relocate.`,
@@ -587,38 +593,51 @@ Resume: <a href="assets/Shirlene_Resume.pdf" target="_blank" rel="noopener">Down
 `• <strong>Frequent-Flyer Fraud</strong>: Kafka→Glue→S3, SageMaker scoring, Redshift dashboards (≈18% better detection).<br>
 • <strong>Chest X-ray COVID</strong>: ResNet-50, AUROC 0.97, F1 0.92; CLI/REST inference.<br>
 • <strong>Trigger-Warning (Reddit)</strong>: LLM k-shot + active learning; AWS-orchestrated runs.<br>
-• <strong>Card Fraud-Risk ETL</strong>: Spring Batch, SQL tuning, 40% S3 storage reduction.`
+• <strong>Card Fraud-Risk ETL</strong>: Spring Batch, SQL tuning, 40% S3 storage reduction.`,
+        skills:
+`Java/Spring Batch, SQL (Oracle/Teradata/Redshift), Kafka, AWS (S3/Glue/Athena/Redshift/SageMaker), Python/Pandas/PySpark, CI/CD, Docker, basic React.`,
+        location: `Based in Falls Church, VA — open to relocate.`,
+        certs: `Certification: AWS CLF-C02.`,
+        na: `NA — I can only answer questions about Shirlene’s portfolio.`
       };
 
-      // Router + strict topic filter
-      function answer(q) {
-        const m = q.toLowerCase();
+      // Question catalogue (buttons)
+      const QUESTION_SETS = [
+        { id:'q1', label:'Summarize your profile',        key:'summary'  },
+        { id:'q2', label:'Show your projects',            key:'projects' },
+        { id:'q3', label:'What skills/stack do you use?', key:'skills'   },
+        { id:'q4', label:'Share resume / LinkedIn',       key:'contact'  },
+        { id:'q5', label:'Where are you based?',          key:'location' },
+        { id:'q6', label:'Any certifications?',           key:'certs'    },
+        { id:'q7', label:'Ask something else (NA)',       key:'na'       },
+      ];
 
-        // Instant NA for unrelated topics
-        const unrelated = ["weather","news","sports","stocks","movie","joke","math","translate","python code","code this","politics","music"];
-        if (unrelated.some(w => m.includes(w))) return "NA — I can only answer questions about Shirlene’s portfolio.";
+      function renderOptions() {
+        optsEl.innerHTML = '';
+        QUESTION_SETS.forEach(q => {
+          const b = document.createElement('button');
+          b.className = 'qchip';
+          b.type = 'button';
+          b.textContent = q.label;
+          b.addEventListener('click', () => handleChoice(q));
+          optsEl.appendChild(b);
+        });
+      }
 
-        if (/hello|hi|hey/.test(m)) return "Hi! I can summarize my profile, list projects, or share resume/LinkedIn.";
-        if (/summar|about you|profile|intro|who are you/.test(m)) return KB.summary;
-        if (/contact|email|linkedin|resume|cv/.test(m)) return KB.contact;
-        if (/project|work|portfolio/.test(m)) return KB.projects;
-        if (/skills|stack|tech/.test(m)) {
-          return "Stacks: Java/Spring Batch, SQL (Oracle/Teradata/Redshift), Kafka, AWS (S3/Glue/Athena/Redshift/SageMaker), Python/Pandas/PySpark, CI/CD, Docker, basic React.";
-        }
-        if (/where.*based|location|relocat/.test(m)) return "Based in Falls Church, VA — open to relocate.";
-        if (/cert|aws.*cert/.test(m)) return "Certification: AWS CLF-C02.";
-
-        // Default hint (still portfolio-only)
-        return "I can summarize my profile, list projects by tech, or share resume/LinkedIn. Try: <em>“summarize your profile”</em> or <em>“share your resume”</em>.";
+      function handleChoice(q) {
+        append('user', q.label);
+        const ans = KB[q.key] || KB.na;
+        append('assistant', ans);
+        renderOptions(); // re-show menu
       }
 
       function openPanel(){
         panel.classList.add('show');
         if (!logEl.dataset.greeted){
-          append('assistant', "Hi! Ask me for a quick summary, projects, or links to my resume/LinkedIn. I only answer portfolio-related questions.");
+          append('assistant', "Hi! Pick a question below — I only answer portfolio-related topics.");
           logEl.dataset.greeted = '1';
         }
-        input.focus();
+        renderOptions();
       }
       function closePanel(){ panel.classList.remove('show'); }
 
@@ -627,15 +646,6 @@ Resume: <a href="assets/Shirlene_Resume.pdf" target="_blank" rel="noopener">Down
       closeB.addEventListener('click', closePanel);
       panel.addEventListener('click', (e)=>{ if (e.target === panel) closePanel(); });
       document.addEventListener('keydown', e => { if (e.key === 'Escape' && panel.classList.contains('show')) closePanel(); });
-
-      form.addEventListener('submit', (e) => {
-        e.preventDefault();
-        const msg = input.value.trim();
-        if (!msg) return;
-        append('user', msg.replace(/\n/g,'<br/>'));
-        input.value = '';
-        append('assistant', answer(msg));
-      });
     });
   </script>
 </body>
