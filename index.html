@@ -338,25 +338,25 @@
             </div>
           </article>
 
-          <article class="card">
-            <div class="thumb"></div>
-            <div class="body">
-              <span class="tag">LLMs • Sentence-Transformers</span>
-              <h3>Trigger-Warning Classification (Reddit)</h3>
-              <p class="lead">Dynamic k-shot prompt builder using cosine similarity over embeddings; agentic validation loop with per-label perplexity and confusion reports; AWS-orchestrated runs.</p>
-              <button type="button" class="btn open-modal" data-tpl="tpl-tw" style="margin-top:6px">Discuss evaluation loop</button>
-            </div>
-          </article>
+        <article class="card">
+          <div class="thumb"></div>
+          <div class="body">
+            <span class="tag">LLMs • Sentence-Transformers</span>
+            <h3>Trigger-Warning Classification (Reddit)</h3>
+            <p class="lead">Dynamic k-shot prompt builder using cosine similarity over embeddings; agentic validation loop with per-label perplexity and confusion reports; AWS-orchestrated runs.</p>
+            <button type="button" class="btn open-modal" data-tpl="tpl-tw" style="margin-top:6px">Discuss evaluation loop</button>
+          </div>
+        </article>
 
-          <article class="card">
-            <div class="thumb"></div>
-            <div class="body">
-              <span class="tag">Java • Spring • SQL</span>
-              <h3>Card Fraud-Risk ETL Modernization</h3>
-              <p class="lead">Restartable batch jobs with JDBC readers/writers, tuned queries, transaction boundaries, and audit logging; 40% storage reduction via S3 lifecycle policies.</p>
-              <button type="button" class="btn open-modal" data-tpl="tpl-card" style="margin-top:6px">See the checklist</button>
-            </div>
-          </article>
+        <article class="card">
+          <div class="thumb"></div>
+          <div class="body">
+            <span class="tag">Java • Spring • SQL</span>
+            <h3>Card Fraud-Risk ETL Modernization</h3>
+            <p class="lead">Restartable batch jobs with JDBC readers/writers, tuned queries, transaction boundaries, and audit logging; 40% storage reduction via S3 lifecycle policies.</p>
+            <button type="button" class="btn open-modal" data-tpl="tpl-card" style="margin-top:6px">See the checklist</button>
+          </div>
+        </article>
         </div>
 
         <!-- ==== Project detail templates (hidden) ==== -->
@@ -538,14 +538,16 @@
     modal.addEventListener('click', e => { if (e.target === modal) closeModal(); });
     document.addEventListener('keydown', e => { if (e.key === 'Escape' && modal.classList.contains('show')) closeModal(); });
 
-    // ===== Chat widget (free/local) =====
+    // ===== Chat widget (free/local, portfolio-only) =====
     document.addEventListener('DOMContentLoaded', () => {
+      // Launcher
       const launch = document.createElement('button');
       launch.id = 'chat-launcher';
       launch.className = 'btn secondary';
       launch.textContent = 'Chat with me';
       document.body.appendChild(launch);
 
+      // Panel
       const panel = document.createElement('div');
       panel.id = 'chat-panel';
       panel.className = 'chat-panel';
@@ -573,6 +575,7 @@
         logEl.scrollTop = logEl.scrollHeight;
       }
 
+      // Hard-coded portfolio KB (site-only; anything else -> NA)
       const KB = {
         summary:
 `I'm <strong>Shirlene Rose Bandela</strong> — Data Engineer & ML practitioner (Java/Spring Batch, SQL, AWS S3/Glue/Athena/Redshift, SageMaker; LLM k-shot + agentic validation). Based in Falls Church, VA; open to relocate.`,
@@ -587,27 +590,40 @@ Resume: <a href="assets/Shirlene_Resume.pdf" target="_blank" rel="noopener">Down
 • <strong>Card Fraud-Risk ETL</strong>: Spring Batch, SQL tuning, 40% S3 storage reduction.`
       };
 
+      // Router + strict topic filter
       function answer(q) {
         const m = q.toLowerCase();
+
+        // Instant NA for unrelated topics
+        const unrelated = ["weather","news","sports","stocks","movie","joke","math","translate","python code","code this","politics","music"];
+        if (unrelated.some(w => m.includes(w))) return "NA — I can only answer questions about Shirlene’s portfolio.";
+
         if (/hello|hi|hey/.test(m)) return "Hi! I can summarize my profile, list projects, or share resume/LinkedIn.";
-        if (/summar|about you|profile|intro/.test(m)) return KB.summary;
+        if (/summar|about you|profile|intro|who are you/.test(m)) return KB.summary;
         if (/contact|email|linkedin|resume|cv/.test(m)) return KB.contact;
         if (/project|work|portfolio/.test(m)) return KB.projects;
-        if (/skills|stack|tech/.test(m)) return "Stacks: Java/Spring Batch, SQL (Oracle/Teradata/Redshift), Kafka, AWS (S3/Glue/Athena/Redshift/SageMaker), Python/Pandas/PySpark, CI/CD, Docker, basic React.";
+        if (/skills|stack|tech/.test(m)) {
+          return "Stacks: Java/Spring Batch, SQL (Oracle/Teradata/Redshift), Kafka, AWS (S3/Glue/Athena/Redshift/SageMaker), Python/Pandas/PySpark, CI/CD, Docker, basic React.";
+        }
+        if (/where.*based|location|relocat/.test(m)) return "Based in Falls Church, VA — open to relocate.";
+        if (/cert|aws.*cert/.test(m)) return "Certification: AWS CLF-C02.";
+
+        // Default hint (still portfolio-only)
         return "I can summarize my profile, list projects by tech, or share resume/LinkedIn. Try: <em>“summarize your profile”</em> or <em>“share your resume”</em>.";
       }
 
       function openPanel(){
         panel.classList.add('show');
         if (!logEl.dataset.greeted){
-          append('assistant', "Hi! Ask me for a quick summary, projects, or links to my resume/LinkedIn.");
+          append('assistant', "Hi! Ask me for a quick summary, projects, or links to my resume/LinkedIn. I only answer portfolio-related questions.");
           logEl.dataset.greeted = '1';
         }
         input.focus();
       }
       function closePanel(){ panel.classList.remove('show'); }
 
-      launch.addEventListener('click', openPanel);
+      // Events
+      document.getElementById('chat-launcher').addEventListener('click', openPanel);
       closeB.addEventListener('click', closePanel);
       panel.addEventListener('click', (e)=>{ if (e.target === panel) closePanel(); });
       document.addEventListener('keydown', e => { if (e.key === 'Escape' && panel.classList.contains('show')) closePanel(); });
