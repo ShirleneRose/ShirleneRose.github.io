@@ -92,7 +92,17 @@
     .projects{display:grid;grid-template-columns:repeat(12,1fr);gap:16px}
     .card{grid-column:span 6;background:var(--card);border:2px solid #000;border-radius:18px;overflow:hidden;transition:transform .25s ease, box-shadow .25s ease;box-shadow:0 6px 18px rgba(0,0,0,.08)}
     .card:hover{transform:translateY(-4px);box-shadow:0 12px 30px rgba(0,0,0,.12)}
-    .card .thumb{height:150px;background:radial-gradient(40% 60% at 60% 30%, rgba(167,139,250,.2), transparent),radial-gradient(40% 60% at 40% 70%, rgba(125,211,252,.2), transparent),linear-gradient(180deg,#eef3fb,#eaf0ff);border-bottom:2px solid #000}
+    .card .thumb{
+      height:150px;border-bottom:2px solid #000;
+      background-size:cover;background-position:center;
+      background-repeat:no-repeat;
+      /* subtle overlay to keep text readable */
+      position:relative;
+    }
+    .card .thumb::after{
+      content:""; position:absolute; inset:0;
+      background:linear-gradient(180deg, rgba(0,0,0,0.00), rgba(0,0,0,0.03));
+    }
     .card .body{padding:16px 16px 18px}
     .tag{display:inline-flex;padding:6px 10px;border:2px solid #000;border-radius:999px;background:#fff;font-size:12px;margin-right:8px;color:#334155;font-weight:500}
 
@@ -145,6 +155,57 @@
     }
     .qchip:hover{ background:#f2f7ff; transform:translateY(-1px); }
     .qchip:active{ transform:translateY(0); }
+
+    /* ===== Mobile polish ===== */
+    @media (max-width: 420px){
+      :root{ --navh:60px; --radius:18px; }
+      header.nav{ top:8px; }
+      .nav-inner{ padding:8px 10px; gap:10px; }
+      .nav-inner a{ padding:6px 8px; font-size:13px; }
+      .brand{ font-size:14px; }
+
+      section{ padding:86px 0; }
+      .browser-wrap{ width:94vw; border-radius:18px; }
+      .browser-topbar{ height:44px; }
+
+      .hero-title{ font:900 38px/1.05 Inter; -webkit-text-stroke:1.5px #fff; }
+      .hero-sub{ font-size:15px; }
+      .cta-row .btn{ padding:12px 14px; font-size:14px; }
+      .hero-photo{ width:72vw; justify-self:start; border-radius:18px; }
+
+      .t-item{ grid-template-columns:42px 1fr; gap:12px; padding:14px; border-radius:14px; }
+      .t-item h3{ font-size:16px; }
+      .t-item h4{ font-size:14px; }
+      .t-item .meta{ font-size:11px; }
+
+      .chip{ padding:10px 12px; font-size:13px; }
+      .meter{ padding:12px; }
+      .meter .pct{ font-size:12px; }
+
+      .card{ border-radius:16px; }
+      .card .thumb{ height:120px; }
+      .card .body{ padding:14px; }
+
+      /* Contact column stack */
+      #contact .browser-body > div[style]{
+        grid-template-columns:1fr !important;
+        gap:16px !important;
+      }
+      input, textarea{ padding:12px 14px; font-size:16px; } /* prevent iOS zoom */
+      footer{ padding:18px 0 70px 0; }
+
+      #chat-launcher{ right:16px; bottom:16px; padding:10px 14px; font-size:14px; }
+      .chat-panel{ right:8px; bottom:72px; width:92vw; border-radius:14px; }
+      .chat-log{ height:52vh; }
+      .section-hd .title{ font-size:24px; }
+      .section-hd .lead{ font-size:14px; }
+    }
+
+    @media (max-width: 360px){
+      .hero-title{ font-size:32px; }
+      .cta-row .btn{ font-size:13px; padding:10px 12px; }
+      .nav-inner a{ display:none; } /* keep brand only if extremely tight */
+    }
   </style>
 </head>
 <body>
@@ -329,7 +390,7 @@
 
         <div class="projects">
           <article class="card">
-            <div class="thumb"></div>
+            <div class="thumb" style="background-image:url('assets/boeing.jpg');"></div>
             <div class="body">
               <span class="tag">Kafka → Glue → S3 → Redshift</span>
               <h3>Boeing Airlines: Frequent-Flyer Fraud Detection</h3>
@@ -339,7 +400,7 @@
           </article>
 
           <article class="card">
-            <div class="thumb"></div>
+            <div class="thumb" style="background-image:url('assets/cxr.jpg');"></div>
             <div class="body">
               <span class="tag">TensorFlow • ResNet-50</span>
               <h3>COVID-19 Detection via Chest X-Rays</h3>
@@ -349,7 +410,7 @@
           </article>
 
           <article class="card">
-            <div class="thumb"></div>
+            <div class="thumb" style="background-image:url('assets/tw.jpg');"></div>
             <div class="body">
               <span class="tag">LLMs • Sentence-Transformers</span>
               <h3>Trigger-Warning Classification (Reddit)</h3>
@@ -359,7 +420,7 @@
           </article>
 
           <article class="card">
-            <div class="thumb"></div>
+            <div class="thumb" style="background-image:url('assets/etl.jpg');"></div>
             <div class="body">
               <span class="tag">Java • Spring • SQL</span>
               <h3>Card Fraud-Risk ETL Modernization</h3>
