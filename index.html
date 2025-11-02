@@ -23,18 +23,13 @@
     body{margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial;color:var(--ink);background:var(--band-a);overflow-x:hidden}
     a{color:#0b6f9c;text-decoration:none} a:hover{text-decoration:underline}
 
-    /* ===== NAV (white border) ===== */
-    header.nav{
-      position:fixed; inset-inline:0;
-      top:calc(8px + env(safe-area-inset-top));
-      z-index:50; display:flex; justify-content:center; pointer-events:none
-    }
+    /* ===== NAV ===== */
+    header.nav{position:fixed; inset-inline:0; top:calc(8px + env(safe-area-inset-top)); z-index:50; display:flex; justify-content:center; pointer-events:none}
     .nav-inner{
       pointer-events:auto; display:flex; align-items:center; gap:18px;
       background:#0c0c0c; color:#fff; border:2px solid #fff; border-radius:999px; padding:10px 16px;
       box-shadow:0 10px 28px rgba(0,0,0,.35); transition:box-shadow .2s ease, transform .2s ease;
-      max-width:calc(100vw - 24px);
-      overflow-x:auto; white-space:nowrap; overscroll-behavior-x:contain; -webkit-overflow-scrolling:touch;
+      max-width:calc(100vw - 24px); overflow-x:auto; white-space:nowrap; -webkit-overflow-scrolling:touch;
     }
     .nav-inner::-webkit-scrollbar{display:none;}
     .nav-inner:hover{box-shadow:0 10px 32px rgba(255,255,255,.15);transform:translateY(-1px)}
@@ -68,10 +63,6 @@
     .btn.secondary{background:var(--btn-secondary);color:var(--ink);border:2px solid #000;box-shadow:0 8px 20px rgba(0,0,0,.15)}
     .btn.secondary:hover{background:var(--btn-secondary-hover);transform:translateY(-1px)}
 
-    /* ===== Hero photo ===== */
-    .hero-photo{position:relative;width:min(560px,100%);justify-self:end;border-radius:22px;overflow:hidden;border:3px solid #000;box-shadow:0 10px 30px rgba(0,0,0,.15)}
-    .hero-photo img{width:100%;height:auto;display:block;object-fit:cover}
-
     /* ===== Section headers ===== */
     .section-hd{display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:12px}
     .eyebrow{font:700 12px/1 Inter;letter-spacing:.16em;text-transform:uppercase;color:#6b7280}
@@ -97,18 +88,40 @@
 
     /* ===== Projects ===== */
     .projects{display:grid;grid-template-columns:repeat(12,1fr);gap:16px}
-    .card{grid-column:span 6;background:var(--card);border:2px solid #000;border-radius:18px;overflow:hidden;transition:transform .25s ease, box-shadow .25s ease;box-shadow:0 6px 18px rgba(0,0,0,.08)}
+
+    .card{
+      grid-column:span 6;
+      background:var(--card);
+      border:2px solid #000;
+      border-radius:18px;
+      overflow:hidden;
+      transition:transform .25s ease, box-shadow .25s ease;
+      box-shadow:0 6px 18px rgba(0,0,0,.08)
+    }
     .card:hover{transform:translateY(-4px);box-shadow:0 12px 30px rgba(0,0,0,.12)}
 
-    /* NEW: image-based thumbs (high clarity, no crop) */
-    .card .thumb{height:150px;border-bottom:2px solid #000;background:#fff;overflow:hidden;position:relative}
-    .card .thumb img{width:100%;height:100%;object-fit:contain;object-position:center;display:block}
+    /* --- COVER images, edge-to-edge --- */
+    .card .thumb{
+      height:240px;                 /* header height; tweak if you want taller */
+      border-bottom:2px solid #000; /* keeps your card style */
+      background:#000;              /* no letterboxing flashes */
+      overflow:hidden;
+    }
+    .card .thumb img{
+      width:100%;
+      height:100%;
+      object-fit:cover;             /* <-- key: fills both width & height */
+      object-position:center;
+      display:block;
+    }
 
     .card .body{padding:16px 16px 18px}
     .tag{display:inline-flex;padding:6px 10px;border:2px solid #000;border-radius:999px;background:#fff;font-size:12px;margin-right:8px;color:#334155;font-weight:500}
 
-    /* ---- Make only the first two cards wider on desktop ---- */
-    .projects .card.wide{grid-column:span 12;}   /* full width rows for the first two */
+    /* First two cards span the whole row on desktop */
+    .projects .card.wide{grid-column:span 12;}
+    /* Give wide cards a slightly taller cover if you like */
+    .projects .card.wide .thumb{height:300px;}
 
     /* ===== Contact ===== */
     form{display:grid;grid-template-columns:1fr 1fr;gap:12px;min-width:0}
@@ -154,15 +167,12 @@
     .qchip:hover{ background:#f2f7ff; transform:translateY(-1px); }
     .qchip:active{ transform:translateY(0); }
 
-    /* ===== Earlier collapse for mobile ===== */
+    /* ===== Responsive ===== */
     @media (max-width: 768px){
       .hero-grid{ grid-template-columns:1fr; }
       .hero-photo{ justify-self:start; width:88vw; border-radius:18px; }
-      /* On tablet/mobile the cards already span full width;
-         wide rule remains harmless. */
     }
 
-    /* ===== Mobile polish ===== */
     @media (max-width: 480px){
       :root{ --navh:60px; --radius:18px; }
       section{ padding:90px 0; }
@@ -173,7 +183,7 @@
       .cta-row .btn{ padding:12px 14px; font-size:14px; }
       .projects{ gap:14px; }
       .card{ grid-column:span 12; border-radius:16px; }
-      .card .thumb{ height:120px; }
+      .card .thumb{ height:180px; }           /* mobile cover height */
       #contact .browser-body > div[style]{ grid-template-columns:1fr !important; gap:16px !important; min-width:0; }
       input, textarea{ padding:12px 14px; font-size:16px; }
       footer{ padding:18px 0 70px 0; }
