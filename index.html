@@ -23,11 +23,13 @@
     body{margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial;color:var(--ink);background:var(--band-a);overflow-x:hidden}
     a{color:#0b6f9c;text-decoration:none} a:hover{text-decoration:underline}
 
-    /* ===== NAV ===== */
+    /* ===== NAV (pill) ===== */
     header.nav{
-      position:sticky;              /* stick to top within page flow */
+      position:fixed;            /* keep it truly fixed */
+      inset-inline:0;
       top:calc(8px + env(safe-area-inset-top));
-      z-index:50; display:flex; justify-content:center; pointer-events:none;
+      z-index:1000;              /* above “browser” frames */
+      display:flex; justify-content:center; pointer-events:none;
     }
     .nav-inner{
       pointer-events:auto; display:flex; align-items:center; gap:18px;
@@ -41,33 +43,31 @@
     .nav-inner a:hover{background:rgba(255,255,255,.08);opacity:1}
     .brand{font-weight:900;letter-spacing:.3px;background:linear-gradient(90deg,var(--accent),var(--accent-2));-webkit-background-clip:text;background-clip:text;color:transparent}
 
-    /* Compact (after hero) */
-    header.nav.compact .nav-inner{ padding:8px 12px; box-shadow:0 8px 24px rgba(0,0,0,.35); }
-    header.nav.compact .nav-inner a:not(.brand){ display:none; }
-    header.nav.compact .hamburger{ display:inline-flex; }
-
-    /* Hamburger button */
-    .hamburger{
-      margin-left:auto; display:none; align-items:center; justify-content:center;
-      width:38px; height:34px; border-radius:10px; border:2px solid #fff; background:#0c0c0c;
-      cursor:pointer; pointer-events:auto;
+    /* ===== HAMBURGER toggle + drawer ===== */
+    .nav-toggle{
+      position:fixed; right:12px; top:calc(8px + env(safe-area-inset-top));
+      width:42px; height:38px; border-radius:10px; border:2px solid #fff; background:#0c0c0c; color:#fff;
+      display:none; align-items:center; justify-content:center; gap:4px;
+      z-index:1001; cursor:pointer; box-shadow:0 10px 28px rgba(0,0,0,.35);
     }
-    .hamburger span{ display:block; width:18px; height:2px; background:#fff; margin:3px 0;
-      transition:transform .2s ease, opacity .2s ease; }
-    .hamburger.active span:nth-child(1){ transform:translateY(5px) rotate(45deg); }
-    .hamburger.active span:nth-child(2){ opacity:0; }
-    .hamburger.active span:nth-child(3){ transform:translateY(-5px) rotate(-45deg); }
+    .nav-toggle span{display:block;width:18px;height:2px;background:#fff;transition:transform .2s ease,opacity .2s ease}
+    .nav-toggle.active span:nth-child(1){transform:translateY(5px) rotate(45deg)}
+    .nav-toggle.active span:nth-child(2){opacity:0}
+    .nav-toggle.active span:nth-child(3){transform:translateY(-5px) rotate(-45deg)}
 
-    /* Drawer dropdown */
-    .drawer{
-      position:absolute; right:10px; top:calc(100% + 10px);
-      list-style:none; margin:0; padding:8px; background:#0c0c0c; color:#fff;
-      border:2px solid #fff; border-radius:14px; box-shadow:0 12px 24px rgba(0,0,0,.35);
-      pointer-events:auto;
+    .nav-drawer{
+      position:fixed; right:12px; top:calc(54px + env(safe-area-inset-top));
+      background:#0c0c0c; color:#fff; border:2px solid #fff; border-radius:14px; padding:8px;
+      box-shadow:0 12px 24px rgba(0,0,0,.35); display:none; z-index:1001;
+      min-width:180px;
     }
-    .drawer li{ margin:4px 2px; }
-    .drawer a{ display:block; padding:8px 12px; color:#fff; border-radius:10px; text-decoration:none; }
-    .drawer a:hover{ background:rgba(255,255,255,.08); }
+    .nav-drawer a{display:block;color:#fff;padding:10px 12px;border-radius:10px;text-decoration:none}
+    .nav-drawer a:hover{background:rgba(255,255,255,.08)}
+
+    /* When hero leaves viewport => compact: hide pill links, show hamburger */
+    header.nav.compact .nav-inner a:not(.brand){display:none;}
+    header.nav.compact .nav-inner{padding:8px 12px;box-shadow:0 8px 24px rgba(0,0,0,.35);}
+    header.nav.compact + .nav-toggle{display:flex;}
 
     /* ===== Sections ===== */
     section{position:relative;padding:110px 0;scroll-margin-top:calc(var(--navh) + 24px)}
@@ -89,7 +89,7 @@
     .hero-sub{color:var(--muted-ink);max-width:60ch;font-size:clamp(14px,1.2vw,18px)}
     .cta-row{display:flex;gap:12px;margin-top:22px;flex-wrap:wrap}
 
-    /* ===== Hero photo (restored box-fit) ===== */
+    /* ===== Hero photo ===== */
     .hero-photo{
       position:relative; width:min(560px,100%); justify-self:end;
       border-radius:22px; overflow:hidden; border:3px solid #000; box-shadow:0 10px 30px rgba(0,0,0,.15);
@@ -132,7 +132,6 @@
       transition:transform .25s ease, box-shadow .25s ease; box-shadow:0 6px 18px rgba(0,0,0,.08)
     }
     .card:hover{transform:translateY(-4px);box-shadow:0 12px 30px rgba(0,0,0,.12)}
-    /* Cover images: edge-to-edge */
     .card .thumb{ height:240px; border-bottom:2px solid #000; background:#000; overflow:hidden; }
     .card .thumb img{ width:100%; height:100%; object-fit:cover; object-position:center; display:block; }
     .card .body{padding:16px 16px 18px}
@@ -188,8 +187,9 @@
     @media (max-width: 768px){
       .hero-grid{ grid-template-columns:1fr; }
       .hero-photo{ justify-self:start; width:88vw; border-radius:18px; }
-      .nav-inner a:not(.brand){ display:none; } /* hamburger always on mobile */
-      .hamburger{ display:inline-flex; }
+      /* On small screens, always show hamburger; hide pill links */
+      .nav-inner a:not(.brand){display:none;}
+      .nav-toggle{display:flex;}
     }
     @media (max-width: 480px){
       :root{ --navh:60px; --radius:18px; }
@@ -219,23 +219,22 @@
   </style>
 </head>
 <body>
-  <!-- NAV -->
+  <!-- NAV (pill) -->
   <header class="nav" id="site-nav">
-  <nav class="nav-inner" id="nav-desktop">
-    <span class="brand">Shirlene</span>
-    <a href="#hero">Home</a>
-    <a href="#timeline">Timeline</a>
-    <a href="#skills">Skills</a>
-    <a href="#projects">Projects</a>
-    <a href="#contact">Contact</a>
-  </nav>
+    <nav class="nav-inner" id="nav-desktop">
+      <span class="brand">Shirlene</span>
+      <a href="#hero">Home</a>
+      <a href="#timeline">Timeline</a>
+      <a href="#skills">Skills</a>
+      <a href="#projects">Projects</a>
+      <a href="#contact">Contact</a>
+    </nav>
+  </header>
 
-  <!-- floating hamburger (hidden at top; shown on scroll) -->
+  <!-- Floating hamburger + drawer (appear after hero leaves view, or on mobile) -->
   <button class="nav-toggle" id="nav-toggle" aria-label="Open menu" aria-expanded="false">
     <span></span><span></span><span></span>
   </button>
-
-  <!-- slide menu for hamburger -->
   <div class="nav-drawer" id="nav-drawer" aria-hidden="true">
     <a href="#hero">Home</a>
     <a href="#timeline">Timeline</a>
@@ -243,8 +242,6 @@
     <a href="#projects">Projects</a>
     <a href="#contact">Contact</a>
   </div>
-</header>
-
 
   <!-- ===== HERO ===== -->
   <section id="hero" class="band-a">
@@ -347,7 +344,7 @@
     <div class="browser-wrap">
       <div class="browser-topbar">
         <span class="dot red"></span><span class="dot amber"></span><span class="dot green"></span>
-      <div class="toolbar-line"></div>
+        <div class="toolbar-line"></div>
       </div>
 
       <div class="browser-body">
@@ -642,148 +639,145 @@
     modal.addEventListener('click', e => { if (e.target === modal) closeModal(); });
     document.addEventListener('keydown', e => { if (e.key === 'Escape' && modal.classList.contains('show')) closeModal(); });
 
-    /* ===== Sticky->Compact Nav & Hamburger ===== */
-    const nav = document.querySelector('header.nav');
+    /* ===== Pill->Hamburger via IntersectionObserver ===== */
+    const nav = document.getElementById('site-nav');
     const hero = document.getElementById('hero');
     const toggleBtn = document.getElementById('nav-toggle');
     const drawer = document.getElementById('nav-drawer');
 
-    // Observe hero to flip compact state
-    const obs = new IntersectionObserver(([entry]) => {
-      if (!entry.isIntersecting) {
-        nav.classList.add('compact');
-        toggleBtn.hidden = false;
-        drawer.hidden = true;
-        toggleBtn.classList.remove('active');
-      } else {
+    // Watch hero; when it leaves viewport => compact mode (show hamburger)
+    const io = new IntersectionObserver(([entry])=>{
+      if (entry.isIntersecting) {
         nav.classList.remove('compact');
-        if (window.matchMedia('(min-width: 769px)').matches){
-          toggleBtn.hidden = true;
-          drawer.hidden = true;
-          toggleBtn.classList.remove('active');
+        // On wide screens, hide the toggle when hero is visible
+        if (window.matchMedia('(min-width:769px)').matches) {
+          toggleBtn.style.display = 'none';
         }
-      }
-    }, { rootMargin: "-80px 0px 0px 0px", threshold: 0 });
-    obs.observe(hero);
-
-    function closeDrawer(){
-      drawer.hidden = true;
-      toggleBtn.classList.remove('active');
-    }
-    toggleBtn.addEventListener('click', () => {
-      const open = drawer.hidden;
-      drawer.hidden = !open;
-      toggleBtn.classList.toggle('active', open);
-    });
-    drawer.addEventListener('click', e => { if (e.target.tagName === 'A') closeDrawer(); });
-    document.addEventListener('click', e => {
-      if (!drawer.hidden && !drawer.contains(e.target) && e.target !== toggleBtn) closeDrawer();
-    });
-    document.addEventListener('keydown', e => { if (e.key === 'Escape') closeDrawer(); });
-
-    // Ensure correct state on resize across breakpoint
-    window.addEventListener('resize', () => {
-      if (window.matchMedia('(min-width: 769px)').matches && !nav.classList.contains('compact')){
-        toggleBtn.hidden = true; drawer.hidden = true; toggleBtn.classList.remove('active');
+        drawer.style.display = 'none';
+        toggleBtn.classList.remove('active');
+        toggleBtn.setAttribute('aria-expanded','false');
       } else {
-        toggleBtn.hidden = false;
+        nav.classList.add('compact');
+        toggleBtn.style.display = 'flex';
+      }
+    }, {threshold:0, rootMargin:'-8% 0px 0px 0px'});
+    io.observe(hero);
+
+    // Toggle drawer
+    function setDrawer(open){
+      drawer.style.display = open ? 'block' : 'none';
+      drawer.setAttribute('aria-hidden', open ? 'false' : 'true');
+      toggleBtn.classList.toggle('active', open);
+      toggleBtn.setAttribute('aria-expanded', open ? 'true' : 'false');
+    }
+    toggleBtn.addEventListener('click', ()=>{
+      const open = drawer.style.display !== 'block';
+      setDrawer(open);
+    });
+    drawer.addEventListener('click', e=>{ if(e.target.tagName === 'A') setDrawer(false); });
+    document.addEventListener('click', e=>{
+      if (drawer.style.display === 'block' && !e.target.closest('#nav-drawer') && e.target !== toggleBtn) setDrawer(false);
+    });
+    document.addEventListener('keydown', e=>{ if(e.key==='Escape') setDrawer(false); });
+    window.addEventListener('resize', ()=>{
+      // if back to wide and hero visible, hide toggle
+      if (window.matchMedia('(min-width:769px)').matches && nav.classList.contains('compact')===false){
+        toggleBtn.style.display = 'none';
+        setDrawer(false);
       }
     });
+
     // ===== Chat widget (restored) =====
-document.addEventListener('DOMContentLoaded', () => {
-  // launcher button
-  const launch = document.createElement('button');
-  launch.id = 'chat-launcher';
-  launch.className = 'btn secondary';
-  launch.textContent = 'Chat with me';
-  document.body.appendChild(launch);
+    document.addEventListener('DOMContentLoaded', () => {
+      const launch = document.createElement('button');
+      launch.id = 'chat-launcher';
+      launch.className = 'btn secondary';
+      launch.textContent = 'Chat with me';
+      document.body.appendChild(launch);
 
-  // panel shell
-  const panel = document.createElement('div');
-  panel.id = 'chat-panel';
-  panel.className = 'chat-panel';
-  panel.innerHTML = `
-    <div class="chat-header">Shirlene’s Assistant (free)
-      <button class="chat-close" aria-label="Close">×</button>
-    </div>
-    <div id="chat-log" class="chat-log" aria-live="polite"></div>
-    <div id="chat-options" class="options-wrap"></div>`;
-  document.body.appendChild(panel);
+      const panel = document.createElement('div');
+      panel.id = 'chat-panel';
+      panel.className = 'chat-panel';
+      panel.innerHTML = `
+        <div class="chat-header">Shirlene’s Assistant (free)
+          <button class="chat-close" aria-label="Close">×</button>
+        </div>
+        <div id="chat-log" class="chat-log" aria-live="polite"></div>
+        <div id="chat-options" class="options-wrap"></div>`;
+      document.body.appendChild(panel);
 
-  const logEl   = panel.querySelector('#chat-log');
-  const optsEl  = panel.querySelector('#chat-options');
-  const closeB  = panel.querySelector('.chat-close');
+      const logEl   = panel.querySelector('#chat-log');
+      const optsEl  = panel.querySelector('#chat-options');
+      const closeB  = panel.querySelector('.chat-close');
 
-  function append(role, html) {
-    const wrap = document.createElement('div');
-    wrap.className = 'msg';
-    wrap.innerHTML = `<div class="who">${role === 'user' ? 'You' : 'Assistant'}</div><div>${html}</div>`;
-    logEl.appendChild(wrap);
-    logEl.scrollTop = logEl.scrollHeight;
-  }
+      function append(role, html) {
+        const wrap = document.createElement('div');
+        wrap.className = 'msg';
+        wrap.innerHTML = `<div class="who">${role === 'user' ? 'You' : 'Assistant'}</div><div>${html}</div>`;
+        logEl.appendChild(wrap);
+        logEl.scrollTop = logEl.scrollHeight;
+      }
 
-  // lightweight KB
-  const KB = {
-    summary:
+      const KB = {
+        summary:
 `I'm <strong>Shirlene Rose Bandela</strong> — Data Engineer & ML practitioner (Java/Spring Batch, SQL, AWS S3/Glue/Athena/Redshift, SageMaker; LLM k-shot + agentic validation). Based in Falls Church, VA; open to relocate.`,
-    contact:
+        contact:
 `Email: <a href="mailto:shirlenebandela@gmail.com">shirlenebandela@gmail.com</a><br>
 LinkedIn: <a href="https://www.linkedin.com/in/shirlene-rose-bandela/" target="_blank" rel="noopener">/in/shirlene-rose-bandela</a><br>
 Resume: <a href="assets/Shirlene_Resume.pdf" target="_blank" rel="noopener">Download PDF</a>`,
-    projects:
+        projects:
 `• <strong>Frequent-Flyer Fraud</strong>: Kafka→Glue→S3, SageMaker scoring, Redshift dashboards (≈18% better detection).<br>
 • <strong>Chest X-ray COVID</strong>: ResNet-50, AUROC 0.97, F1 0.92; CLI/REST inference.<br>
 • <strong>Trigger-Warning (Reddit)</strong>: LLM k-shot + active learning; AWS-orchestrated runs.<br>
 • <strong>Card Fraud-Risk ETL</strong>: Spring Batch, SQL tuning, 40% S3 storage reduction.`,
-    skills:
+        skills:
 `Java/Spring Batch, SQL (Oracle/Teradata/Redshift), Kafka, AWS (S3/Glue/Athena/Redshift/SageMaker), Python/Pandas/PySpark, CI/CD, Docker, basic React.`,
-    location: `Based in Falls Church, VA and open to relocate.`,
-    certs: `Certification: AWS CLF-C02.`
-  };
+        location: `Based in Falls Church, VA and open to relocate.`,
+        certs: `Certification: AWS CLF-C02.`
+      };
 
-  const QUESTION_SETS = [
-    { id:'q1', label:'Summarize your profile',        key:'summary'  },
-    { id:'q2', label:'Show your projects',            key:'projects' },
-    { id:'q3', label:'What skills/stack do you use?', key:'skills'   },
-    { id:'q4', label:'Share resume / LinkedIn',       key:'contact'  },
-    { id:'q5', label:'Where are you based?',          key:'location' },
-    { id:'q6', label:'Any certifications?',           key:'certs'    },
-  ];
+      const QUESTION_SETS = [
+        { id:'q1', label:'Summarize your profile',        key:'summary'  },
+        { id:'q2', label:'Show your projects',            key:'projects' },
+        { id:'q3', label:'What skills/stack do you use?', key:'skills'   },
+        { id:'q4', label:'Share resume / LinkedIn',       key:'contact'  },
+        { id:'q5', label:'Where are you based?',          key:'location' },
+        { id:'q6', label:'Any certifications?',           key:'certs'    },
+      ];
 
-  function renderOptions() {
-    optsEl.innerHTML = '';
-    QUESTION_SETS.forEach(q => {
-      const b = document.createElement('button');
-      b.className = 'qchip';
-      b.type = 'button';
-      b.textContent = q.label;
-      b.addEventListener('click', () => handleChoice(q));
-      optsEl.appendChild(b);
+      function renderOptions() {
+        optsEl.innerHTML = '';
+        QUESTION_SETS.forEach(q => {
+          const b = document.createElement('button');
+          b.className = 'qchip';
+          b.type = 'button';
+          b.textContent = q.label;
+          b.addEventListener('click', () => handleChoice(q));
+          optsEl.appendChild(b);
+        });
+      }
+
+      function handleChoice(q) {
+        append('user', q.label);
+        append('assistant', KB[q.key] || 'Sorry, I can only answer portfolio questions.');
+        renderOptions();
+      }
+
+      function openPanel(){
+        panel.classList.add('show');
+        if (!logEl.dataset.greeted){
+          append('assistant', "Hi! Pick a question below — I only answer portfolio-related topics.");
+          logEl.dataset.greeted = '1';
+        }
+        renderOptions();
+      }
+      function closePanel(){ panel.classList.remove('show'); }
+
+      launch.addEventListener('click', openPanel);
+      closeB.addEventListener('click', closePanel);
+      panel.addEventListener('click', (e)=>{ if (e.target === panel) closePanel(); });
+      document.addEventListener('keydown', e => { if (e.key === 'Escape' && panel.classList.contains('show')) closePanel(); });
     });
-  }
-
-  function handleChoice(q) {
-    append('user', q.label);
-    append('assistant', KB[q.key] || 'Sorry, I can only answer portfolio questions.');
-    renderOptions();
-  }
-
-  function openPanel(){
-    panel.classList.add('show');
-    if (!logEl.dataset.greeted){
-      append('assistant', "Hi! Pick a question below — I only answer portfolio-related topics.");
-      logEl.dataset.greeted = '1';
-    }
-    renderOptions();
-  }
-  function closePanel(){ panel.classList.remove('show'); }
-
-  launch.addEventListener('click', openPanel);
-  closeB.addEventListener('click', closePanel);
-  panel.addEventListener('click', (e)=>{ if (e.target === panel) closePanel(); });
-  document.addEventListener('keydown', e => { if (e.key === 'Escape' && panel.classList.contains('show')) closePanel(); });
-});
-
   </script>
- </body>
+</body>
 </html>
