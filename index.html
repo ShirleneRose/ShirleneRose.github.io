@@ -26,15 +26,13 @@
     /* ===== NAV (white border) ===== */
     header.nav{
       position:fixed; inset-inline:0;
-      top:calc(8px + env(safe-area-inset-top)); /* iOS notch padding */
+      top:calc(8px + env(safe-area-inset-top));
       z-index:50; display:flex; justify-content:center; pointer-events:none
     }
     .nav-inner{
       pointer-events:auto; display:flex; align-items:center; gap:18px;
       background:#0c0c0c; color:#fff; border:2px solid #fff; border-radius:999px; padding:10px 16px;
       box-shadow:0 10px 28px rgba(0,0,0,.35); transition:box-shadow .2s ease, transform .2s ease;
-
-      /* prevent overflow on narrow phones */
       max-width:calc(100vw - 24px);
       overflow-x:auto; white-space:nowrap; overscroll-behavior-x:contain; -webkit-overflow-scrolling:touch;
     }
@@ -48,7 +46,7 @@
     section{position:relative;padding:110px 0;scroll-margin-top:calc(var(--navh) + 24px)}
     .band-a{background:var(--band-a)} .band-b{background:var(--band-b)}
 
-    /* ===== Browser window wrapper (with black border) ===== */
+    /* ===== Browser window wrapper ===== */
     .browser-wrap{width:clamp(320px,94vw,var(--maxw));margin:0 auto;background:var(--win);border-radius:var(--radius);box-shadow:0 12px 40px rgba(17,19,24,.18);overflow:hidden;border:2px solid #000}
     .browser-topbar{height:52px;display:flex;align-items:center;gap:10px;padding:0 16px;position:relative;background:#fff}
     .dot{width:10px;height:10px;border-radius:999px;border:1.5px solid #000}
@@ -103,23 +101,14 @@
     .card:hover{transform:translateY(-4px);box-shadow:0 12px 30px rgba(0,0,0,.12)}
 
     /* NEW: image-based thumbs (high clarity, no crop) */
-    .card .thumb{
-      height:150px;                 /* adjust as you like, or use aspect-ratio */
-      border-bottom:2px solid #000;
-      background:#fff;              /* subtle letterbox behind the image */
-      overflow:hidden;
-      position:relative;
-    }
-    .card .thumb img{
-      width:100%;
-      height:100%;
-      object-fit:contain;           /* show the full image */
-      object-position:center;
-      display:block;
-    }
+    .card .thumb{height:150px;border-bottom:2px solid #000;background:#fff;overflow:hidden;position:relative}
+    .card .thumb img{width:100%;height:100%;object-fit:contain;object-position:center;display:block}
 
     .card .body{padding:16px 16px 18px}
     .tag{display:inline-flex;padding:6px 10px;border:2px solid #000;border-radius:999px;background:#fff;font-size:12px;margin-right:8px;color:#334155;font-weight:500}
+
+    /* ---- Make only the first two cards wider on desktop ---- */
+    .projects .card.wide{grid-column:span 12;}   /* full width rows for the first two */
 
     /* ===== Contact ===== */
     form{display:grid;grid-template-columns:1fr 1fr;gap:12px;min-width:0}
@@ -132,7 +121,7 @@
     form button.btn:hover{background:#000;transform:translateY(-1px)}
     footer{padding:24px 0 60px 0;color:#374151;text-align:center}
 
-    /* ===== Modal (project details) ===== */
+    /* ===== Modal ===== */
     .modal{position:fixed;inset:0;display:none;align-items:center;justify-content:center;background:rgba(0,0,0,.45);z-index:1000}
     .modal.show{display:flex}
     .modal-card{width:min(720px,92vw);max-height:82vh;overflow:auto;background:#fff;border:2px solid #000;border-radius:18px;box-shadow:0 20px 50px rgba(0,0,0,.35)}
@@ -142,7 +131,7 @@
     .modal-close{appearance:none;border:2px solid #000;background:#fff;color:#111;padding:6px 10px;border-radius:999px;font-weight:700;cursor:pointer}
     .modal-ftr{display:flex;gap:10px;justify-content:flex-end;padding:10px 16px 16px}
 
-    /* ===== Chat widget (menu mode) ===== */
+    /* ===== Chat widget ===== */
     #chat-launcher{ position:fixed; right:20px; bottom:20px; z-index:9999; }
     .chat-panel{
       position:fixed; right:20px; bottom:80px; width:360px; max-width:92vw;
@@ -169,6 +158,8 @@
     @media (max-width: 768px){
       .hero-grid{ grid-template-columns:1fr; }
       .hero-photo{ justify-self:start; width:88vw; border-radius:18px; }
+      /* On tablet/mobile the cards already span full width;
+         wide rule remains harmless. */
     }
 
     /* ===== Mobile polish ===== */
@@ -176,25 +167,16 @@
       :root{ --navh:60px; --radius:18px; }
       section{ padding:90px 0; }
       .browser-topbar{ height:44px; }
-
       .hero-title{ font:900 34px/1.12 Inter; -webkit-text-stroke:1.2px #fff; }
       .hero-title em{ -webkit-text-stroke:1.2px #000; }
       .hero-sub{ font-size:15px; }
       .cta-row .btn{ padding:12px 14px; font-size:14px; }
-
       .projects{ gap:14px; }
       .card{ grid-column:span 12; border-radius:16px; }
       .card .thumb{ height:120px; }
-
-      /* Contact column stack */
-      #contact .browser-body > div[style]{
-        grid-template-columns:1fr !important;
-        gap:16px !important;
-        min-width:0;
-      }
-      input, textarea{ padding:12px 14px; font-size:16px; } /* prevent iOS zoom */
+      #contact .browser-body > div[style]{ grid-template-columns:1fr !important; gap:16px !important; min-width:0; }
+      input, textarea{ padding:12px 14px; font-size:16px; }
       footer{ padding:18px 0 70px 0; }
-
       #chat-launcher{ right:16px; bottom:calc(16px + env(safe-area-inset-bottom)); padding:10px 14px; font-size:14px; }
       .chat-panel{ right:8px; bottom:72px; width:92vw; border-radius:14px; }
       .chat-log{ height:52vh; }
@@ -205,7 +187,7 @@
     @media (max-width: 360px){
       .hero-title{ font-size:32px; }
       .cta-row .btn{ font-size:13px; padding:10px 12px; }
-      .nav-inner a{ display:none; } /* keep brand only if extremely tight */
+      .nav-inner a{ display:none; }
       .brand{ font-size:14px; }
     }
   </style>
@@ -391,7 +373,8 @@
         </div>
 
         <div class="projects">
-          <article class="card">
+          <!-- WIDE CARD 1 -->
+          <article class="card wide">
             <div class="thumb">
               <img src="assets/boeing.jpeg" alt="Boeing project cover">
             </div>
@@ -403,7 +386,8 @@
             </div>
           </article>
 
-          <article class="card">
+          <!-- WIDE CARD 2 -->
+          <article class="card wide">
             <div class="thumb">
               <img src="assets/covid-19.jpeg" alt="Chest X-ray project cover">
             </div>
@@ -542,7 +526,7 @@
         </div>
 
         <div style="display:grid;grid-template-columns:1.2fr .8fr;gap:24px;align-items:start;min-width:0">
-          <form onsubmit="event.preventDefault(); alert('Thanks! I\\'ll get back to you soon.');">
+          <form onsubmit="event.preventDefault(); alert('Thanks! I\'ll get back to you soon.');">
             <input class="full" type="text" placeholder="Your name" required>
             <input type="email" placeholder="Email" required>
             <input type="text" placeholder="Subject">
@@ -619,7 +603,7 @@
     modal.addEventListener('click', e => { if (e.target === modal) closeModal(); });
     document.addEventListener('keydown', e => { if (e.key === 'Escape' && modal.classList.contains('show')) closeModal(); });
 
-    // ===== Chat widget (menu-driven, portfolio-only) =====
+    // ===== Chat widget =====
     document.addEventListener('DOMContentLoaded', () => {
       const launch = document.createElement('button');
       launch.id = 'chat-launcher';
