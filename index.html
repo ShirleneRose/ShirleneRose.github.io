@@ -220,28 +220,31 @@
 </head>
 <body>
   <!-- NAV -->
-  <header class="nav">
-    <nav class="nav-inner">
-      <span class="brand">Shirlene</span>
-      <a href="#hero">Home</a>
-      <a href="#timeline">Timeline</a>
-      <a href="#skills">Skills</a>
-      <a href="#projects">Projects</a>
-      <a href="#contact">Contact</a>
+  <header class="nav" id="site-nav">
+  <nav class="nav-inner" id="nav-desktop">
+    <span class="brand">Shirlene</span>
+    <a href="#hero">Home</a>
+    <a href="#timeline">Timeline</a>
+    <a href="#skills">Skills</a>
+    <a href="#projects">Projects</a>
+    <a href="#contact">Contact</a>
+  </nav>
 
-      <!-- Hamburger + drawer -->
-      <button id="nav-toggle" aria-label="Open menu" class="hamburger" hidden>
-        <span></span><span></span><span></span>
-      </button>
-      <ul id="nav-drawer" class="drawer" hidden>
-        <li><a href="#hero">Home</a></li>
-        <li><a href="#timeline">Timeline</a></li>
-        <li><a href="#skills">Skills</a></li>
-        <li><a href="#projects">Projects</a></li>
-        <li><a href="#contact">Contact</a></li>
-      </ul>
-    </nav>
-  </header>
+  <!-- floating hamburger (hidden at top; shown on scroll) -->
+  <button class="nav-toggle" id="nav-toggle" aria-label="Open menu" aria-expanded="false">
+    <span></span><span></span><span></span>
+  </button>
+
+  <!-- slide menu for hamburger -->
+  <div class="nav-drawer" id="nav-drawer" aria-hidden="true">
+    <a href="#hero">Home</a>
+    <a href="#timeline">Timeline</a>
+    <a href="#skills">Skills</a>
+    <a href="#projects">Projects</a>
+    <a href="#contact">Contact</a>
+  </div>
+</header>
+
 
   <!-- ===== HERO ===== -->
   <section id="hero" class="band-a">
