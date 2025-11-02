@@ -687,5 +687,100 @@
       }
     });
   </script>
+  // ===== Chat widget (restored) =====
+document.addEventListener('DOMContentLoaded', () => {
+  // launcher button
+  const launch = document.createElement('button');
+  launch.id = 'chat-launcher';
+  launch.className = 'btn secondary';
+  launch.textContent = 'Chat with me';
+  document.body.appendChild(launch);
+
+  // panel shell
+  const panel = document.createElement('div');
+  panel.id = 'chat-panel';
+  panel.className = 'chat-panel';
+  panel.innerHTML = `
+    <div class="chat-header">Shirlene’s Assistant (free)
+      <button class="chat-close" aria-label="Close">×</button>
+    </div>
+    <div id="chat-log" class="chat-log" aria-live="polite"></div>
+    <div id="chat-options" class="options-wrap"></div>`;
+  document.body.appendChild(panel);
+
+  const logEl   = panel.querySelector('#chat-log');
+  const optsEl  = panel.querySelector('#chat-options');
+  const closeB  = panel.querySelector('.chat-close');
+
+  function append(role, html) {
+    const wrap = document.createElement('div');
+    wrap.className = 'msg';
+    wrap.innerHTML = `<div class="who">${role === 'user' ? 'You' : 'Assistant'}</div><div>${html}</div>`;
+    logEl.appendChild(wrap);
+    logEl.scrollTop = logEl.scrollHeight;
+  }
+
+  // lightweight KB
+  const KB = {
+    summary:
+`I'm <strong>Shirlene Rose Bandela</strong> — Data Engineer & ML practitioner (Java/Spring Batch, SQL, AWS S3/Glue/Athena/Redshift, SageMaker; LLM k-shot + agentic validation). Based in Falls Church, VA; open to relocate.`,
+    contact:
+`Email: <a href="mailto:shirlenebandela@gmail.com">shirlenebandela@gmail.com</a><br>
+LinkedIn: <a href="https://www.linkedin.com/in/shirlene-rose-bandela/" target="_blank" rel="noopener">/in/shirlene-rose-bandela</a><br>
+Resume: <a href="assets/Shirlene_Resume.pdf" target="_blank" rel="noopener">Download PDF</a>`,
+    projects:
+`• <strong>Frequent-Flyer Fraud</strong>: Kafka→Glue→S3, SageMaker scoring, Redshift dashboards (≈18% better detection).<br>
+• <strong>Chest X-ray COVID</strong>: ResNet-50, AUROC 0.97, F1 0.92; CLI/REST inference.<br>
+• <strong>Trigger-Warning (Reddit)</strong>: LLM k-shot + active learning; AWS-orchestrated runs.<br>
+• <strong>Card Fraud-Risk ETL</strong>: Spring Batch, SQL tuning, 40% S3 storage reduction.`,
+    skills:
+`Java/Spring Batch, SQL (Oracle/Teradata/Redshift), Kafka, AWS (S3/Glue/Athena/Redshift/SageMaker), Python/Pandas/PySpark, CI/CD, Docker, basic React.`,
+    location: `Based in Falls Church, VA and open to relocate.`,
+    certs: `Certification: AWS CLF-C02.`
+  };
+
+  const QUESTION_SETS = [
+    { id:'q1', label:'Summarize your profile',        key:'summary'  },
+    { id:'q2', label:'Show your projects',            key:'projects' },
+    { id:'q3', label:'What skills/stack do you use?', key:'skills'   },
+    { id:'q4', label:'Share resume / LinkedIn',       key:'contact'  },
+    { id:'q5', label:'Where are you based?',          key:'location' },
+    { id:'q6', label:'Any certifications?',           key:'certs'    },
+  ];
+
+  function renderOptions() {
+    optsEl.innerHTML = '';
+    QUESTION_SETS.forEach(q => {
+      const b = document.createElement('button');
+      b.className = 'qchip';
+      b.type = 'button';
+      b.textContent = q.label;
+      b.addEventListener('click', () => handleChoice(q));
+      optsEl.appendChild(b);
+    });
+  }
+
+  function handleChoice(q) {
+    append('user', q.label);
+    append('assistant', KB[q.key] || 'Sorry, I can only answer portfolio questions.');
+    renderOptions();
+  }
+
+  function openPanel(){
+    panel.classList.add('show');
+    if (!logEl.dataset.greeted){
+      append('assistant', "Hi! Pick a question below — I only answer portfolio-related topics.");
+      logEl.dataset.greeted = '1';
+    }
+    renderOptions();
+  }
+  function closePanel(){ panel.classList.remove('show'); }
+
+  launch.addEventListener('click', openPanel);
+  closeB.addEventListener('click', closePanel);
+  panel.addEventListener('click', (e)=>{ if (e.target === panel) closePanel(); });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape' && panel.classList.contains('show')) closePanel(); });
+});
+
 </body>
 </html>
