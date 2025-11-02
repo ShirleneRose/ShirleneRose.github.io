@@ -25,10 +25,10 @@
 
     /* ===== NAV (pill) ===== */
     header.nav{
-      position:fixed;            /* keep it truly fixed */
+      position:fixed;
       inset-inline:0;
       top:calc(8px + env(safe-area-inset-top));
-      z-index:1000;              /* above “browser” frames */
+      z-index:1000;
       display:flex; justify-content:center; pointer-events:none;
     }
     .nav-inner{
@@ -38,7 +38,6 @@
       max-width:calc(100vw - 24px); overflow-x:auto; white-space:nowrap; -webkit-overflow-scrolling:touch; position:relative;
     }
     .nav-inner::-webkit-scrollbar{display:none;}
-    .nav-inner:hover{box-shadow:0 10px 32px rgba(255,255,255,.15);transform:translateY(-1px)}
     .nav-inner a{color:#fff;opacity:.9;padding:8px 12px;border-radius:999px;transition:background .2s ease, opacity .2s ease}
     .nav-inner a:hover{background:rgba(255,255,255,.08);opacity:1}
     .brand{font-weight:900;letter-spacing:.3px;background:linear-gradient(90deg,var(--accent),var(--accent-2));-webkit-background-clip:text;background-clip:text;color:transparent}
@@ -64,9 +63,8 @@
     .nav-drawer a{display:block;color:#fff;padding:10px 12px;border-radius:10px;text-decoration:none}
     .nav-drawer a:hover{background:rgba(255,255,255,.08)}
 
-    /* When hero leaves viewport => compact: hide pill links, show hamburger */
-    header.nav.compact .nav-inner a:not(.brand){display:none;}
-    header.nav.compact .nav-inner{padding:8px 12px;box-shadow:0 8px 24px rgba(0,0,0,.35);}
+    /* When hero leaves viewport => compact: HIDE the pill entirely */
+    header.nav.compact .nav-inner{display:none;}
     header.nav.compact + .nav-toggle{display:flex;}
 
     /* ===== Sections ===== */
@@ -187,8 +185,8 @@
     @media (max-width: 768px){
       .hero-grid{ grid-template-columns:1fr; }
       .hero-photo{ justify-self:start; width:88vw; border-radius:18px; }
-      /* On small screens, always show hamburger; hide pill links */
-      .nav-inner a:not(.brand){display:none;}
+      /* Always use hamburger on mobile; never show pill */
+      .nav-inner{display:none;}
       .nav-toggle{display:flex;}
     }
     @media (max-width: 480px){
@@ -231,7 +229,7 @@
     </nav>
   </header>
 
-  <!-- Floating hamburger + drawer (appear after hero leaves view, or on mobile) -->
+  <!-- Floating hamburger + drawer -->
   <button class="nav-toggle" id="nav-toggle" aria-label="Open menu" aria-expanded="false">
     <span></span><span></span><span></span>
   </button>
@@ -645,23 +643,33 @@
     const toggleBtn = document.getElementById('nav-toggle');
     const drawer = document.getElementById('nav-drawer');
 
+    // If this page has no #hero (e.g., subpages), default to compact/hamburger.
+    if (!hero) {
+      nav.classList.add('compact');
+      toggleBtn.style.display = 'flex';
+      drawer.style.display = 'none';
+      toggleBtn.classList.remove('active');
+      toggleBtn.setAttribute('aria-expanded','false');
+    }
+
     // Watch hero; when it leaves viewport => compact mode (show hamburger)
-    const io = new IntersectionObserver(([entry])=>{
-      if (entry.isIntersecting) {
-        nav.classList.remove('compact');
-        // On wide screens, hide the toggle when hero is visible
-        if (window.matchMedia('(min-width:769px)').matches) {
-          toggleBtn.style.display = 'none';
+    if (hero) {
+      const io = new IntersectionObserver(([entry])=>{
+        if (entry.isIntersecting) {
+          nav.classList.remove('compact');
+          if (window.matchMedia('(min-width:769px)').matches) {
+            toggleBtn.style.display = 'none';
+          }
+          drawer.style.display = 'none';
+          toggleBtn.classList.remove('active');
+          toggleBtn.setAttribute('aria-expanded','false');
+        } else {
+          nav.classList.add('compact');
+          toggleBtn.style.display = 'flex';
         }
-        drawer.style.display = 'none';
-        toggleBtn.classList.remove('active');
-        toggleBtn.setAttribute('aria-expanded','false');
-      } else {
-        nav.classList.add('compact');
-        toggleBtn.style.display = 'flex';
-      }
-    }, {threshold:0, rootMargin:'-8% 0px 0px 0px'});
-    io.observe(hero);
+      }, {threshold:0, rootMargin:'-8% 0px 0px 0px'});
+      io.observe(hero);
+    }
 
     // Toggle drawer
     function setDrawer(open){
@@ -680,10 +688,11 @@
     });
     document.addEventListener('keydown', e=>{ if(e.key==='Escape') setDrawer(false); });
     window.addEventListener('resize', ()=>{
-      // if back to wide and hero visible, hide toggle
-      if (window.matchMedia('(min-width:769px)').matches && nav.classList.contains('compact')===false){
+      if (window.matchMedia('(min-width:769px)').matches && !nav.classList.contains('compact')){
         toggleBtn.style.display = 'none';
         setDrawer(false);
+      } else {
+        toggleBtn.style.display = 'flex';
       }
     });
 
