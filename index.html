@@ -24,18 +24,50 @@
     a{color:#0b6f9c;text-decoration:none} a:hover{text-decoration:underline}
 
     /* ===== NAV ===== */
-    header.nav{position:fixed; inset-inline:0; top:calc(8px + env(safe-area-inset-top)); z-index:50; display:flex; justify-content:center; pointer-events:none}
+    header.nav{
+      position:sticky;              /* stick to top within page flow */
+      top:calc(8px + env(safe-area-inset-top));
+      z-index:50; display:flex; justify-content:center; pointer-events:none;
+    }
     .nav-inner{
       pointer-events:auto; display:flex; align-items:center; gap:18px;
       background:#0c0c0c; color:#fff; border:2px solid #fff; border-radius:999px; padding:10px 16px;
-      box-shadow:0 10px 28px rgba(0,0,0,.35); transition:box-shadow .2s ease, transform .2s ease;
-      max-width:calc(100vw - 24px); overflow-x:auto; white-space:nowrap; -webkit-overflow-scrolling:touch;
+      box-shadow:0 10px 28px rgba(0,0,0,.35); transition:box-shadow .2s ease, transform .2s ease, padding .2s ease;
+      max-width:calc(100vw - 24px); overflow-x:auto; white-space:nowrap; -webkit-overflow-scrolling:touch; position:relative;
     }
     .nav-inner::-webkit-scrollbar{display:none;}
     .nav-inner:hover{box-shadow:0 10px 32px rgba(255,255,255,.15);transform:translateY(-1px)}
     .nav-inner a{color:#fff;opacity:.9;padding:8px 12px;border-radius:999px;transition:background .2s ease, opacity .2s ease}
     .nav-inner a:hover{background:rgba(255,255,255,.08);opacity:1}
     .brand{font-weight:900;letter-spacing:.3px;background:linear-gradient(90deg,var(--accent),var(--accent-2));-webkit-background-clip:text;background-clip:text;color:transparent}
+
+    /* Compact (after hero) */
+    header.nav.compact .nav-inner{ padding:8px 12px; box-shadow:0 8px 24px rgba(0,0,0,.35); }
+    header.nav.compact .nav-inner a:not(.brand){ display:none; }
+    header.nav.compact .hamburger{ display:inline-flex; }
+
+    /* Hamburger button */
+    .hamburger{
+      margin-left:auto; display:none; align-items:center; justify-content:center;
+      width:38px; height:34px; border-radius:10px; border:2px solid #fff; background:#0c0c0c;
+      cursor:pointer; pointer-events:auto;
+    }
+    .hamburger span{ display:block; width:18px; height:2px; background:#fff; margin:3px 0;
+      transition:transform .2s ease, opacity .2s ease; }
+    .hamburger.active span:nth-child(1){ transform:translateY(5px) rotate(45deg); }
+    .hamburger.active span:nth-child(2){ opacity:0; }
+    .hamburger.active span:nth-child(3){ transform:translateY(-5px) rotate(-45deg); }
+
+    /* Drawer dropdown */
+    .drawer{
+      position:absolute; right:10px; top:calc(100% + 10px);
+      list-style:none; margin:0; padding:8px; background:#0c0c0c; color:#fff;
+      border:2px solid #fff; border-radius:14px; box-shadow:0 12px 24px rgba(0,0,0,.35);
+      pointer-events:auto;
+    }
+    .drawer li{ margin:4px 2px; }
+    .drawer a{ display:block; padding:8px 12px; color:#fff; border-radius:10px; text-decoration:none; }
+    .drawer a:hover{ background:rgba(255,255,255,.08); }
 
     /* ===== Sections ===== */
     section{position:relative;padding:110px 0;scroll-margin-top:calc(var(--navh) + 24px)}
@@ -57,23 +89,12 @@
     .hero-sub{color:var(--muted-ink);max-width:60ch;font-size:clamp(14px,1.2vw,18px)}
     .cta-row{display:flex;gap:12px;margin-top:22px;flex-wrap:wrap}
 
-    /* ===== Hero photo (restore) ===== */
-.hero-photo{
-  position:relative;
-  width:min(560px,100%);
-  justify-self:end;
-  border-radius:22px;
-  overflow:hidden;
-  border:3px solid #000;
-  box-shadow:0 10px 30px rgba(0,0,0,.15);
-}
-.hero-photo img{
-  width:100%;
-  height:auto;
-  display:block;
-  object-fit:cover;
-}
-
+    /* ===== Hero photo (restored box-fit) ===== */
+    .hero-photo{
+      position:relative; width:min(560px,100%); justify-self:end;
+      border-radius:22px; overflow:hidden; border:3px solid #000; box-shadow:0 10px 30px rgba(0,0,0,.15);
+    }
+    .hero-photo img{ width:100%; height:auto; display:block; object-fit:cover; }
 
     /* ===== Buttons ===== */
     .btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;padding:14px 18px;border-radius:999px;font-weight:700;background:#111318;color:#fff;border:2px solid #fff;box-shadow:0 8px 20px rgba(0,0,0,.25);transition:transform .06s ease, background .2s ease}
@@ -106,39 +127,17 @@
 
     /* ===== Projects ===== */
     .projects{display:grid;grid-template-columns:repeat(12,1fr);gap:16px}
-
     .card{
-      grid-column:span 6;
-      background:var(--card);
-      border:2px solid #000;
-      border-radius:18px;
-      overflow:hidden;
-      transition:transform .25s ease, box-shadow .25s ease;
-      box-shadow:0 6px 18px rgba(0,0,0,.08)
+      grid-column:span 6; background:var(--card); border:2px solid #000; border-radius:18px; overflow:hidden;
+      transition:transform .25s ease, box-shadow .25s ease; box-shadow:0 6px 18px rgba(0,0,0,.08)
     }
     .card:hover{transform:translateY(-4px);box-shadow:0 12px 30px rgba(0,0,0,.12)}
-
-    /* --- COVER images, edge-to-edge --- */
-    .card .thumb{
-      height:240px;                 /* header height; tweak if you want taller */
-      border-bottom:2px solid #000; /* keeps your card style */
-      background:#000;              /* no letterboxing flashes */
-      overflow:hidden;
-    }
-    .card .thumb img{
-      width:100%;
-      height:100%;
-      object-fit:cover;             /* <-- key: fills both width & height */
-      object-position:center;
-      display:block;
-    }
-
+    /* Cover images: edge-to-edge */
+    .card .thumb{ height:240px; border-bottom:2px solid #000; background:#000; overflow:hidden; }
+    .card .thumb img{ width:100%; height:100%; object-fit:cover; object-position:center; display:block; }
     .card .body{padding:16px 16px 18px}
     .tag{display:inline-flex;padding:6px 10px;border:2px solid #000;border-radius:999px;background:#fff;font-size:12px;margin-right:8px;color:#334155;font-weight:500}
-
-    /* First two cards span the whole row on desktop */
     .projects .card.wide{grid-column:span 12;}
-    /* Give wide cards a slightly taller cover if you like */
     .projects .card.wide .thumb{height:300px;}
 
     /* ===== Contact ===== */
@@ -189,8 +188,9 @@
     @media (max-width: 768px){
       .hero-grid{ grid-template-columns:1fr; }
       .hero-photo{ justify-self:start; width:88vw; border-radius:18px; }
+      .nav-inner a:not(.brand){ display:none; } /* hamburger always on mobile */
+      .hamburger{ display:inline-flex; }
     }
-
     @media (max-width: 480px){
       :root{ --navh:60px; --radius:18px; }
       section{ padding:90px 0; }
@@ -201,7 +201,7 @@
       .cta-row .btn{ padding:12px 14px; font-size:14px; }
       .projects{ gap:14px; }
       .card{ grid-column:span 12; border-radius:16px; }
-      .card .thumb{ height:180px; }           /* mobile cover height */
+      .card .thumb{ height:180px; }
       #contact .browser-body > div[style]{ grid-template-columns:1fr !important; gap:16px !important; min-width:0; }
       input, textarea{ padding:12px 14px; font-size:16px; }
       footer{ padding:18px 0 70px 0; }
@@ -211,11 +211,9 @@
       .section-hd .title{ font-size:24px; }
       .section-hd .lead{ font-size:14px; }
     }
-
     @media (max-width: 360px){
       .hero-title{ font-size:32px; }
       .cta-row .btn{ font-size:13px; padding:10px 12px; }
-      .nav-inner a{ display:none; }
       .brand{ font-size:14px; }
     }
   </style>
@@ -230,6 +228,18 @@
       <a href="#skills">Skills</a>
       <a href="#projects">Projects</a>
       <a href="#contact">Contact</a>
+
+      <!-- Hamburger + drawer -->
+      <button id="nav-toggle" aria-label="Open menu" class="hamburger" hidden>
+        <span></span><span></span><span></span>
+      </button>
+      <ul id="nav-drawer" class="drawer" hidden>
+        <li><a href="#hero">Home</a></li>
+        <li><a href="#timeline">Timeline</a></li>
+        <li><a href="#skills">Skills</a></li>
+        <li><a href="#projects">Projects</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
     </nav>
   </header>
 
@@ -401,8 +411,6 @@
         </div>
 
         <div class="projects">
-          <!-- WIDE CARD 1 -->
-
           <article class="card">
             <div class="thumb">
               <img src="assets/tw.jpeg" alt="Trigger warning classification diagram">
@@ -414,8 +422,7 @@
               <button type="button" class="btn open-modal" data-tpl="tpl-tw" style="margin-top:6px">Discuss evaluation loop</button>
             </div>
           </article>
-          
-          <!-- WIDE CARD 2 -->
+
           <article class="card">
             <div class="thumb">
               <img src="assets/covid-19.jpeg" alt="Chest X-ray project cover">
@@ -439,7 +446,6 @@
               <button type="button" class="btn open-modal" data-tpl="tpl-boeing" style="margin-top:6px">Ask me about the architecture</button>
             </div>
           </article>
-
 
           <article class="card">
             <div class="thumb">
@@ -633,97 +639,52 @@
     modal.addEventListener('click', e => { if (e.target === modal) closeModal(); });
     document.addEventListener('keydown', e => { if (e.key === 'Escape' && modal.classList.contains('show')) closeModal(); });
 
-    // ===== Chat widget =====
-    document.addEventListener('DOMContentLoaded', () => {
-      const launch = document.createElement('button');
-      launch.id = 'chat-launcher';
-      launch.className = 'btn secondary';
-      launch.textContent = 'Chat with me';
-      document.body.appendChild(launch);
+    /* ===== Sticky->Compact Nav & Hamburger ===== */
+    const nav = document.querySelector('header.nav');
+    const hero = document.getElementById('hero');
+    const toggleBtn = document.getElementById('nav-toggle');
+    const drawer = document.getElementById('nav-drawer');
 
-      const panel = document.createElement('div');
-      panel.id = 'chat-panel';
-      panel.className = 'chat-panel';
-      panel.innerHTML = `
-        <div class="chat-header">Shirlene’s Assistant (free)
-          <button class="chat-close" aria-label="Close">×</button>
-        </div>
-        <div id="chat-log" class="chat-log" aria-live="polite"></div>
-        <div id="chat-options" class="options-wrap"></div>`;
-      document.body.appendChild(panel);
-
-      const logEl   = panel.querySelector('#chat-log');
-      const optsEl  = panel.querySelector('#chat-options');
-      const closeB  = panel.querySelector('.chat-close');
-
-      function append(role, html) {
-        const wrap = document.createElement('div');
-        wrap.className = 'msg';
-        wrap.innerHTML = `<div class="who">${role === 'user' ? 'You' : 'Assistant'}</div><div>${html}</div>`;
-        logEl.appendChild(wrap);
-        logEl.scrollTop = logEl.scrollHeight;
-      }
-
-      const KB = {
-        summary:
-`I'm <strong>Shirlene Rose Bandela</strong> a Data Engineer & ML practitioner (Java/Spring Batch, SQL, AWS S3/Glue/Athena/Redshift, SageMaker; LLM k-shot + agentic validation). Based in Falls Church, VA; open to relocate.`,
-        contact:
-`Email: <a href="mailto:shirlenebandela@gmail.com">shirlenebandela@gmail.com</a><br>
-LinkedIn: <a href="https://www.linkedin.com/in/shirlene-rose-bandela/" target="_blank" rel="noopener">/in/shirlene-rose-bandela</a><br>
-Resume: <a href="assets/Shirlene_Resume.pdf" target="_blank" rel="noopener">Download PDF</a>`,
-        projects:
-`• <strong>Frequent-Flyer Fraud</strong>: Kafka→Glue→S3, SageMaker scoring, Redshift dashboards (≈18% better detection).<br>
-• <strong>Chest X-ray COVID</strong>: ResNet-50, AUROC 0.97, F1 0.92; CLI/REST inference.<br>
-• <strong>Trigger-Warning (Reddit)</strong>: LLM k-shot + active learning; AWS-orchestrated runs.<br>
-• <strong>Card Fraud-Risk ETL</strong>: Spring Batch, SQL tuning, 40% S3 storage reduction.`,
-        skills:
-`Java/Spring Batch, SQL (Oracle/Teradata/Redshift), Kafka, AWS (S3/Glue/Athena/Redshift/SageMaker), Python/Pandas/PySpark, CI/CD, Docker, basic React.`,
-        location: `Based in Falls Church, VA and open to relocate.`,
-        certs: `Certification: AWS CLF-C02.`
-      };
-
-      const QUESTION_SETS = [
-        { id:'q1', label:'Summarize your profile',        key:'summary'  },
-        { id:'q2', label:'Show your projects',            key:'projects' },
-        { id:'q3', label:'What skills/stack do you use?', key:'skills'   },
-        { id:'q4', label:'Share resume / LinkedIn',       key:'contact'  },
-        { id:'q5', label:'Where are you based?',          key:'location' },
-        { id:'q6', label:'Any certifications?',           key:'certs'    },
-      ];
-
-      function renderOptions() {
-        optsEl.innerHTML = '';
-        QUESTION_SETS.forEach(q => {
-          const b = document.createElement('button');
-          b.className = 'qchip';
-          b.type = 'button';
-          b.textContent = q.label;
-          b.addEventListener('click', () => handleChoice(q));
-          optsEl.appendChild(b);
-        });
-      }
-
-      function handleChoice(q) {
-        append('user', q.label);
-        const ans = KB[q.key] || KB.na;
-        append('assistant', ans);
-        renderOptions();
-      }
-
-      function openPanel(){
-        panel.classList.add('show');
-        if (!logEl.dataset.greeted){
-          append('assistant', "Hi! Pick a question below — I only answer portfolio-related topics.");
-          logEl.dataset.greeted = '1';
+    // Observe hero to flip compact state
+    const obs = new IntersectionObserver(([entry]) => {
+      if (!entry.isIntersecting) {
+        nav.classList.add('compact');
+        toggleBtn.hidden = false;
+        drawer.hidden = true;
+        toggleBtn.classList.remove('active');
+      } else {
+        nav.classList.remove('compact');
+        if (window.matchMedia('(min-width: 769px)').matches){
+          toggleBtn.hidden = true;
+          drawer.hidden = true;
+          toggleBtn.classList.remove('active');
         }
-        renderOptions();
       }
-      function closePanel(){ panel.classList.remove('show'); }
+    }, { rootMargin: "-80px 0px 0px 0px", threshold: 0 });
+    obs.observe(hero);
 
-      document.getElementById('chat-launcher').addEventListener('click', openPanel);
-      closeB.addEventListener('click', closePanel);
-      panel.addEventListener('click', (e)=>{ if (e.target === panel) closePanel(); });
-      document.addEventListener('keydown', e => { if (e.key === 'Escape' && panel.classList.contains('show')) closePanel(); });
+    function closeDrawer(){
+      drawer.hidden = true;
+      toggleBtn.classList.remove('active');
+    }
+    toggleBtn.addEventListener('click', () => {
+      const open = drawer.hidden;
+      drawer.hidden = !open;
+      toggleBtn.classList.toggle('active', open);
+    });
+    drawer.addEventListener('click', e => { if (e.target.tagName === 'A') closeDrawer(); });
+    document.addEventListener('click', e => {
+      if (!drawer.hidden && !drawer.contains(e.target) && e.target !== toggleBtn) closeDrawer();
+    });
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') closeDrawer(); });
+
+    // Ensure correct state on resize across breakpoint
+    window.addEventListener('resize', () => {
+      if (window.matchMedia('(min-width: 769px)').matches && !nav.classList.contains('compact')){
+        toggleBtn.hidden = true; drawer.hidden = true; toggleBtn.classList.remove('active');
+      } else {
+        toggleBtn.hidden = false;
+      }
     });
   </script>
 </body>
